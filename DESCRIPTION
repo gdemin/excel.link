@@ -13,6 +13,7 @@ Description: Allow dynamic access to data in Microsoft Excel. (e. g.
     Excel sheet similar to data.frame (indexing, subsetting). Microsoft Excel
     is required for this package.
 License: GPL (>= 2)
+URL: https://github.com/gdemin/excel.link
 LazyLoad: yes
 Collate:
     'excel.link.R'

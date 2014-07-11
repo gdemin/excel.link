@@ -12,6 +12,7 @@
 ##### ver 0.5.5 - 12.04.2013- Compatibilty fix for R3.0  release ###########
 ##### ver 0.5.6 - 14.04.2013- names_to_matrix fix ###########
 ##### ver 0.6 - 26.08.2013- xl.read.file, xl.save.file, filename argument in current.graphics ###########
+##### ver 0.6.1 - 12.07.2014- Release on GitHub ###########
 
 .onAttach <- function(...) {
 	packageStartupMessage("\nTo Daniela Khazova who constantly inspires me...")
