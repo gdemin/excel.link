@@ -1,0 +1,11 @@
+0.6 (04.09.2013)
+	Added functions xl.read.file, xl.save.file
+	Added filename argument in current.graphics
+0.5.5 (12.04.2013)
+	Compatibilty fix for R3.0 release 
+0.5.4 (13.08.2012) 
+	current.graphics now insert picture instead of link to the file
+	aaa[condition,new.var]=data   now works properly
+0.5 (19.11.2011)
+	initial release 
+
