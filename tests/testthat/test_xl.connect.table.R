@@ -53,19 +53,3 @@ expect_equal(xl.iris[],iris)
 xl.workbook.close()
 
 
-##### sample session #####
-library(excel.link)
-xl.workbook.add()
-xl.sheet.add("Iris dataset",before=1)
-xlrc[a1] <- iris
-xl.iris <- xl.connect.table("a1",row.names=TRUE,col.names=TRUE)
-dists <- dist(xl.iris[,1:4])
-clusters <- hclust(dists,method="ward.D")
-xl.iris$clusters <- cutree(clusters,3)
-plot(clusters)
-pl.clus <- current.graphics()
-cross <- table(xl.iris$Species,xl.iris$clusters)
-plot(cross)
-pl.cross <- current.graphics()
-xl.sheet.add("Results",before=2)
-xlrc$a1 <- list("Crosstabulation",cross,pl.cross,"Dendrogram",pl.clus)
