@@ -1,7 +1,7 @@
 Package: excel.link
 Type: Package
-Title: Convenient way to work with data in Microsoft Excel
-Version: 0.6
+Title: Convenient Way to Work with Data in Microsoft Excel
+Version: 0.6.1
 Date: 2013-09-04
 Author: Gregory Demin <excel.link.feedback@gmail.com>
 Maintainer: Gregory Demin <excel.link.feedback@gmail.com>
