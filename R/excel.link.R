@@ -13,6 +13,7 @@
 ##### ver 0.5.6 - 14.04.2013- names_to_matrix fix ###########
 ##### ver 0.6 - 26.08.2013- xl.read.file, xl.save.file, filename argument in current.graphics ###########
 ##### ver 0.6.1 - 12.07.2014- Release on GitHub ###########
+##### ver 0.7 - 12.07.2014- ???? ###########
 
 .onAttach <- function(...) {
 	packageStartupMessage("\nTo Daniela Khazova who constantly inspires me...")
@@ -189,11 +190,21 @@ xl.write=function(r.obj,xl.rng,na="",...)
 }
 
 
-current.graphics=function(type = "emf",filename = NULL,...){
+current.graphics=function(type = c("png","emf","jpeg","bmp","tiff"),filename = NULL,...){
 	if (is.null(filename)){
-		if (!('windows' %in% names(dev.cur()))) stop("there is no graphics on windows device.")
+# 		if (!('windows' %in% names(dev.cur()))) stop("there is no graphics on windows device.")
+	  type = match.arg(type)
+
 		res=paste(tempfile(),".",type,sep="")
-		savePlot(filename=res,type=type,...)
+		switch(type,
+		       png = dev.copy(png,res,...),
+		       emf = dev.copy(win.metafile,res,...),
+		       jpeg = dev.copy(jpeg,res,...),
+           bmp = dev.copy(bmp,res,...),
+           tiff = dev.copy(tiff,res,...)
+           )
+    dev.off()
+# 		savePlot(filename=res,type=type,...)
 		attr(res,"temp.file")=TRUE
 	} else {
 		res=normalizePath(filename,mustWork=TRUE)

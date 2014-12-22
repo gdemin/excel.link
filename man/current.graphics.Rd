@@ -8,7 +8,7 @@ Auxilary function for export graphics to Microsoft Excel
 If argument 'type' provided this function will save graphics from windows plotting device to temporary file and return path to this file. In other case (provided filename) 'type' will be ignored and resulted value is path to file  with class attribute 'current.graphics'. So it could be used with expressions such xl[a1] = current.graphics(filename="plot.png").
 }
 \usage{
-current.graphics(type="emf",filename=NULL,\dots)
+current.graphics(type=c("png","emf","jpeg","bmp","tiff"),filename=NULL,\dots)
 }
 \arguments{
 \item{type}{file type. Ignored if argument 'filename' provided.}

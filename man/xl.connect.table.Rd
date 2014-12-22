@@ -86,7 +86,7 @@ xl.sheet.add("Iris dataset",before=1)
 xlrc[a1] <- iris
 xl.iris <- xl.connect.table("a1",row.names=TRUE,col.names=TRUE)
 dists <- dist(xl.iris[,1:4])
-clusters <- hclust(dists,method="ward")
+clusters <- hclust(dists,method="ward.D")
 xl.iris$clusters <- cutree(clusters,3)
 plot(clusters)
 pl.clus <- current.graphics()
