@@ -9,7 +9,7 @@ Depends:
     RDCOMClient
 OS_type: windows
 Description: Allow dynamic access to data in Microsoft Excel. (e. g.
-    xl[a1]=xl[b2]*3 and so on). Also class provided which allows treat data on
+    xl[a1]=xl[b2]*3 and so on). Also class provided which allows to treat data on
     Excel sheet similar to data.frame (indexing, subsetting). Microsoft Excel
     is required for this package.
 License: GPL (>= 2)

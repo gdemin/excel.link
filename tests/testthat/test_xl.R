@@ -46,6 +46,8 @@ expect_equal(aaa,test)
 xl.workbook.close()
 
 ##### multi-column element of data.frame ######
+
+context("multi-column element of data.frame")
 xl.workbook.add()
 test=data.frame(a=letters[1:3],b=I(matrix(1:9,3)),d=LETTERS[1:3])
 xlrc[a1]=test 
