@@ -522,6 +522,8 @@ xl.raw.write.matrix=function(r.obj,xl.rng,na="")
       # further code for NA's pasting correction
       r.obj[nas]=na
       if (is.vector(r.obj)) r.obj=as.matrix(r.obj)
+      # TextToColumns used to avoid problem with "Numbers stored as text"
+      # There is no obvious way to convert such numbers to correct format.
       iter=1:ncol(r.obj)
       block=1000
       while(length(iter)>0){
