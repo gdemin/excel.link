@@ -3,33 +3,30 @@
 #' @param filename character. Excel workbook filename.
 #' @param password character. Password for password-protected workbook.
 #' @param xl.workbook.name character. Excel workbook name.
-#' 
-#' @return
-#' \itemize{
+#'   
+#' @return \itemize{ 
 #' \item{\code{xl.workbook.add}/\code{xl.workbook.open}/\code{xl.workbook.activate}
-#'  }{ invisibly return name of created/open/activated workbook.}
-#' \item{\code{xl.workbooks}}{ returns character vector of open workbooks.}
+#' }{ invisibly return name of created/open/activated workbook.} 
+#' \item{\code{xl.workbooks}}{ returns character vector of open workbooks.} 
 #' \item{\code{xl.workbook.save}}{ invisibly returns path to the saved workbook}
-#' \item{\code{xl.workbook.close}}{ invisibly returns NULL.}
-#' }
-#' @details
-#' \itemize{
-#' \item{\code{xl.workbook.add}}{ adds new workbook and invisibly returns name of this 
-#' newly created workbook. Added workbook become active. If \code{filename} argument 
-#' is provided then Excel workbook \code{filename} will be used as template.}
-#' \item{\code{xl.workbook.activate}}{ activates workbook with given name. If workbook
-#'  with this name doesn't exist error will be generated.}
-#' \item{\code{xl.workbook.save}}{ saves active workbook. If only \code{filename} submitted it 
-#' saves in the working directory. If name of workbook is omitted than new 
-#' workbook is saved under its default name in the current working directory. 
-#' It doesn't prompt about overwriting if file already exists.} 
-#' \item{\code{xl.workbook.close}}{ closes workbook with given name. If name isn't 
-#' submitted it closed active workbook.  It doesn't prompt about saving so 
-#' if you don't save changes before closing all changes will be lost.} 
-#' }
+#' \item{\code{xl.workbook.close}}{ invisibly returns NULL.} }
+#' @details \itemize{ \item{\code{xl.workbook.add}}{ adds new workbook and
+#' invisibly returns name of this newly created workbook. Added workbook become
+#' active. If \code{filename} argument is provided then Excel workbook
+#' \code{filename} will be used as template.} 
+#' \item{\code{xl.workbook.activate}}{ activates workbook with given name. If
+#' workbook with this name doesn't exist error will be generated.} 
+#' \item{\code{xl.workbook.save}}{ saves active workbook. If only
+#' \code{filename} submitted it saves in the working directory. If name of
+#' workbook is omitted than new workbook is saved under its default name in the
+#' current working directory. It doesn't prompt about overwriting if file
+#' already exists.} \item{\code{xl.workbook.close}}{ closes workbook with given
+#' name. If name isn't submitted it closed active workbook.  It doesn't prompt
+#' about saving so if you don't save changes before closing all changes will be
+#' lost.} }
 #' 
 #' @seealso \code{\link{xl.sheets}}, \code{\link{xl.read.file}}, 
-#' \code{\link{xl.save.file}}
+#'   \code{\link{xl.save.file}}
 #' @examples
 #' \dontrun{
 #' ## senseless actions

@@ -3,19 +3,20 @@
 #' @param type  file type. Ignored if argument 'filename' provided.
 #' @param filename character. filename (or full path) of file with graphics.
 #' @param ... arguments for internally used \code{\link{dev.copy}} function
-#' 
-#' @return Path to file with saved graphics with class attribute 'current.graphics'. 
-#' If used with argument \code{type} than result has attribute \code{temp.file = TRUE}.
-#' 
-#' @details If argument \code{type} provided this function will save graphics from 
-#' windows plotting device to temporary file and return path to this file. 
-#' Argument \code{filename} is intended to transfer plots to Excel from file-based
-#' graphics devices (see Examples) or just insert into Excel file with graphics.
-#'  If argument \code{filename} is provided argument \code{type} will be ignored
-#'   and returned value is path to file 
-#' \code{filename} with class attribute 'current.graphics'. So it could be 
-#'  used with expressions such \code{xl[a1] = current.graphics(filename="plot.png")}.
-#'  
+#'   
+#' @return Path to file with saved graphics with class attribute
+#'   'current.graphics'. If used with argument \code{type} than result has
+#'   attribute \code{temp.file = TRUE}.
+#'   
+#' @details If argument \code{type} provided this function will save graphics
+#'   from windows plotting device to temporary file and return path to this
+#'   file. Argument \code{filename} is intended to transfer plots to Excel from
+#'   file-based graphics devices (see Examples) or just insert into Excel file
+#'   with graphics. If argument \code{filename} is provided argument \code{type}
+#'   will be ignored and returned value is path to file \code{filename} with
+#'   class attribute 'current.graphics'. So it could be used with expressions
+#'   such \code{xl[a1] = current.graphics(filename="plot.png")}.
+#'   
 #' @examples
 #' 
 #' \dontrun{
