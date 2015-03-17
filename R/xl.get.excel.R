@@ -13,11 +13,11 @@
 #' }
 #' @export
 xl.get.excel = function()
-  # run Excel if it's not running and
-  # return reference to Microsoft Excel
+    # run Excel if it's not running and
+    # return reference to Microsoft Excel
 {
-  xls = COMCreate("Excel.Application")
-  if (xls[['workbooks']][['count']] == 0) xls[['workbooks']]$add()
-  if (!xls[["Visible"]]) xls[["Visible"]] = TRUE
-  return(xls)
+    xls = COMCreate("Excel.Application")
+    if (xls[['workbooks']][['count']] == 0) xls[['workbooks']]$add()
+    if (!xls[["Visible"]]) xls[["Visible"]] = TRUE
+    return(xls)
 }

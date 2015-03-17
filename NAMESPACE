@@ -2,4 +2,12 @@
 
 export(current.graphics)
 export(xl.get.excel)
+export(xl.read.file)
+export(xl.save.file)
+export(xl.workbook.activate)
+export(xl.workbook.add)
+export(xl.workbook.close)
+export(xl.workbook.open)
+export(xl.workbook.save)
+export(xl.workbooks)
 import(RDCOMClient)

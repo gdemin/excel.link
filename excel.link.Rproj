@@ -6,7 +6,7 @@ AlwaysSaveHistory: No
 
 EnableCodeIndexing: Yes
 UseSpacesForTab: Yes
-NumSpacesForTab: 2
+NumSpacesForTab: 4
 Encoding: CP1251
 
 RnwWeave: Sweave

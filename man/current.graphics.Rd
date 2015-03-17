@@ -10,7 +10,7 @@ current.graphics(type = c("png", "emf", "jpeg", "bmp", "tiff"),
 \arguments{
 \item{type}{file type. Ignored if argument 'filename' provided.}
 
-\item{filename}{filename (or full path) of file with graphics.}
+\item{filename}{character. filename (or full path) of file with graphics.}
 
 \item{...}{arguments for internally used \code{\link{dev.copy}} function}
 }
