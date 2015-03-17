@@ -1,7 +1,7 @@
 #' Functions for saving and reading data to/from Excel file.
 #' 
 #' @param filename a character string naming a file
-#' @param r.obj R object
+#' @param r.obj R object.
 #' @param header a logical value indicating whether the file contains the names
 #'   of the variables as its first line. If TRUE and top-left corner is empty
 #'   cell, first column is considered as row names. Ignored if row.names or
@@ -16,7 +16,8 @@
 #' @param top.left.cell character. Top-left corner of data in Excel sheet. By
 #'   default is 'A1'.
 #' @param na character. NA representation in Excel. By default it is empty
-#'   string
+#'   string.
+#' @param password character. Password for password-protected workbook.
 #' @param excel.visible a logical value indicating will Excel visible during
 #'   this operations. FALSE by default.
 #'   
@@ -62,10 +63,18 @@
 #' # xl.workbook.close() # close workbook
 #' # unlink("output.xls") # delete file
 #' 
+#' # password-protected file
+#' data(iris)
+#' xl.save.file(iris,"iris.xlsx", password = "pass")
+#' xl.iris = xl.read.file("iris.xlsx", password = "pass")
+#' all(iris == xl.iris) # Shoud be TRUE
+#' unlink("iris.xlsx")
+#' 
 #' }
 #' @export
 xl.read.file = function(filename, header = TRUE, row.names = NULL, col.names = NULL, 
                         xl.sheet = NULL,top.left.cell = "A1", na = "",
+                        password = NULL,
                         excel.visible = FALSE)
     # read data from excel file
     # filename - name of the file
@@ -82,7 +91,12 @@ xl.read.file = function(filename, header = TRUE, row.names = NULL, col.names = N
     on.exit(xl_temp$quit()) 
     xl_temp[["Visible"]] = excel.visible
     xl_temp[["DisplayAlerts"]] = FALSE
-    xl_wb = xl_temp[["Workbooks"]]$Open(normalizePath(filename,mustWork = TRUE))
+    if(is.null(password)){
+        xl_wb = xl_temp[["Workbooks"]]$Open(normalizePath(filename,mustWork = TRUE))
+    } else {
+        xl_wb = xl_temp[["Workbooks"]]$Open(normalizePath(filename,mustWork = TRUE), 
+                                            password = password)   
+    }
     # on.exit(xl_wb$close())
     # on.exit(xl_temp$quit(),add = TRUE)
     if (!is.null(xl.sheet)){
@@ -126,6 +140,7 @@ xl.read.file = function(filename, header = TRUE, row.names = NULL, col.names = N
 #' @rdname xl.read.file
 xl.save.file = function(r.obj,filename, row.names = TRUE, col.names = TRUE, 
                         xl.sheet = NULL, top.left.cell = "A1", na = "",
+                        password = NULL,
                         excel.visible = FALSE)
 {
     xl_temp = COMCreate("Excel.Application",existing = FALSE)
@@ -143,6 +158,10 @@ xl.save.file = function(r.obj,filename, row.names = TRUE, col.names = TRUE,
     top_left_corner = xl_temp$range(top.left.cell)
     xl.write(r.obj,xl.rng = top_left_corner,row.names = row.names,col.names = col.names,na = na)
     path = normalizePath(filename,mustWork = FALSE)
-    xl_temp[["ActiveWorkbook"]]$SaveAs(path)
+    if(is.null(password)){
+        xl_temp[["ActiveWorkbook"]]$SaveAs(path)
+    } else {
+        xl_temp[["ActiveWorkbook"]]$SaveAs(path, password = password)
+    }
     invisible(NULL)
 }

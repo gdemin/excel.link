@@ -6,10 +6,12 @@
 \title{Functions for saving and reading data to/from Excel file.}
 \usage{
 xl.read.file(filename, header = TRUE, row.names = NULL, col.names = NULL,
-  xl.sheet = NULL, top.left.cell = "A1", na = "", excel.visible = FALSE)
+  xl.sheet = NULL, top.left.cell = "A1", na = "", password = NULL,
+  excel.visible = FALSE)
 
 xl.save.file(r.obj, filename, row.names = TRUE, col.names = TRUE,
-  xl.sheet = NULL, top.left.cell = "A1", na = "", excel.visible = FALSE)
+  xl.sheet = NULL, top.left.cell = "A1", na = "", password = NULL,
+  excel.visible = FALSE)
 }
 \arguments{
 \item{filename}{a character string naming a file}
@@ -33,12 +35,14 @@ sheet.}
 default is 'A1'.}
 
 \item{na}{character. NA representation in Excel. By default it is empty
-string}
+string.}
+
+\item{password}{character. Password for password-protected workbook.}
 
 \item{excel.visible}{a logical value indicating will Excel visible during
   this operations. FALSE by default.}
 
-\item{r.obj}{R object}
+\item{r.obj}{R object.}
 }
 \value{
 \code{xl.read.file} always returns data.frame. \code{xl.save.file}
@@ -80,6 +84,13 @@ xl.save.file(output,"output.xls")
 xl.workbook.open("output.xls")
 # xl.workbook.close() # close workbook
 # unlink("output.xls") # delete file
+
+# password-protected file
+data(iris)
+xl.save.file(iris,"iris.xlsx", password = "pass")
+xl.iris = xl.read.file("iris.xlsx", password = "pass")
+all(iris == xl.iris) # Shoud be TRUE
+unlink("iris.xlsx")
 
 }
 }
