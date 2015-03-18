@@ -30,7 +30,6 @@
 #' @return \code{xl.read.file} always returns data.frame. \code{xl.save.file}
 #' invisibly returns NULL.
 #' @seealso
-#' 
 #' \code{\link{xl.write}}, \code{\link{xl.workbook.save}},
 #' \code{\link{xl.workbook.open}}, \code{\link{current.graphics}}
 #' 
@@ -46,7 +45,7 @@
 #' 
 #' # Save to file list with different data types 
 #' dists = dist(iris[,1:4])
-#' clusters = hclust(dists,method="ward")
+#' clusters = hclust(dists,method="ward.D")
 #' iris$clusters = cutree(clusters,3)
 #' png("1.png")
 #' plot(clusters)
@@ -76,16 +75,15 @@ xl.read.file = function(filename, header = TRUE, row.names = NULL, col.names = N
                         xl.sheet = NULL,top.left.cell = "A1", na = "",
                         password = NULL,
                         excel.visible = FALSE)
-    # read data from excel file
-    # filename - name of the file
-    # header if TRUE First row treated as colnames and if top.left.cell is empty then first column treated as rownames.
-    # if row.names or col.names not is null header argument will be ignored
-    # if row.names is TRUE first column will be treated as rownames
-    # if col.names is TRUE first row will be treated as colnames
-    # xl.sheet - can be character - sheet name or numeric - number number. if omitted data will be read from active sheet 
-    # na - string which will be treated as NA value
-    # top.left.cell - top-left corner of region which will be read
-    # excel.visible if TRUE Excel will be visible during operation
+    # read data from excel file filename - name of the file header if TRUE First
+    # row treated as colnames and if top.left.cell is empty then first column
+    # treated as rownames. if row.names or col.names not is null header argument
+    # will be ignored if row.names is TRUE first column will be treated as
+    # rownames if col.names is TRUE first row will be treated as colnames 
+    # xl.sheet - can be character - sheet name or numeric - number number. if
+    # omitted data will be read from active sheet na - string which will be
+    # treated as NA value top.left.cell - top-left corner of region which will
+    # be read excel.visible if TRUE Excel will be visible during operation
 {
     xl_temp = COMCreate("Excel.Application",existing = FALSE)
     on.exit(xl_temp$quit()) 
@@ -100,11 +98,13 @@ xl.read.file = function(filename, header = TRUE, row.names = NULL, col.names = N
     # on.exit(xl_wb$close())
     # on.exit(xl_temp$quit(),add = TRUE)
     if (!is.null(xl.sheet)){
-        if (!is.character(xl.sheet) & !is.numeric(xl.sheet)) stop('Argument "xl.sheet" should be character or numeric.')
+        if (!is.character(xl.sheet) & !is.numeric(xl.sheet)) 
+            stop('Argument "xl.sheet" should be character or numeric.')
         sh.count = xl_wb[['Sheets']][['Count']]
         sheets = sapply(seq_len(sh.count), function(sh) xl_wb[['Sheets']][[sh]][['Name']])
         if (is.numeric(xl.sheet)){
-            if (xl.sheet>length(sheets)) stop ("too large sheet number. In workbook only ",length(sheets)," sheet(s)." )
+            if (xl.sheet>length(sheets)) 
+                stop ("too large sheet number. In workbook only ",length(sheets)," sheet(s)." )
             xl_wb[["Sheets"]][[xl.sheet]]$Activate()
         } else {
             sheet_num = which(tolower(xl.sheet) == tolower(sheets)) 

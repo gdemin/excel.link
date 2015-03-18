@@ -68,7 +68,7 @@ unlink("iris.xlsx")
 
 # Save to file list with different data types
 dists = dist(iris[,1:4])
-clusters = hclust(dists,method="ward")
+clusters = hclust(dists,method="ward.D")
 iris$clusters = cutree(clusters,3)
 png("1.png")
 plot(clusters)
