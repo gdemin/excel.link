@@ -33,10 +33,10 @@
 #' data(iris)
 #' data(cars)
 #' xl.workbook.add()
-#' xlrc[a1] <- iris
+#' xlrc[a1] = iris
 #' xl.workbook.save("iris.xlsx")
 #' xl.workbook.add()
-#' xlrc[a1] <- cars
+#' xlrc[a1] = cars
 #' xl.workbook.save("cars.xlsx")
 #' xl.workbook.activate("iris")
 #' xl.workbook.close("cars")
@@ -49,7 +49,7 @@
 #' # password-protected workbook
 #' data(iris) 
 #' xl.workbook.add()
-#' xlrc[a1] <- iris
+#' xlrc[a1] = iris
 #' xl.workbook.save("iris.xlsx", password = "my_password")
 #' xl.workbook.close()
 #' xl.workbook.open("iris.xlsx", password = "my_password")

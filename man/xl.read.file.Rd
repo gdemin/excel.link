@@ -14,7 +14,7 @@ xl.save.file(r.obj, filename, row.names = TRUE, col.names = TRUE,
   excel.visible = FALSE)
 }
 \arguments{
-\item{filename}{a character string naming a file}
+\item{filename}{a character}
 
 \item{header}{a logical value indicating whether the file contains the names
 of the variables as its first line. If TRUE and top-left corner is empty

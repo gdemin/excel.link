@@ -1,6 +1,6 @@
 #' Functions for saving and reading data to/from Excel file.
 #' 
-#' @param filename a character string naming a file
+#' @param filename a character
 #' @param r.obj R object.
 #' @param header a logical value indicating whether the file contains the names
 #'   of the variables as its first line. If TRUE and top-left corner is empty
