@@ -4,8 +4,8 @@ data(iris)
 xl.workbook.add()
 xl[d4]=iris
 test1=xl.connect.table("d4",row.names=FALSE,col.names=FALSE)
-expect_identical(has.colnames(test1),FALSE )
-expect_identical(has.rownames(test1),FALSE )
+# expect_identical(has.colnames(test1),FALSE )
+# expect_identical(has.rownames(test1),FALSE )
 expect_identical(dimnames(test1),list(c(4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 
 	19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 
 	35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 
@@ -33,8 +33,8 @@ expect_identical(colnames(test1),c("d", "e", "f", "g", "h"))
 xl.sheet.add()
 xlrc[d4]=iris
 test2=xl.connect.table("d4",row.names=TRUE,col.names=TRUE)
-expect_identical(has.colnames(test2), TRUE)
-expect_identical(has.rownames(test2), TRUE)
+# expect_identical(has.colnames(test2), TRUE)
+# expect_identical(has.rownames(test2), TRUE)
 expect_identical(dimnames(test2),list(c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", 
 	"12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", 
 	"23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", 
