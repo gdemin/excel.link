@@ -1,13 +1,25 @@
 context("workbooks")
+data(iris)
+data(cars)
+workbooks = xl.workbooks()
 xl.workbook.add()
-xlrc[a1] <- iris
+xlrc[a1] = iris
 xl.workbook.save("iris.xlsx")
 xl.workbook.add()
-xlrc[a1] <- cars
+xlrc[a1] = cars
 xl.workbook.save("cars.xlsx")
+for (wb in workbooks) xl.workbook.close(wb)
+expect_identical(xl.workbooks(), c("iris.xlsx","cars.xlsx"))
 xl.workbook.activate("iris")
 xl.workbook.close("cars")
+xl.workbook.close()
 xl.workbook.open("cars.xlsx")
+rownames(cars) = as.character(rownames(cars))
+expect_identical(cars,xl.current.region("a1",row.names=TRUE,col.names=TRUE))
+xl.workbook.open("iris.xlsx")
+rownames(iris) = as.character(rownames(iris))
+iris$Species = as.character(iris$Species)
+expect_identical(all(iris==xl.current.region("a1",row.names=TRUE,col.names=TRUE)),TRUE)
 for (wb in xl.workbooks()) xl.workbook.close(wb)
 unlink("iris.xlsx")
 unlink("cars.xlsx")
