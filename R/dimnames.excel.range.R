@@ -9,6 +9,16 @@ dim.excel.range = function(x){
     c(xl.nrow(xl.rng),xl.ncol(xl.rng))
 }
 
+#' @export
+'dim<-.excel.range' = function(x, value){
+    stop("'dim' for excel.range is read-only.")
+}
+
+#' @export
+'dimnames<-.excel.range' = function(x, value){
+    stop("'dimnames' for excel.range is read-only.")
+}
+
 
 xl.colnames.excel.range = function(xl.rng,...)
     # return colnames of connected excel table
