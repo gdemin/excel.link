@@ -16,8 +16,18 @@ xl.get.excel = function()
     # run Excel if it's not running and
     # return reference to Microsoft Excel
 {
-    xls = COMCreate("Excel.Application")
+#     xls = COMCreate("Excel.Application")
+    xls = getCOMInstance("Excel.Application",force = FALSE,silent = TRUE)
+    if (is.null(xls) || ("COMErrorString" %in% class(xls))) {
+        xls = getCOMInstance("Excel.Application",force = TRUE,silent = TRUE)
+        xls[["Visible"]] = TRUE
+    } else {
+        if (!xls[["Visible"]]){
+            xls[["Visible"]] = TRUE
+            warning("Connection with hidden Microsoft Excel instance. It may cause problems. Try to kill this instance from task manager.")
+        } 
+    }    
     if (xls[['workbooks']][['count']] == 0) xls[['workbooks']]$add()
-    if (!xls[["Visible"]]) xls[["Visible"]] = TRUE
+    
     return(xls)
 }
