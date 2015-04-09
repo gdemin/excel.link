@@ -154,30 +154,34 @@ xl.write.matrix = function(r.obj,xl.rng,na = "",row.names = TRUE,col.names = TRU
         has.col = (!is.null(xl.colnames) && col.names)*1
         has.row = (!is.null(xl.rownames) && row.names)*1
         dim.names = names(dimnames(r.obj))
-        has.dim.names = (!is.null(dim.names))*1
-        if ((row.names & col.names) | (has.dim.names & (row.names | col.names))){
-            # clear output area
-            out.rng = xl.rng[['Application']]$range(xl.rng$cells(1,1),xl.rng$cells(nrow(r.obj)+has.col+has.dim.names,ncol(r.obj)+has.row+has.dim.names))
-            out.rng$clear()
+        has.col.dimname =  (!is.null(dim.names[2]) && !(dim.names[2] %in% c("",NA)) && col.names)*1
+        has.row.dimname =  (!is.null(dim.names[1]) && !(dim.names[1] %in% c("",NA)) && row.names)*1
+        delta_row = has.col + has.col.dimname
+        delta_col = has.row + has.row.dimname
+        # clear output area
+        out.rng = xl.rng[['Application']]$range(xl.rng$cells(1,1),xl.rng$cells(nrow(r.obj)+delta_row,ncol(r.obj)+delta_col))
+        out.rng$clear()
+        if (has.col.dimname){
+            xl.raw.write(dim.names[2],xl.rng$offset(0,delta_col),na)
         }
         if (has.col) {
-            if (has.dim.names){
-                has.row = has.row+1
-                xl.raw.write(dim.names[2],xl.rng$offset(0,has.row),na)
-            }
-            xl.raw.write(t(xl.colnames),xl.rng$offset(has.dim.names,has.row),na)
+
+            xl.raw.write(t(xl.colnames),xl.rng$offset(has.col.dimname,delta_col),na)
         }    
+
+        if (has.row.dimname){
+            xl.raw.write(dim.names[1],xl.rng$offset(delta_row,0),na)
+        }
         if (has.row) {
-            if (has.dim.names){
-                has.col = has.col+1
-                xl.raw.write(dim.names[1],xl.rng$offset(has.col,0),na)
-            }	
-            xl.raw.write(xl.rownames,xl.rng$offset(has.col,has.dim.names),na)
+            xl.raw.write(xl.rownames,xl.rng$offset(delta_row,has.row.dimname),na)
         }	
         # for (i in seq_len(ncol(r.obj)))	xl.raw.write(r.obj[,i],xl.rng$offset(has.col,i+has.row-1),na)
-        xl.raw.write.matrix(r.obj,xl.rng$offset(has.col,has.row),na)
+        xl.raw.write.matrix(r.obj,xl.rng$offset(delta_row,delta_col),na)
+        invisible(c(nrow(r.obj)+delta_row,ncol(r.obj)+delta_col))
+    } else {
+        invisible(c(0,0))
     }
-    invisible(c(nrow(r.obj)+has.col+has.dim.names,ncol(r.obj)+has.row+has.dim.names))
+    
 }
 
 
@@ -239,12 +243,12 @@ xl.write.factor = function(r.obj,xl.rng,na = "",row.names = TRUE,...){
 }
 
 #' @export
-xl.write.table = function(r.obj,xl.rng,na = "",...){
+xl.write.table = function(r.obj,xl.rng,na = "",row.names = TRUE,col.names = TRUE,...){
     if(length(dim(r.obj))<3) {
-        # if (!is.null(dimnames(r.obj)) && all(names(dimnames(r.obj)) %in% c("",NA))) names(dimnames(r.obj)) = NULL
-        if(length(dim(r.obj))<2) {
-            return(invisible(xl.write.matrix(as.matrix(r.obj),xl.rng,na,row.names = TRUE,col.names = TRUE)))
-        } else return(invisible(xl.write.matrix(as.matrix(r.obj),xl.rng,na,row.names = TRUE,col.names = TRUE)))
+        mat_r.obj = matrix(r.obj, ncol = NCOL(r.obj))
+        dimnames(mat_r.obj) = dimnames(r.obj)
+        invisible(xl.write.matrix(mat_r.obj,xl.rng,na,row.names = row.names,col.names = col.names, ...))
+        
     } else {
         stop ("tables with dimensions greater than 2 currently doesn't supported")
         # if(length(dim(r.obj)) == 3) {
@@ -273,6 +277,7 @@ xl.write.table = function(r.obj,xl.rng,na = "",...){
 xl.writerow = function(r.obj,xl.rng,na = "")
     ## special function for writing single row on excel sheet
 {
+    if (is.null(r.obj)) return(invisible(c(0,0)))
     if (is.factor(r.obj)) r.obj = as.character(r.obj)
     xl.range = xl.rng[['Application']]$range(xl.rng$cells(1,1),xl.rng$cells(1,length(r.obj)))
     nas = is.na(r.obj)
@@ -294,6 +299,7 @@ xl.raw.write = function(r.obj,xl.rng,na = ""){
 xl.raw.write.default = function(r.obj,xl.rng,na = "")
     ### writes vectors (one-dimensional objects)
 {
+    if (is.null(r.obj)) return(invisible(c(0,0)))
     nas = is.na(r.obj)
     if (is.character(r.obj) || all(nas)){
         xl.range = xl.rng[['Application']]$range(xl.rng$cells(1,1),xl.rng$cells(length(r.obj),1))
@@ -315,11 +321,12 @@ xl.raw.write.default = function(r.obj,xl.rng,na = "")
 }
 
 
-
+#' @export
 xl.raw.write.matrix = function(r.obj,xl.rng,na = "")
     ### insert matrix into excel sheet without column and row names
 {
     # xl.range = xl.sheet$range(xl.sheet$cells(xl.row,xl.col),xl.sheet$cells(xl.row+NROW(r.obj)-1,xl.col))
+    if (is.null(r.obj)) return(invisible(c(0,0)))
     excel = xl.rng[['Application']]
     xl.range = excel$range(xl.rng$cells(1,1),xl.rng$cells(nrow(r.obj),ncol(r.obj)))
     nas = is.na(r.obj)
