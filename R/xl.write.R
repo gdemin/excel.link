@@ -321,7 +321,7 @@ xl.raw.write.default = function(r.obj,xl.rng,na = "")
 }
 
 
-#' @export
+
 xl.raw.write.matrix = function(r.obj,xl.rng,na = "")
     ### insert matrix into excel sheet without column and row names
 {
