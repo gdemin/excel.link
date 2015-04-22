@@ -7,13 +7,19 @@ Author: Gregory Demin <excel.link.feedback@gmail.com>
 Maintainer: Gregory Demin <excel.link.feedback@gmail.com>
 Depends:
     RDCOMClient
+Suggests:
+    knitr
+VignetteBuilder: knitr    
 OS_type: windows
 Description: Allows access to data in running instance of Microsoft Excel
-    (e. g. xl[a1] = xl[b2]*3 and so on). Graphics can be transferred with 
-    xl[a1] = current.graphics(). Also class provided which allows to treat
-    data on Excel sheet similar to data.frame.
+    (e. g. 'xl[a1] = xl[b2]*3' and so on). Graphics can be transferred with 
+    'xl[a1] = current.graphics()'. There is an Excel workbook with examples of 
+    calling R from Excel in the 'doc' folder. It tries to keep things as 
+    simple as possible - there are no needs in any additional 
+    installations besides R, only VBA code in the Excel workbook. 
     Microsoft Excel is required for this package.
 License: GPL (>= 2)
 URL: https://github.com/gdemin/excel.link
 LazyLoad: yes
+ByteCompile: TRUE
 
