@@ -16,7 +16,7 @@ Description: Allows access to data in running instance of Microsoft Excel
     'xl[a1] = current.graphics()'. There is an Excel workbook with examples of 
     calling R from Excel in the 'doc' folder. It tries to keep things as 
     simple as possible - there are no needs in any additional 
-    installations besides R, only VBA code in the Excel workbook. 
+    installations besides R, only 'VBA' code in the Excel workbook. 
     Microsoft Excel is required for this package.
 License: GPL (>= 2)
 URL: https://github.com/gdemin/excel.link
