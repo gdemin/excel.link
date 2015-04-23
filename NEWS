@@ -1,8 +1,10 @@
-0.6.5 (30.03.2015)
+0.7 (25.04.2015)
 ===============
 * RStudio compatibility fix
 * Switch to RDoxygen for documentation
 * Release on Github
+* Excel examples
+* Reading/writing password-protected files 
 	
 0.6 (04.09.2013)
 ================
