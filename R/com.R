@@ -3,6 +3,23 @@ DispatchMethods <-
  c("Method"= 1L, "PropertyGet" = 2L, "PropertyPut" = 4L)
 storage.mode(DispatchMethods) <- "integer"
 
+
+createCOMReference <-
+    function(ref, className)
+    {
+        if(!isClass(className)) {
+            className = "COMIDispatch"
+            warning("Using COMIDispatch instead of ", className)
+        }
+        
+        obj = new(className)
+        obj@ref = ref
+        
+        obj
+    }
+
+
+
 .COMInit <-
 function(status = TRUE)
 {
@@ -174,19 +191,7 @@ function(obj)
  .Call("R_create2DArray", obj, PACKAGE = "excel.link")
 }
 
-createCOMReference <-
-function(ref, className)
-{
- if(!isClass(className)) {
-   className = "COMIDispatch"
-   warning("Using COMIDispatch instead of ", className)
- }
 
- obj = new(className)
- obj@ref = ref
-
- obj
-}
 
 
 isValidCOMObject =

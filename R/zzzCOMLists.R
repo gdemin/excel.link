@@ -1,15 +1,18 @@
 
+
+setClass("COMList", representation("COMIDispatch"))
+
 COMList =
 function(obj, class = "COMList")
 {
   new(class, ref = obj@ref)	
 }				
 
-#' @exportMethod
+# @export
 setMethod("length", "COMList",
            function(x) .COM(x, "Count"))
 
-#' @exportMethod
+# @export
 setMethod("[[", c("COMList", "numeric"),
             function(x, i, j, ...) {
                if(length(i) != 1)
@@ -18,7 +21,7 @@ setMethod("[[", c("COMList", "numeric"),
               .COM(x,"Item", as.integer(i)) 
             }) 
 
-#' @exportMethod
+# @export
 setMethod("[[<-", c("COMList", "numeric"),
             function(x, i, j, ..., value) {
                if(i < 0)
@@ -34,7 +37,7 @@ setMethod("[[<-", c("COMList", "numeric"),
 
             }) 
 
-#' @exportMethod
+# @export
 setMethod("length", "COMList", 
 	    function(x)  .COM(x, "Count"))
 
@@ -49,7 +52,7 @@ if(!isGeneric("sapply"))
 	         standardGeneric("sapply"))
 }
 	
-#' @exportMethod			
+# @export			
 setMethod("lapply", "COMList",
             function(X, FUN, ...) {
               lapply(1:length(X),
@@ -57,7 +60,7 @@ setMethod("lapply", "COMList",
                           FUN(X[[id]], ...))
             })
 
-#' @exportMethod
+# @export
 setMethod("sapply", "COMList",
 function (X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE) 
 {
@@ -79,13 +82,13 @@ function (X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
     else answer
 })
 
-#' @exportMethod
+# @export
 setMethod("lapply", "COMIDispatch",
          function (X, FUN, ...)  {
            lapply(new("COMList", X), FUN, ...)
   	 })	   
 	
-#' @exportMethod
+# @export
 setMethod("sapply", "COMIDispatch",
          function (X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)  {
            sapply(new("COMList", X), FUN, ..., simplify = simplify, USE.NAMES = TRUE)
@@ -104,7 +107,7 @@ setGeneric("getItemClassName",
 
 setMethod("getItemClassName", "COMTypedList", function(x) gsub("s$", "", class(x)))
 
-#' @exportMethod
+# @export
 setMethod("[[", c("COMTypedList", "numeric"),
             function(x, i, j, ...) {
               val = callNextMethod()
@@ -122,13 +125,13 @@ setValidity("COMTypedParameterizedNamedList",
                  TRUE
              })
 
-#' @exportMethod
+# @export
 setMethod("names", "COMTypedParameterizedNamedList", 
            function(x) {
               sapply(x, function(el) el[[x@nameProperty]])
            })
 
-#' @exportMethod
+# @export
 setMethod("[[", c("COMTypedList", "character"),
             function(x, i, j, ...) {
               val = callNextMethod()
@@ -146,7 +149,7 @@ if(FALSE)  {
 }
 
 	# Alternative, "faster" way of doing this.
-#' @exportMethod
+# @export
 setMethod("names", c("COMTypedNamedList"),
             function(x) {
 	      n = x$Count

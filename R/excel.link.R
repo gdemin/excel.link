@@ -37,6 +37,7 @@ NULL
 
 
 #' @useDynLib excel.link
+#' @import methods
 
 
 .onAttach = function(...) {

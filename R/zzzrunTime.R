@@ -1,6 +1,6 @@
 #  This file is needed to run code that is generated
 # by the generateInterface() function.  Perhaps
-# it should migrate to the R_DCOM_Client package.
+# it should migrate to the RDCOMClient package.
 #
 
 utils::globalVariables(c(".x", "StrictMethodNameExpansion"))
@@ -13,8 +13,7 @@ setClass("CompiledCOMCoClass",
 
 setMethod("getItemClassName", "CompiledCOMCoClass", function(x) x@coclass[1]) #XXX first one for now.
 
-
-#' @exportMethod
+# @export
 setMethod("[[", c("CompiledCOMCoClass", "character"),
            function(x, i, j, ...) {
              x = as(x, x@coclass[1]) #XX first one
@@ -22,7 +21,7 @@ setMethod("[[", c("CompiledCOMCoClass", "character"),
            })
 
 #  x[["name"]]
-#' @exportMethod
+# @export
 setMethod("[[<-", c("CompiledCOMCoClass", "character"),
            function(x, i, j, ..., value) {
              orig = x
@@ -31,14 +30,14 @@ setMethod("[[<-", c("CompiledCOMCoClass", "character"),
              orig
            })
 
-#' @exportMethod
+# @export
 setMethod("$", c("CompiledCOMCoClass"),
            function(x, name) {
              x = as(x, x@coclass)
 	     do.call("$", list(x, name))
            })
 
-#' @exportMethod
+# @export
 setMethod("$<-", c("CompiledCOMCoClass", "character"),
            function(x, name, value) {
 	     do.call("$<-", list(as(x, x@coclass), name, value))
@@ -59,12 +58,13 @@ COMNames =
 
                sort(as.character(unlist(sapply(mget(ids, env), names))))
             }
-#' @exportMethod
+
+# @export
 setMethod("names", "CompiledCOMIDispatch", COMNames)
 
 # Fetch the value of a property or return a function to invoke
 # the named method.
-#' @exportMethod
+# @export
 setMethod("$", "CompiledCOMIDispatch",
             function(x, name) {
 
@@ -132,7 +132,7 @@ setMethod("$", "CompiledCOMIDispatch",
 #  then get the function and if it has all the parameters have default
 #  values, then invoke it.
 #  This is not vectorized.
-#' @exportMethod
+# @export
 setMethod("[[", c("CompiledCOMIDispatch", "character"),
             function(x, i, j, ...) {
 
@@ -229,16 +229,17 @@ setCompiledCOMProperty =
              x
           }
 
-#' @exportMethod
+
+# @export
 setMethod("$<-",  c("CompiledCOMIDispatch", "character"),  setCompiledCOMProperty)
 
-#' @exportMethod
+# @export
 setMethod("[[<-", c("CompiledCOMIDispatch", "character"),
            function(x, i, j, ..., value) {
              setCompiledCOMProperty(x, i, value)
            })
 
-#' @exportMethod
+# @export
 setMethod("[", c("COMList", "numeric"),
       function(x, i, j, ..., drop = TRUE) {
 	 if(all(i < 1))
@@ -247,7 +248,7 @@ setMethod("[", c("COMList", "numeric"),
          sapply(i, function(index) x[[index]])
       })
 
-#' @exportMethod
+# @export
 setMethod("[", c("COMTypedNamedList", "numeric"),
       function(x, i, j, ..., drop = TRUE) {
 	 ans = callNextMethod()
@@ -257,7 +258,7 @@ setMethod("[", c("COMTypedNamedList", "numeric"),
 	 ans
       })
 
-#' @exportMethod
+# @export
 setMethod("[", c("COMTypedNamedList", "character"),
           function(x, i, j, ..., drop = TRUE) {
            ids = names(x)
@@ -267,7 +268,7 @@ setMethod("[", c("COMTypedNamedList", "character"),
   	   a
           })
 
-#' @exportMethod
+# @export
 setMethod("[[", c("COMTypedNamedList", "character"),
           function(x, i, j, ..., exact = NA) {
 	   w = match(i, names(x))
