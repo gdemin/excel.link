@@ -4,7 +4,7 @@
 #' instance exists it will create a new instance.
 #' 
 #' @return object of class 'COMIDispatch' (as returned by 
-#' \code{\link[RDCOMClient]{COMCreate}} from RDCOMClient package).
+#' \code{COMCreate} from RDCOMClient package).
 #' 
 #' @examples
 #' 

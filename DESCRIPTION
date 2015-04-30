@@ -6,7 +6,7 @@ Date: 2015-03-30
 Author: Gregory Demin <excel.link.feedback@gmail.com>
 Maintainer: Gregory Demin <excel.link.feedback@gmail.com>
 Depends:
-    RDCOMClient
+    methods
 Suggests:
     knitr
 VignetteBuilder: knitr    

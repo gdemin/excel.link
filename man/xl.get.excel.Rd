@@ -8,7 +8,7 @@ xl.get.excel()
 }
 \value{
 object of class 'COMIDispatch' (as returned by
-\code{\link[RDCOMClient]{COMCreate}} from RDCOMClient package).
+\code{COMCreate} from RDCOMClient package).
 }
 \description{
 Returns reference to Microsoft Excel application. If there is no running

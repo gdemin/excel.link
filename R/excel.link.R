@@ -36,8 +36,7 @@
 NULL
 
 
-
-#' @import RDCOMClient
+#' @useDynLib excel.link
 
 
 .onAttach = function(...) {
