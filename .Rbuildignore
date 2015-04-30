@@ -5,3 +5,5 @@
 \.gitignore
 \.git
 ^SupplementaryMaterials
+cran-comments\.md
+README\.md
