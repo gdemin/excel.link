@@ -22,4 +22,6 @@ License: GPL (>= 2)
 URL: https://github.com/gdemin/excel.link
 LazyLoad: yes
 ByteCompile: TRUE
+NeedsCompilation: yes
+
 

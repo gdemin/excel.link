@@ -4,19 +4,6 @@ DispatchMethods <-
 storage.mode(DispatchMethods) <- "integer"
 
 
-createCOMReference <-
-    function(ref, className)
-    {
-        if(!isClass(className)) {
-            className = "COMIDispatch"
-            warning("Using COMIDispatch instead of ", className)
-        }
-        
-        obj = new(className)
-        obj@ref = ref
-        
-        obj
-    }
 
 
 
