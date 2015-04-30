@@ -53,8 +53,10 @@ xl.sheet.add = function(xl.sheet.name = NULL,before = NULL)
     } else {
         before = xl.sheet.exists(before,sheets)
         res = ex[['ActiveWorkbook']][['Sheets']]$Add(Before = ex[['ActiveWorkbook']][['Sheets']][[before]])
-    }    
-    if (!is.null(xl.sheet.name)) res[['Name']] = substr(xl.sheet.name,1,63)
+    } 
+    if (!is.null(xl.sheet.name)) {
+        res[['Name']] = substr(xl.sheet.name,1,63)
+    }   
     invisible(res[['Name']])
 }
 

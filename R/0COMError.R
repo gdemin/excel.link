@@ -1,3 +1,5 @@
+#' @export
+#' @rdname RDCOMClient
 COMStop =
 function(msg, status, class = "COMError")
 {

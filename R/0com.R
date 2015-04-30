@@ -1,4 +1,7 @@
 # The following constants can be computed by running disp.
+
+#' @export
+#' @rdname RDCOMClient
 DispatchMethods <-
  c("Method"= 1L, "PropertyGet" = 2L, "PropertyPut" = 4L)
 storage.mode(DispatchMethods) <- "integer"
@@ -6,7 +9,8 @@ storage.mode(DispatchMethods) <- "integer"
 
 
 
-
+#' @export
+#' @rdname RDCOMClient
 .COMInit <-
 function(status = TRUE)
 {
@@ -14,6 +18,8 @@ function(status = TRUE)
 }
 
 
+#' @export
+#' @rdname RDCOMClient
 COMCreate <-
 function(name, ..., existing = TRUE)
 {
@@ -55,6 +61,8 @@ function(str)
   as.integer(length(grep("^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$", str, perl = TRUE)) > 0)
 }
 
+#' @export
+#' @rdname RDCOMClient
 getCOMInstance =
 function(guid, force = TRUE, silent = FALSE)
 {
@@ -86,7 +94,8 @@ function(guid, force = TRUE, silent = FALSE)
   ans
 }
 
-
+#' @export
+#' @rdname RDCOMClient
 getCLSID =
 #
 # Converts a human-readable application name to a class id (GUID).
@@ -99,6 +108,9 @@ function(appName)
   .Call("R_getCLSIDFromName", as.character(appName), PACKAGE = "excel.link")
 }
 
+
+#' @export
+#' @rdname RDCOMClient
 setMethod("$<-", signature("COMIDispatch"), function(x, name, value) {
             stop("You probably meant to set a COM property. Please use x[[\"",name,"\"]] <- value")
 
@@ -109,6 +121,9 @@ setMethod("$<-", signature("COMIDispatch"), function(x, name, value) {
 
           })
 
+
+#' @export
+#' @rdname RDCOMClient
 setMethod("$", signature("COMIDispatch"),
 	    function(x, name){
 	       function(...) {
@@ -116,26 +131,35 @@ setMethod("$", signature("COMIDispatch"),
 	       }
 	    })
 
+
+#' @export
+#' @rdname RDCOMClient
 setMethod("[[", c("COMIDispatch", "numeric"),
 	      function(x, i, j, ...) {
 # if i is numeric, can check if there is an Item() method.
 	       .COM(x, "Item", i)
 	      })
 
+
+#' @export
+#' @rdname RDCOMClient
 setMethod("[[", "COMIDispatch",
 	      function(x, i, j, ...) {
 # if i is numeric, can check if there is an Item() method.
 	       .Call("R_getProperty", x, as.character(i), NULL, integer(0), PACKAGE = "excel.link")
 	      })
 
+# @export
+# @rdname RDCOMClient
+# setMethod("[[<-", c("COMIDispatch", "character", "character"),
+# 	    function(x, i, j, ..., value) {
+# 
+#             x[[as.character(unlist(c(i, j, ...)))]] <- value
+#             x
+#             })
 
-setMethod("[[<-", c("COMIDispatch", "character", "character"),
-	    function(x, i, j, ..., value) {
-
-            x[[as.character(unlist(c(i, j, ...)))]] <- value
-            x
-            })
-
+#' @export
+#' @rdname RDCOMClient
 setMethod("[[<-", c("COMIDispatch", "character", "missing"),
 	    function(x, i, j, ..., value) {
 if(length(i) > 1) {
@@ -148,11 +172,15 @@ if(length(i) > 1) {
 	      x
   	    })
 
+#' @export
+#' @rdname RDCOMClient
 setMethod("[[<-", c("COMIDispatch", "numeric"),
 	    function(x, i, j, ..., value) {
 	      x
   	    })
 
+#' @export
+#' @rdname RDCOMClient
 .COM <-
  # Allows one to control the type of dispatch used in the COM Invoke() call.
  # Useful for getting properties and methods.
@@ -170,7 +198,8 @@ function(obj, name,  ..., .dispatch = as.integer(3), .return = TRUE, .ids=numeri
  val
 }
 
-
+#' @export
+#' @rdname RDCOMClient
 asCOMArray <-
 function(obj)
 {
@@ -180,7 +209,8 @@ function(obj)
 
 
 
-
+#' @export
+#' @rdname RDCOMClient
 isValidCOMObject =
 function(obj)
 {

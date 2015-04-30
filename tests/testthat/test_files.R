@@ -1,6 +1,7 @@
+
 context("files")
 
-setwd("c:/temp")
+# setwd("c:/temp")
 data(iris)
 rownames(iris)=as.character(rownames(iris))
 iris$Species=as.character(iris$Species)
@@ -31,6 +32,7 @@ unlink(filename)
 ######
 xl.save.file(list(t(seq_along(iris)),iris),filename,xl.sheet="iris",top.left.cell="d24")
 xl.iris=xl.read.file(filename,xl.sheet="iris",top.left.cell="d25")
+Sys.setenv("R_TESTS" = "")
 expect_identical(iris,xl.iris) 
 
 
