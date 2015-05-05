@@ -81,7 +81,7 @@
 \alias{sapply,COMIDispatch-method}
 \alias{sapply,COMList-method}
 \alias{show,EnumValue-method}
-\title{RDCOMClient help}
+\title{Functions from RDCOMClient package}
 \format{\preformatted{ Named int [1:3] 1 2 4
  - attr(*, "names")= chr [1:3] "Method" "PropertyGet" "PropertyPut"
 }}
@@ -216,8 +216,82 @@ createTypeVarName(className, var, quote = TRUE)
 
 getCOMElements(type, env = NA, namesOnly = FALSE)
 }
+\arguments{
+\item{msg}{See RDCOMClient documentation.}
+
+\item{status}{See RDCOMClient documentation.}
+
+\item{class}{See RDCOMClient documentation.}
+
+\item{ref}{See RDCOMClient documentation.}
+
+\item{className}{See RDCOMClient documentation.}
+
+\item{name}{See RDCOMClient documentation.}
+
+\item{...}{See RDCOMClient documentation.}
+
+\item{existing}{See RDCOMClient documentation.}
+
+\item{guid}{See RDCOMClient documentation.}
+
+\item{force}{See RDCOMClient documentation.}
+
+\item{silent}{See RDCOMClient documentation.}
+
+\item{appName}{See RDCOMClient documentation.}
+
+\item{x}{See RDCOMClient documentation.}
+
+\item{value}{See RDCOMClient documentation.}
+
+\item{i}{See RDCOMClient documentation.}
+
+\item{j}{See RDCOMClient documentation.}
+
+\item{obj}{See RDCOMClient documentation.}
+
+\item{.dispatch}{See RDCOMClient documentation.}
+
+\item{.return}{See RDCOMClient documentation.}
+
+\item{.ids}{See RDCOMClient documentation.}
+
+\item{.suppliedArgs}{See RDCOMClient documentation.}
+
+\item{X}{See RDCOMClient documentation.}
+
+\item{FUN}{See RDCOMClient documentation.}
+
+\item{simplify}{See RDCOMClient documentation.}
+
+\item{USE.NAMES}{See RDCOMClient documentation.}
+
+\item{drop}{See RDCOMClient documentation.}
+
+\item{exact}{See RDCOMClient documentation.}
+
+\item{object}{See RDCOMClient documentation.}
+
+\item{id}{See RDCOMClient documentation.}
+
+\item{var}{See RDCOMClient documentation.}
+
+\item{quote}{See RDCOMClient documentation.}
+
+\item{type}{See RDCOMClient documentation.}
+
+\item{env}{See RDCOMClient documentation.}
+
+\item{namesOnly}{See RDCOMClient documentation.}
+}
 \description{
-Reference to RDCOMClient
+For details about these functions see help for RDCOMClient package by
+Duncan Temple Lang \email{duncan@wald.ucdavis.edu}:
+\url{http://www.omegahat.org/RDCOMClient}, \url{http://www.omegahat.org}.
+}
+\author{
+Duncan Temple Lang \email{duncan@wald.ucdavis.edu}
 }
 \keyword{datasets}
 
