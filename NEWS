@@ -1,6 +1,7 @@
 0.8.0 (06.06.2015)
 ===============
 * RDCOMClient integration
+* options(excel_hwnd) to get specific Excel instance
 
 0.7.5 (25.04.2015)
 ===============

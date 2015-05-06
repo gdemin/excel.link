@@ -108,6 +108,38 @@ function(guid, force = TRUE, silent = FALSE)
   ans
 }
 
+# @export
+getCOMInstance_hWnd =
+    function(guid, hWnd)
+    {
+        guid = as.character(guid)
+        
+        status = looksLikeUUID(guid)
+        if(status == 1) {
+            # substring(guid, 1, 1) != "{" && substring(guid, nchar(guid)) != "}"
+            warning("guid must have form '{.....}', i.e. the curly braces around the id.")
+            guid = paste("{", guid, "}", sep = "")
+        }
+        
+        ans = .Call("R_connect_hWnd", guid, as.integer(hWnd), FALSE, PACKAGE = "excel.link")
+        
+#         if(is.character(ans)) {
+#             if(!force) {
+#                 if(silent)
+#                     return(ans)
+#                 else
+#                     stop(ans)
+#             } else {
+#                 if(!silent)
+#                     warning("creating a new instance of ", guid,
+#                             " rather than connecting to existing instance.")
+# #                 ans = COMCreate(guid, existing = FALSE)
+#             }
+#         }
+        
+        ans
+    }
+
 #' @export
 #' @rdname RDCOMClient
 getCLSID =
