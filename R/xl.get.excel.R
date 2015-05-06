@@ -37,7 +37,7 @@ xl.get.excel = function()
         } else {
             if (!xls[["Visible"]]){
                 xls[["Visible"]] = TRUE
-                warning("Connection with hidden Microsoft Excel instance. It may cause problems. Try to kill this instance from task manager.")
+#                 warning("Connection with hidden Microsoft Excel instance. It may cause problems. Try to kill this instance from task manager.")
             } 
         }    
     }
