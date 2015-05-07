@@ -2,8 +2,8 @@ excel.link
 ==========
 ### Convenient Data Exchange with Microsoft Excel
 Allows access to data in running instance of Microsoft Excel
- (e. g. 'xl[a1] = xl[b2]*3' and so on). Graphics can be transferred with 
- 'xl[a1] = current.graphics()'. There is an Excel workbook with examples of 
+ (e. g. `xl[a1] = xl[b2]*3` and so on). Graphics can be transferred with 
+ `xl[a1] = current.graphics()`. There is an Excel workbook with examples of 
  calling R from Excel in the 'doc' folder. It tries to keep things as 
  simple as possible - there are no needs in any additional 
  installations besides R, only 'VBA' code in the Excel workbook. 
