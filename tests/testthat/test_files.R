@@ -32,7 +32,6 @@ unlink(filename)
 ######
 xl.save.file(list(t(seq_along(iris)),iris),filename,xl.sheet="iris",top.left.cell="d24")
 xl.iris=xl.read.file(filename,xl.sheet="iris",top.left.cell="d25")
-Sys.setenv("R_TESTS" = "")
 expect_identical(iris,xl.iris) 
 
 
