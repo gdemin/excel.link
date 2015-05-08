@@ -25,3 +25,7 @@ So we can:
 - add new data to this Excel range: `xl_iris$new_column = 42`
 - sort this range: `sort(xl_iris,column = "Sepal.Length")` 
 - and more...
+
+# Aknowledgements
+
+To comply CRAN policy includes source code from RDCOMClient package [http://www.omegahat.org/RDCOMClient] by Duncan Temple Lang (duncan at wald.ucdavis.edu).
