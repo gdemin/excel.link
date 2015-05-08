@@ -28,4 +28,4 @@ So we can:
 
 # Aknowledgements
 
-To comply CRAN policy includes source code from RDCOMClient package [http://www.omegahat.org/RDCOMClient] by Duncan Temple Lang (duncan at wald.ucdavis.edu).
+To comply CRAN policy includes source code from RDCOMClient package (http://www.omegahat.org/RDCOMClient) by Duncan Temple Lang (duncan at wald.ucdavis.edu).
