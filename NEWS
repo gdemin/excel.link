@@ -1,3 +1,8 @@
+0.9.0 (20.06.2015)
+===============
+* Fix converstion of #NUM! and other Excel errors. Now they are converted to NaN.
+* 
+
 0.8.1 (06.05.2015)
 ===============
 * RDCOMClient integration

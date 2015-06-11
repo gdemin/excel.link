@@ -491,12 +491,18 @@ R_convertDCOMObjectToR(VARIANT *var)
        ans = R_createRCOMUnknownObject((void**) ptr, "COMUnknown");
       }
        break;
+  case VT_ERROR:   // to get errors such as #NUM as NaN in R  
+      ans = R_scalarReal(R_NaN);
+      break;
+      
   case VT_EMPTY:
   case VT_NULL:
+   
   case VT_VOID:
     return(R_NilValue);
     break;
-
+ 
+	
 
 /*XXX Need to fill these in */
   case VT_RECORD:
@@ -508,7 +514,7 @@ R_convertDCOMObjectToR(VARIANT *var)
     /*  case LPSTR: */
   case VT_LPWSTR:
   case VT_PTR:
-  case VT_ERROR:
+
   case VT_VARIANT:
   case VT_CARRAY:
   case VT_USERDEFINED:

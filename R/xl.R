@@ -221,7 +221,10 @@ xl.process.list = function(data.list,na = "")
 {
     lapply(data.list, function(each.col) {
         # each.col = gsub("^[\\t\\s]+$","",each.col,perl = TRUE)
-        for.na = unlist(lapply(each.col,function(each.cell) isS4(each.cell) || is.null(each.cell) || length(each.cell) == 0 || each.cell == na))
+        for.na = unlist(lapply(each.col,function(each.cell) {
+            isS4(each.cell) || is.null(each.cell) || length(each.cell) == 0 || each.cell == na
+        })
+        )
         each.col[for.na ] = NA # | grepl("^[\\t\\s]+$",each.col,perl = TRUE)
         each.col
     })
