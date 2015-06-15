@@ -189,8 +189,12 @@ xl.read.range = function(xl.rng,drop = TRUE,row.names = FALSE,col.names = FALSE,
 {
     if (col.names && (xl.rng[["rows"]][["count"]]<2)) col.names = FALSE
     if (row.names && (xl.rng[["columns"]][["count"]]<2)) row.names = FALSE
-    raw.res = xl.rng[['Value2']]
-    if (is.null(raw.res)) data.list = NA else data.list = xl.process.list(raw.res,na = na)
+    raw.res = xl.rng[['Value']]
+    if (is.list(raw.res)) {
+        data.list = xl.process.list(raw.res,na = na)
+    } else {
+        data.list = process.item(raw.res,na=na)
+    }
     if (col.names)    {
         colNames = lapply(data.list,"[[",1)
         if (row.names) colNames = colNames[-1]
@@ -201,7 +205,7 @@ xl.read.range = function(xl.rng,drop = TRUE,row.names = FALSE,col.names = FALSE,
         data.list = data.list[-1]
     }	
     data.list = lapply(data.list,unlist)
-    classes = unique(sapply(data.list,class))
+    # classes = unique(sapply(data.list,class))
     final.matrix = do.call(data.frame,list(data.list,stringsAsFactors = FALSE))
     if (row.names && anyDuplicated(rowNames)) {
         row.names = FALSE
@@ -214,18 +218,57 @@ xl.read.range = function(xl.rng,drop = TRUE,row.names = FALSE,col.names = FALSE,
 }
 
 
-
+# as.POSIXct(xl[b3]*60*60*24, origin="1899-12-30", tz="GMT")
 xl.process.list = function(data.list,na = "")
     ## intended for processing list from Excel
-    ## it's replace NULL's, "" and zero-length elements with NA
+    ## it's replace NULL's, na, zero-length elements with NA
 {
     lapply(data.list, function(each.col) {
-        # each.col = gsub("^[\\t\\s]+$","",each.col,perl = TRUE)
-        for.na = unlist(lapply(each.col,function(each.cell) {
-            isS4(each.cell) || is.null(each.cell) || length(each.cell) == 0 || each.cell == na
-        })
-        )
-        each.col[for.na ] = NA # | grepl("^[\\t\\s]+$",each.col,perl = TRUE)
-        each.col
+ 
+        lapply(each.col,process.item,na)
+        
     })
 }
+
+xl.na = function(each.cell, na){
+    is.null(each.cell) || length(each.cell) == 0 || each.cell == na
+    
+}
+
+process.item = function(each.cell,na){
+    if (isS4(each.cell)){
+        if(class(each.cell)=="COMDate"){
+            gsub(" GMT","",as.character(as.POSIXct(each.cell*86400, origin="1899-12-30", tz="GMT")),fixed = TRUE) # 60*60*24 = 86400
+        } else {
+            c(each.cell)
+        }
+        
+    } else {
+        if(is.null(each.cell) || length(each.cell) == 0 || each.cell == na){
+            NA
+        } else {
+            each.cell 
+        }
+    }
+}
+
+
+# temporary variant
+# as.POSIXct(xl[b3]*60*60*24, origin="1899-12-30", tz="GMT")
+# xl.process.list = function(data.list,na = "")
+#     ## intended for processing list from Excel
+#     ## it's replace NULL's, na, zero-length elements with NA
+# {
+#     lapply(data.list, function(each.col) {
+#         
+#         nas = unlist(lapply(each.col,xl.na,na))
+#         type = unlist(lapply(each.col,class))
+#         each.col[nas] = NA
+#         each.col = unlist(each.col)
+#         if (all(type=="COMDate")) {
+#             as.POSIXct(each.col*86400, origin="1899-12-30", tz="GMT") # 60*60*24 = 86400
+#         } else {
+#             each.col
+#         }
+#     })
+# }
