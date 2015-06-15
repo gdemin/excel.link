@@ -189,11 +189,41 @@ xl.read.range = function(xl.rng,drop = TRUE,row.names = FALSE,col.names = FALSE,
 {
     if (col.names && (xl.rng[["rows"]][["count"]]<2)) col.names = FALSE
     if (row.names && (xl.rng[["columns"]][["count"]]<2)) row.names = FALSE
-    raw.res = xl.rng[['Value']]
-    if (is.list(raw.res)) {
-        data.list = xl.process.list(raw.res,na = na)
+    data.list = xl.rng[['Value']]
+    multiple_values = is.list(data.list)
+    if (multiple_values) {
+        range_cols = length(data.list)
+        range_rows = length(data.list[[1]])
+        # here we create logical matrix to keep type of excel cell
+        # currently there are three type NA - NA, TRUE - ComDate, FALSE - all others types
+        # these complexietes are needed to deal with datetime columns. 
+        # if we have column with datetime and any other type (FALSE)
+        # we convert it to characters. If datetime mixed only with NA it will become POSIXct
+        # Main idea - data should look like as in Excel - no strange modifications
+        # such as integers become dates or dates become integers.
+        type_matrix = matrix(FALSE, nrow = range_rows, ncol = range_cols)
+        for (each.col in seq_len(range_cols)){
+            for(each.row in seq_len(range_rows)){
+                each.cell = data.list[[each.col]][[each.row]]
+                if (xl.na(each.cell,na)){
+                    data.list[[each.col]][[each.row]] = NA
+                    type_matrix[each.row,each.col] = NA
+                } else {
+                    if(isS4(each.cell) && class(each.cell)=="COMDate") {
+                        type_matrix[each.row,each.col] = TRUE
+                        
+                    }
+                    
+                }
+                
+                
+            }   
+        }
+        if (col.names) type_matrix = type_matrix[-1,,drop = FALSE]
+        if (row.names) type_matrix = type_matrix[,-1,drop = FALSE]
+
     } else {
-        data.list = process.item(raw.res,na=na)
+        data.list = process.item(data.list,na=na)
     }
     if (col.names)    {
         colNames = lapply(data.list,"[[",1)
@@ -206,29 +236,47 @@ xl.read.range = function(xl.rng,drop = TRUE,row.names = FALSE,col.names = FALSE,
     }	
     data.list = lapply(data.list,unlist)
     # classes = unique(sapply(data.list,class))
+    
     final.matrix = do.call(data.frame,list(data.list,stringsAsFactors = FALSE))
+    # make types
+    if (multiple_values){
+        for (each.col in seq_len(ncol(final.matrix))){
+            if(any(type_matrix[,each.col] %in% TRUE)){
+                # we have datetime
+                if(any(type_matrix[,each.col] %in% FALSE)){
+                   # we have datetime mixed with other types -> convert to string 
+                    date_part = final.matrix[type_matrix[,each.col] %in% TRUE,each.col]
+                    date_part = as.POSIXct(as.numeric(date_part)*86400, origin="1899-12-30", tz="UTC") # 60*60*24 = 86400
+                    final.matrix[type_matrix[,each.col] %in% TRUE,each.col] = gsub(" UTC","",as.character(date_part),fixed = TRUE) 
+                } else {
+                    # we have only date.time/NA in this column -> convert to POSIXct
+                    final.matrix[,each.col] = as.POSIXct(final.matrix[,each.col]*86400, origin="1899-12-30", tz="UTC") # 60*60*24 = 86400
+                    
+                }
+                
+            }
+            
+        }
+    }
     if (row.names && anyDuplicated(rowNames)) {
         row.names = FALSE
         warning("There are duplicated rownames. They will be ignored.")
     }	
-    if (row.names) rownames(final.matrix) = rowNames else rownames(final.matrix) = xl.rownames(xl.rng)[ifelse(col.names,-1,TRUE)]
-    if (col.names) colnames(final.matrix) = colNames else colnames(final.matrix) = xl.colnames(xl.rng)[ifelse(row.names,-1,TRUE)]
+    if (row.names) {
+        rownames(final.matrix) = rowNames
+    } else {
+        rownames(final.matrix) = xl.rownames(xl.rng)[ifelse(col.names,-1,TRUE)]
+    }
+    if (col.names) {
+        colnames(final.matrix) = colNames 
+    } else {
+        colnames(final.matrix) = xl.colnames(xl.rng)[ifelse(row.names,-1,TRUE)]
+    }
     if (ncol(final.matrix)<2 & drop) final.matrix = final.matrix[,1]
     final.matrix
 }
 
 
-# as.POSIXct(xl[b3]*60*60*24, origin="1899-12-30", tz="GMT")
-xl.process.list = function(data.list,na = "")
-    ## intended for processing list from Excel
-    ## it's replace NULL's, na, zero-length elements with NA
-{
-    lapply(data.list, function(each.col) {
- 
-        lapply(each.col,process.item,na)
-        
-    })
-}
 
 xl.na = function(each.cell, na){
     is.null(each.cell) || length(each.cell) == 0 || each.cell == na
@@ -238,13 +286,13 @@ xl.na = function(each.cell, na){
 process.item = function(each.cell,na){
     if (isS4(each.cell)){
         if(class(each.cell)=="COMDate"){
-            gsub(" GMT","",as.character(as.POSIXct(each.cell*86400, origin="1899-12-30", tz="GMT")),fixed = TRUE) # 60*60*24 = 86400
+            as.POSIXct(each.cell*86400, origin="1899-12-30", tz="UTC") # 60*60*24 = 86400
         } else {
             c(each.cell)
         }
         
     } else {
-        if(is.null(each.cell) || length(each.cell) == 0 || each.cell == na){
+        if(xl.na(each.cell,na)){
             NA
         } else {
             each.cell 
@@ -252,23 +300,12 @@ process.item = function(each.cell,na){
     }
 }
 
+xl.process.list = function(data.list,na = "")
 
-# temporary variant
-# as.POSIXct(xl[b3]*60*60*24, origin="1899-12-30", tz="GMT")
-# xl.process.list = function(data.list,na = "")
-#     ## intended for processing list from Excel
-#     ## it's replace NULL's, na, zero-length elements with NA
-# {
-#     lapply(data.list, function(each.col) {
-#         
-#         nas = unlist(lapply(each.col,xl.na,na))
-#         type = unlist(lapply(each.col,class))
-#         each.col[nas] = NA
-#         each.col = unlist(each.col)
-#         if (all(type=="COMDate")) {
-#             as.POSIXct(each.col*86400, origin="1899-12-30", tz="GMT") # 60*60*24 = 86400
-#         } else {
-#             each.col
-#         }
-#     })
-# }
+{
+    lapply(data.list, function(each.col) {
+        
+        lapply(each.col,process.item,na)
+        
+    })
+}
