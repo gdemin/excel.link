@@ -38,3 +38,19 @@ expect_equal_to_reference(xlrc[a11:e16],"rds/datetime19.rds")
 
 xl.sheet.activate("datetime")
 xl.workbook.close()
+
+context("datetime write")
+
+xl.workbook.add()
+
+xl[a1, na = "NA"] = strptime(c("2006-01-08 10:07:52", "2006-08-07 19:33:02", NA),
+         "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")
+
+expect_identical(xl[a1:a3, na = "NA"], c("2006-01-08 10:07:52", "2006-08-07 19:33:02", NA))
+
+xl[a1, na = "NA"] = as.POSIXct(strptime(c("2006-01-08 10:07:52", "2006-08-07 19:33:02", NA),
+                             "%Y-%m-%d %H:%M:%S", tz = "EST5EDT"))
+
+expect_identical(xl[a1:a3, na = "NA"], c("2006-01-08 10:07:52", "2006-08-07 19:33:02", NA))
+
+xl.workbook.close()

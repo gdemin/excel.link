@@ -321,11 +321,11 @@ xl.raw.write.default = function(r.obj,xl.rng,na = "")
 }
 
 xl.raw.write.POSIXct = function(r.obj,xl.rng,na = ""){
-    xl.raw.write(as.character(r.obj),xl.rng,na)
+    xl.raw.write(format(r.obj, usetz = FALSE),xl.rng,na)
 }
 
 xl.raw.write.POSIXlt = function(r.obj,xl.rng,na = ""){
-    xl.raw.write(as.character(r.obj),xl.rng,na)
+    xl.raw.write(format(r.obj, usetz = FALSE),xl.rng,na)
 }
 
 xl.raw.write.matrix = function(r.obj,xl.rng,na = "")
