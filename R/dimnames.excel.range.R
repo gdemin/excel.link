@@ -24,7 +24,7 @@ xl.colnames.excel.range = function(xl.rng,...)
     # return colnames of connected excel table
 {
     if (has.colnames(xl.rng)){
-        all.colnames = unlist(xl.process.list(xl.rng[['rows']][[1]][['Value2']]))
+        all.colnames = unname(unlist(xl.read.range(xl.rng[['rows']][[1]])))
         all.colnames = gsub("^([\\s]+)","",all.colnames,perl = TRUE)
         all.colnames = gsub("([\\s]+)$","",all.colnames,perl = TRUE)
     } else all.colnames = xl.colnames(xl.rng)
@@ -65,7 +65,7 @@ xl.rownames.excel.range = function(xl.rng,...)
     # return rownames of connected excel table
 {
     if (has.rownames(xl.rng)){
-        all.rownames = unlist(xl.process.list(xl.rng[['columns']][[1]][['Value2']]))
+        all.rownames = xl.read.range(xl.rng[['columns']][[1]])
         all.rownames = gsub("^([\\s]+)","",all.rownames,perl = TRUE)
         all.rownames = gsub("([\\s]+)$","",all.rownames,perl = TRUE)
     } else all.rownames = xl.rownames(xl.rng)

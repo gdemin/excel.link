@@ -224,8 +224,8 @@ sort.excel.range = function(x,decreasing = FALSE,column,...)
     }
     colnumber = colnumber+has.rownames(xl.rng)	
     # if (has.colnames(x)) rownumber = rownumber+1
-    raw.data = lapply(colnumber,function(each.col) xl.process.list(xl.rng[['columns']][[each.col]][['Value2']],na = na))
-    raw.data = lapply(raw.data,function(each.col) unlist(each.col[[1]][-1]))
+    raw.data = lapply(colnumber,function(each.col) xl.read.range(xl.rng[['columns']][[each.col]],col.names = TRUE, na = na))
+    # raw.data = lapply(raw.data,function(each.col) unlist(each.col[[1]][-1]))
     res = do.call(data.frame,list(raw.data,stringsAsFactors = FALSE))
     colnames(res) = all.colnames[colnumber-has.rownames(xl.rng)]
     # print(all.rownames)

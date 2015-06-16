@@ -190,48 +190,59 @@ xl.read.range = function(xl.rng,drop = TRUE,row.names = FALSE,col.names = FALSE,
     if (col.names && (xl.rng[["rows"]][["count"]]<2)) col.names = FALSE
     if (row.names && (xl.rng[["columns"]][["count"]]<2)) row.names = FALSE
     data.list = xl.rng[['Value']]
-    multiple_values = is.list(data.list)
-    if (multiple_values) {
-        range_cols = length(data.list)
-        range_rows = length(data.list[[1]])
-        # here we create logical matrix to keep type of excel cell
-        # currently there are three type NA - NA, TRUE - ComDate, FALSE - all others types
-        # these complexietes are needed to deal with datetime columns. 
-        # if we have column with datetime and any other type (FALSE)
-        # we convert it to characters. If datetime mixed only with NA it will become POSIXct
-        # Main idea - data should look like as in Excel - no strange modifications
-        # such as integers become dates or dates become integers.
-        type_matrix = matrix(FALSE, nrow = range_rows, ncol = range_cols)
-        for (each.col in seq_len(range_cols)){
-            for(each.row in seq_len(range_rows)){
-                each.cell = data.list[[each.col]][[each.row]]
-                if (xl.na(each.cell,na)){
-                    data.list[[each.col]][[each.row]] = NA
-                    type_matrix[each.row,each.col] = NA
-                } else {
-                    if(isS4(each.cell) && class(each.cell)=="COMDate") {
-                        type_matrix[each.row,each.col] = TRUE
-                        
-                    }
-                    
-                }
-                
-                
-            }   
-        }
-        if (col.names) type_matrix = type_matrix[-1,,drop = FALSE]
-        if (row.names) type_matrix = type_matrix[,-1,drop = FALSE]
+    if (!is.list(data.list)) data.list = list(list(data.list))
+    data.list = lapply(data.list, function(each.col) {
+        lapply(each.col, function(each.cell){
+            
+            if(is.null(each.cell) || length(each.cell) == 0 || each.cell == na) NA else each.cell
+            
+        })
+        
+    })
+    
 
-    } else {
-        data.list = process.item(data.list,na=na)
-    }
+    # here we create logical matrix to keep type of excel cell
+    # currently there are three type NA - NA, TRUE - ComDate, FALSE - all others types
+    # these complexities are needed to deal with datetime columns. 
+    # if we have column with datetime and any other type (FALSE)
+    # we convert it to characters. If datetime mixed only with NA it will become POSIXct
+    # Main idea - data should look like as in Excel - no strange modifications
+    # such as integers become dates or dates become integers.
+    
+    types = lapply(data.list, function(each.col){
+        unlist(lapply(each.col, function(each.cell){
+            ifelse(class(each.cell) == "COMDate", TRUE, ifelse(is.na(each.cell),NA,FALSE))
+
+        }))
+        
+        
+    })
+    
+    type_matrix = do.call(cbind,types)
+
+    if (col.names) type_matrix = type_matrix[-1,,drop = FALSE]
+    if (row.names) type_matrix = type_matrix[,-1,drop = FALSE]
+    
+    
     if (col.names)    {
-        colNames = lapply(data.list,"[[",1)
+        colNames = lapply(data.list,function(each) {
+            res = each[[1]]
+            if (class(res) == "COMDate"){
+                gsub(" UTC","",excel_datetime2POSIXct(res),fixed = TRUE)
+                
+            }   else res
+            
+        })
         if (row.names) colNames = colNames[-1]
         data.list = lapply(data.list,"[",-1)
     }
     if (row.names) {
-        rowNames = unlist(data.list[[1]])
+        rowNames = unlist(lapply(data.list[[1]], function(each) {
+            if (class(each) == "COMDate"){
+                gsub(" UTC","",excel_datetime2POSIXct(each),fixed = TRUE)
+                
+            }  else each                
+        }))
         data.list = data.list[-1]
     }	
     data.list = lapply(data.list,unlist)
@@ -239,25 +250,24 @@ xl.read.range = function(xl.rng,drop = TRUE,row.names = FALSE,col.names = FALSE,
     
     final.matrix = do.call(data.frame,list(data.list,stringsAsFactors = FALSE))
     # make types
-    if (multiple_values){
-        for (each.col in seq_len(ncol(final.matrix))){
-            if(any(type_matrix[,each.col] %in% TRUE)){
-                # we have datetime
-                if(any(type_matrix[,each.col] %in% FALSE)){
-                   # we have datetime mixed with other types -> convert to string 
-                    date_part = final.matrix[type_matrix[,each.col] %in% TRUE,each.col]
-                    date_part = as.POSIXct(as.numeric(date_part)*86400, origin="1899-12-30", tz="UTC") # 60*60*24 = 86400
-                    final.matrix[type_matrix[,each.col] %in% TRUE,each.col] = gsub(" UTC","",as.character(date_part),fixed = TRUE) 
-                } else {
-                    # we have only date.time/NA in this column -> convert to POSIXct
-                    final.matrix[,each.col] = as.POSIXct(final.matrix[,each.col]*86400, origin="1899-12-30", tz="UTC") # 60*60*24 = 86400
-                    
-                }
+    for (each.col in seq_len(ncol(final.matrix))){
+        if(any(type_matrix[,each.col] %in% TRUE)){
+            # we have datetime
+            if(any(type_matrix[,each.col] %in% FALSE)){
+               # we have datetime mixed with other types -> convert to string 
+                date_part = final.matrix[type_matrix[,each.col] %in% TRUE,each.col]
+                date_part = excel_datetime2POSIXct(date_part) 
+                final.matrix[type_matrix[,each.col] %in% TRUE,each.col] = gsub(" UTC","",date_part,fixed = TRUE) 
+            } else {
+                # we have only date.time/NA in this column -> convert to POSIXct
+                final.matrix[,each.col] = excel_datetime2POSIXct(final.matrix[,each.col]) 
                 
             }
             
         }
+        
     }
+
     if (row.names && anyDuplicated(rowNames)) {
         row.names = FALSE
         warning("There are duplicated rownames. They will be ignored.")
@@ -276,36 +286,7 @@ xl.read.range = function(xl.rng,drop = TRUE,row.names = FALSE,col.names = FALSE,
     final.matrix
 }
 
+excel_datetime2POSIXct = function(value){
+    as.POSIXct(as.numeric(value)*86400, origin="1899-12-30", tz="UTC") # 60*60*24 = 86400
 
-
-xl.na = function(each.cell, na){
-    is.null(each.cell) || length(each.cell) == 0 || each.cell == na
-    
-}
-
-process.item = function(each.cell,na){
-    if (isS4(each.cell)){
-        if(class(each.cell)=="COMDate"){
-            as.POSIXct(each.cell*86400, origin="1899-12-30", tz="UTC") # 60*60*24 = 86400
-        } else {
-            c(each.cell)
-        }
-        
-    } else {
-        if(xl.na(each.cell,na)){
-            NA
-        } else {
-            each.cell 
-        }
-    }
-}
-
-xl.process.list = function(data.list,na = "")
-
-{
-    lapply(data.list, function(each.col) {
-        
-        lapply(each.col,process.item,na)
-        
-    })
 }
