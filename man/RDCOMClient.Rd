@@ -39,9 +39,9 @@
 \alias{RDCOMClient}
 \alias{SCOMErrorInfo-class}
 \alias{VARIANT-class}
-\alias{[,COMList,numeric,ANY-method}
-\alias{[,COMTypedNamedList,character,ANY-method}
-\alias{[,COMTypedNamedList,numeric,ANY-method}
+\alias{[,COMList,numeric,missing-method}
+\alias{[,COMTypedNamedList,character,missing-method}
+\alias{[,COMTypedNamedList,numeric,missing-method}
 \alias{[[,COMIDispatch,ANY-method}
 \alias{[[,COMIDispatch,numeric-method}
 \alias{[[,COMList,numeric-method}
@@ -180,11 +180,11 @@ COMNames(x)
 
 \S4method{[[}{CompiledCOMIDispatch,character,ANY}(x, i, j, ...) <- value
 
-\S4method{[}{COMList,numeric,ANY}(x, i, j, ..., drop = TRUE)
+\S4method{[}{COMList,numeric,missing}(x, i, j, ..., drop = TRUE)
 
-\S4method{[}{COMTypedNamedList,numeric,ANY}(x, i, j, ..., drop = TRUE)
+\S4method{[}{COMTypedNamedList,numeric,missing}(x, i, j, ..., drop = TRUE)
 
-\S4method{[}{COMTypedNamedList,character,ANY}(x, i, j, ..., drop = TRUE)
+\S4method{[}{COMTypedNamedList,character,missing}(x, i, j, ..., drop = TRUE)
 
 \S4method{[[}{COMTypedNamedList,character}(x, i, j, ..., exact = NA)
 

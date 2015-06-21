@@ -272,9 +272,10 @@ setMethod("[[<-", c("CompiledCOMIDispatch", "character"),
              setCompiledCOMProperty(x, i, value)
            })
 
+
 #' @export
 #' @rdname RDCOMClient
-setMethod("[", c("COMList", "numeric"),
+setMethod("[", c(x = "COMList", i = "numeric", "missing"),
       function(x, i, j, ..., drop = TRUE) {
 	 if(all(i < 1))
             i = (1:length(x))[ i]
@@ -282,9 +283,10 @@ setMethod("[", c("COMList", "numeric"),
          sapply(i, function(index) x[[index]])
       })
 
+
 #' @export
 #' @rdname RDCOMClient
-setMethod("[", c("COMTypedNamedList", "numeric"),
+setMethod("[", c(x = "COMTypedNamedList", i = "numeric", "missing"),
       function(x, i, j, ..., drop = TRUE) {
 	 ans = callNextMethod()
 	 if(all(i < 1))
@@ -293,9 +295,10 @@ setMethod("[", c("COMTypedNamedList", "numeric"),
 	 ans
       })
 
+
 #' @export
 #' @rdname RDCOMClient
-setMethod("[", c("COMTypedNamedList", "character"),
+setMethod("[", c(x = "COMTypedNamedList", i = "character", "missing"),
           function(x, i, j, ..., drop = TRUE) {
            ids = names(x)
            i = pmatch(i, ids)
@@ -303,6 +306,7 @@ setMethod("[", c("COMTypedNamedList", "character"),
   	   names(a) = ids[ i ]
   	   a
           })
+
 
 #' @export
 #' @rdname RDCOMClient
