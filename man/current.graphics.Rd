@@ -5,12 +5,14 @@
 \title{Auxiliary function for export graphics to Microsoft Excel}
 \usage{
 current.graphics(type = c("png", "emf", "jpeg", "bmp", "tiff"),
-  filename = NULL, ...)
+  filename = NULL, picname = NULL, ...)
 }
 \arguments{
 \item{type}{file type. Ignored if argument 'filename' provided.}
 
 \item{filename}{character. filename (or full path) of file with graphics.}
+
+\item{picname}{character. Picture name in Excel.}
 
 \item{...}{arguments for internally used \code{\link{dev.copy}} function}
 }
@@ -30,7 +32,12 @@ If argument \code{type} provided this function will save graphics
   with graphics. If argument \code{filename} is provided argument \code{type}
   will be ignored and returned value is path to file \code{filename} with
   class attribute 'current.graphics'. So it could be used with expressions
-  such \code{xl[a1] = current.graphics(filename="plot.png")}.
+  such \code{xl[a1] = current.graphics(filename="plot.png")}. If
+  \code{picname} is provided then picture will be inserted in Excel with this
+  name. If picture \code{picname} already exists in Excel it will be deleted.
+  This argument is useful when we need to change old picture in Excel instead
+  of adding new picture. \code{picname} will be automatically prepended by
+  "_" to avoid conflicts with Excel range names.
 }
 \examples{
 \dontrun{

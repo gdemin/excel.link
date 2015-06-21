@@ -2,20 +2,26 @@
 #' 
 #' @param type  file type. Ignored if argument 'filename' provided.
 #' @param filename character. filename (or full path) of file with graphics.
+#' @param picname character. Picture name in Excel.
 #' @param ... arguments for internally used \code{\link{dev.copy}} function
 #'   
-#' @return Path to file with saved graphics with class attribute
-#'   'current.graphics'. If used with argument \code{type} than result has
+#' @return Path to file with saved graphics with class attribute 
+#'   'current.graphics'. If used with argument \code{type} than result has 
 #'   attribute \code{temp.file = TRUE}.
 #'   
-#' @details If argument \code{type} provided this function will save graphics
-#'   from windows plotting device to temporary file and return path to this
-#'   file. Argument \code{filename} is intended to transfer plots to Excel from
-#'   file-based graphics devices (see Examples) or just insert into Excel file
+#' @details If argument \code{type} provided this function will save graphics 
+#'   from windows plotting device to temporary file and return path to this 
+#'   file. Argument \code{filename} is intended to transfer plots to Excel from 
+#'   file-based graphics devices (see Examples) or just insert into Excel file 
 #'   with graphics. If argument \code{filename} is provided argument \code{type}
-#'   will be ignored and returned value is path to file \code{filename} with
-#'   class attribute 'current.graphics'. So it could be used with expressions
-#'   such \code{xl[a1] = current.graphics(filename="plot.png")}.
+#'   will be ignored and returned value is path to file \code{filename} with 
+#'   class attribute 'current.graphics'. So it could be used with expressions 
+#'   such \code{xl[a1] = current.graphics(filename="plot.png")}. If 
+#'   \code{picname} is provided then picture will be inserted in Excel with this
+#'   name. If picture \code{picname} already exists in Excel it will be deleted.
+#'   This argument is useful when we need to change old picture in Excel instead
+#'   of adding new picture. \code{picname} will be automatically prepended by
+#'   "_" to avoid conflicts with Excel range names.
 #'   
 #' @examples
 #' 
@@ -43,7 +49,7 @@
 #' }
 #' 
 #' @export
-current.graphics = function(type = c("png","emf","jpeg","bmp","tiff"),filename = NULL,...){
+current.graphics = function(type = c("png","emf","jpeg","bmp","tiff"),filename = NULL,picname = NULL, ...){
     if (is.null(filename)){
         type = match.arg(type)
         res = paste(tempfile(),".",type,sep = "")
@@ -58,6 +64,9 @@ current.graphics = function(type = c("png","emf","jpeg","bmp","tiff"),filename =
         attr(res,"temp.file") = TRUE
     } else {
         res = normalizePath(filename,mustWork = TRUE)
+    }
+    if(!is.null(picname)){
+        attr(res,"picname") = paste0("_",picname)
     }
     class(res) = "current.graphics"
     res

@@ -78,8 +78,22 @@ xl.write.current.graphics = function(r.obj,xl.rng,na = "",delete.file = FALSE,..
     height = pic[["Height"]]
     width = pic[["Width"]]
     pic$Delete()
+    picname = tolower(attr(r.obj,"picname"))
+    if (length(picname)>0){
+        shape_count = app[["Activesheet"]][['Shapes']][["Count"]]
+        for (i in seq_len(shape_count)){
+            curr_shape = app[["Activesheet"]][['Shapes']][[i]]
+            if(tolower(curr_shape[["Name"]]) == picname){
+                curr_shape$Delete()
+                break
+            }
+        }       
+    }
     pic = app[["Activesheet"]][['Shapes']]$AddPicture(unclass(r.obj),0,-1,left,top,width,height)
-    fill = pic[['Fill']] # [["Shaperange"]]
+    if (length(picname)>0){
+        pic[["Name"]] = picname   
+    }    
+    fill = pic[['Fill']] 
     fill[['ForeColor']][['RGB']] = 16777215L
     height = pic[["Height"]]+top
     width = pic[["Width"]]+left
@@ -95,6 +109,8 @@ xl.write.current.graphics = function(r.obj,xl.rng,na = "",delete.file = FALSE,..
         j = j+1
         temp = xl.rng$Offset(0,j)
     }
+
+
     if (delete.file) file.remove(r.obj)
     invisible(c(i,j))
 }
