@@ -8,7 +8,6 @@
 \alias{[[.xl}
 \alias{[[<-.xl}
 \alias{xl}
-\alias{xl.current.region}
 \alias{xl.selection}
 \alias{xlc}
 \alias{xlr}
@@ -30,9 +29,6 @@
 \method{[}{xl}(x, str.rng, na = "") <- value
 
 xl.selection(drop = TRUE, na = "", row.names = FALSE, col.names = FALSE)
-
-xl.current.region(str.rng, drop = TRUE, na = "", row.names = FALSE,
-  col.names = FALSE)
 }
 \arguments{
 \item{x}{One of \code{xl}, \code{xlc}, \code{xlr}, \code{xlrc} objects.
@@ -42,27 +38,26 @@ rownames, "c" - with colnames}
 \item{str.rng}{character Excel range. For single bracket operations it can be
 without quotes in almost all cases.}
 
-\item{drop}{a logical. If TRUE the result is coerced to the lowest possible
+\item{drop}{logical. If TRUE the result is coerced to the lowest possible
 dimension. By default dimensions will be dropped if there are no columns
 and rows names.}
 
 \item{na}{character. NA representation in Excel. By default it is empty
 string.}
 
-\item{value}{a suitable replacement value. It will be recycled to fill excel
+\item{value}{suitable replacement value. It will be recycled to fill excel
   range only if it is object of length 1. In other cases size of excel range
   is ignored - all data will be placed in Excel sheet starting from top-left
   cell of submitted range.}
 
-\item{row.names}{a logical value indicating whether the Excel range contains
+\item{row.names}{logical value indicating whether the Excel range contains
 the row names as its first column.}
 
-\item{col.names}{a logical value indicating whether the Excel range contains
+\item{col.names}{logical value indicating whether the Excel range contains
 the column names as its first row.}
 }
 \value{
-Returns appropriate dataset from Excel. Excel datetime type currently
-  not supported.
+Returns appropriate dataset from Excel.
 }
 \description{
 \code{xl}, \code{xlc}, \code{xlr}, \code{xlrc} objects are
@@ -85,24 +80,25 @@ sheet of active Excel workbook.
   There is argument \code{drop} which is \code{TRUE} by default for \code{xl}
   and \code{FALSE} by default for other options. \code{xl.selection} returns
   data.frame with data from current selection in Excel.
-  \code{xl.current.region} returns data.frame with data from current region
-  (range which can be selected by pressing \code{Ctrl+Shift+*}) in Excel. All
-  these functions never coerce characters to factors
+  All these functions never coerce characters to factors
 }
 \examples{
 \dontrun{
 data(iris)
-rownames(iris) <- as.character(rownames(iris))
-iris$Species <- as.character(iris$Species)
+rownames(iris) = as.character(rownames(iris))
+iris$Species = as.character(iris$Species)
 xl.workbook.add()
-xlrc$a1 <- iris
-xl.iris <- xl.current.region("a1",row.names=TRUE,col.names=TRUE)
+xlrc$a1 = iris
+xl.iris = xl.current.region("a1",row.names=TRUE,col.names=TRUE)
 identical(xl.iris,iris)
 
 xl.sheet.add("Datasets examples")
-data.sets <- list("Iris dataset",iris,"Cars dataset",cars,"Titanic dataset",as.data.frame(Titanic))
-xlrc[a1] <- data.sets
+data.sets = list("Iris dataset",iris,"Cars dataset",cars,"Titanic dataset",as.data.frame(Titanic))
+xlrc[a1] = data.sets
 
 }
+}
+\seealso{
+\code{\link{cr}}, \code{\link{xl.current.region}},
 }
 
