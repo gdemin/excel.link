@@ -89,10 +89,16 @@ xl.read.file = function(filename, header = TRUE, row.names = NULL, col.names = N
     on.exit(xl_temp$quit()) 
     xl_temp[["Visible"]] = excel.visible
     xl_temp[["DisplayAlerts"]] = FALSE
-    if(is.null(password)){
-        xl_wb = xl_temp[["Workbooks"]]$Open(normalizePath(filename,mustWork = TRUE))
+    if (isTRUE(grepl("^(http|ftp)s?://", filename))){
+        path = filename
     } else {
-        xl_wb = xl_temp[["Workbooks"]]$Open(normalizePath(filename,mustWork = TRUE), 
+        path = normalizePath(filename,mustWork = TRUE)  
+    }
+        
+    if(is.null(password)){
+        xl_wb = xl_temp[["Workbooks"]]$Open(path)
+    } else {
+        xl_wb = xl_temp[["Workbooks"]]$Open(path, 
                                             password = password)   
     }
     # on.exit(xl_wb$close())

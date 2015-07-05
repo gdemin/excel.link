@@ -76,10 +76,15 @@ xl.workbook.open = function(filename,password = NULL)
     ## open workbook
 {
     ex = xl.get.excel()
-    if(is.null(password)){
-        xl.wb = ex[["Workbooks"]]$Open(normalizePath(filename,mustWork = TRUE))
+    if (isTRUE(grepl("^(http|ftp)s?://", filename))){
+        path = filename
     } else {
-        xl.wb = ex[["Workbooks"]]$Open(normalizePath(filename,mustWork = TRUE), password = password)
+        path = normalizePath(filename,mustWork = TRUE)  
+    }
+    if(is.null(password)){
+        xl.wb = ex[["Workbooks"]]$Open(path)
+    } else {
+        xl.wb = ex[["Workbooks"]]$Open(path, password = password)
     }
     invisible(xl.wb[['Name']])
 }
