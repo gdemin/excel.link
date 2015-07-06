@@ -51,7 +51,7 @@
 #' @export
 xl.write = function(r.obj,xl.rng,na = "",...)
     ## insert values in excel range.
-    ## shoul return c(row,column) - next emty point
+    ## should return c(row,column) - next empty point
 {
     app = xl.rng[["Application"]]
     on.exit(make.me.slow(app))
