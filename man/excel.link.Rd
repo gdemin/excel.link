@@ -24,6 +24,14 @@ is for transferring data/graphics to running instance of Excel, another part
   without column and row names. It is possible to use named ranges (e. g.
   \code{xl[MyNamedRange]}). To transfer graphics use \code{xl[a1] =
   current.graphics()}.
+  You can make active binding to Excel range:
+  \preformatted{
+  xl.workbook.add()
+  xl_iris \%=crc\% a1 # bind variable to current region around cell A1 on Excel active sheet
+  xl_iris = iris # put iris data set
+  identical(xl_iris$Sepal.Width, iris$Sepal.Width)
+  xl_iris$new_col = xl_iris$Sepal.Width * xl_iris$Sepal.Length # add new column on Excel sheet
+  }
 }
 
 \section{Live connection}{
