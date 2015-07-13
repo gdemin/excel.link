@@ -43,6 +43,7 @@
 #' sym \%<-crrc\% value
 #' 
 #' @param sym character/active binding.
+#' @param value character Excel range address. It can be without quotes in many cases.
 #' @param str.range character Excel range.
 #' @param drop logical. If TRUE the result is coerced to the lowest possible 
 #'   dimension. By default dimensions will be dropped if there are no columns 
@@ -65,7 +66,7 @@
 #'   \code{\link{xlrc}}
 #'   
 #' @author Idea by Stefan Fritsch
-#'   (\link{https://github.com/gdemin/excel.link/issues/1})
+#'   (\url{https://github.com/gdemin/excel.link/issues/1})
 #'   
 #' @examples 
 #' \dontrun{

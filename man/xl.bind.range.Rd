@@ -81,6 +81,8 @@ the row names as its first column.}
 the column names as its first row.}
 
 \item{env}{an environment.}
+
+\item{value}{character Excel range address. It can be without quotes in many cases.}
 }
 \value{
 \code{xl.binding.address} returns list with three components about
@@ -134,7 +136,7 @@ entire dataset.
 }
 \author{
 Idea by Stefan Fritsch
-  (\link{https://github.com/gdemin/excel.link/issues/1})
+  (\url{https://github.com/gdemin/excel.link/issues/1})
 }
 \seealso{
 \code{\link{xl}}, \code{\link{xlr}}, \code{\link{xlc}},
