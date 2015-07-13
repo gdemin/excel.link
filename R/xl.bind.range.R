@@ -180,6 +180,19 @@ bind.generator = function(row.names, col.names, fun) {
 
 #' @export
 #' @rdname xl.bind.range
+"%=xl%" = bind.generator(row.names = FALSE, col.names = FALSE, fun = xl.bind.range)
+#' @export
+#' @rdname xl.bind.range
+"%=xlr%" = bind.generator(row.names = TRUE, col.names = FALSE, fun = xl.bind.range)
+#' @export
+#' @rdname xl.bind.range
+"%=xlc%" = bind.generator(row.names = FALSE, col.names = TRUE, fun = xl.bind.range)
+#' @export
+#' @rdname xl.bind.range
+"%=xlrc%" = bind.generator(row.names = TRUE, col.names = TRUE, fun = xl.bind.range)
+
+#' @export
+#' @rdname xl.bind.range
 "%=cr%" = bind.generator(row.names = FALSE, col.names = FALSE, fun = xl.bind.current.region)
 #' @export
 #' @rdname xl.bind.range
@@ -191,18 +204,7 @@ bind.generator = function(row.names, col.names, fun) {
 #' @rdname xl.bind.range
 "%=crrc%" = bind.generator(row.names = TRUE, col.names = TRUE, fun = xl.bind.current.region)
 
-#' @export
-#' @rdname xl.bind.range
-"%=xl%" = bind.generator(row.names = FALSE, col.names = FALSE, fun = xl.bind.range)
-#' @export
-#' @rdname xl.bind.range
-"%=xlr%" = bind.generator(row.names = TRUE, col.names = FALSE, fun = xl.bind.range)
-#' @export
-#' @rdname xl.bind.range
-"%=xlc%" = bind.generator(row.names = FALSE, col.names = TRUE, fun = xl.bind.range)
-#' @export
-#' @rdname xl.bind.range
-"%=xlrc%" = bind.generator(row.names = TRUE, col.names = TRUE, fun = xl.bind.range)
+
 
 #' @export
 `%<-cr%` = `%=cr%`

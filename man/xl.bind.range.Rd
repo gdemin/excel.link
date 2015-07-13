@@ -44,14 +44,6 @@ sym \%<-crc\% value
 
 sym \%<-crrc\% value
 
-sym \%=cr\% value
-
-sym \%=crr\% value
-
-sym \%=crc\% value
-
-sym \%=crrc\% value
-
 sym \%=xl\% value
 
 sym \%=xlr\% value
@@ -59,6 +51,14 @@ sym \%=xlr\% value
 sym \%=xlc\% value
 
 sym \%=xlrc\% value
+
+sym \%=cr\% value
+
+sym \%=crr\% value
+
+sym \%=crc\% value
+
+sym \%=crrc\% value
 
 xl.binding.address(sym)
 }
