@@ -45,7 +45,7 @@ NULL
 
 
 #' @useDynLib excel.link
-#' @import methods
+#' @import methods grDevices
 
 
 .onAttach = function(...) {
