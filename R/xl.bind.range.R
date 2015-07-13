@@ -7,15 +7,40 @@
 #' environment \code{env} so that getting the value of \code{sym} return bound 
 #' Excel range, and assigning to \code{sym} will write the value to be assigned 
 #' to Excel range. In case of \code{xl.bind.range}  range will be updated after 
-#' each assignment accordingly to the size of the assigned value. 
+#' each assignment accordingly to the size of the assigned value.
 #' \code{xl.bind.current.region} always returns data from current region 
-#' (Ctrl+Shift+* in Excel) of bound range. \code{\%<-xl\%} etc are shortcuts for
-#' \code{xl.bind.range} and \code{xl.bind.current.region}. "r" means with 
-#' row names, "c" means with column names. Range in most cases can be provided 
-#' without quotes: \code{a1 \%<-xl\% a1:b100}. Functions with '='  and with '<-'
-#' in the names do the same things - they are just for those who prefer '=' 
-#' assignment and for those who prefer '<-' assignment. Assignment and reading
-#' may be slow because these functions always read/write entire dataset.
+#' (Ctrl+Shift+* in Excel) of bound range. 
+#' \code{\%<-xl\%} etc are shortcuts for \code{xl.bind.range} and 
+#' \code{xl.bind.current.region}. "r" means with row names, "c" means with
+#' column names. Range in most cases can be provided without quotes: \code{a1
+#' \%<-xl\% a1:b100}. Functions with '='  and with '<-' in the names do the same
+#' things - they are just for those who prefer '=' assignment and for those who
+#' prefer '<-' assignment.
+#' Assignment and reading may be slow because these functions always read/write
+#' entire dataset.
+#' 
+#' @usage 
+#' xl.bind.range(sym, str.range, drop = TRUE, na = "",
+#'      row.names = FALSE, col.names = FALSE, env = parent.frame()) 
+#' 
+#' xl.bind.current.region(sym, str.range, drop = TRUE, na = "",
+#'      row.names = FALSE, col.names = FALSE, env = parent.frame()) 
+#'  
+#' sym \%<-xl\% value 
+#' 
+#' sym \%<-xlr\% value
+#' 
+#' sym \%<-xlc\% value
+#' 
+#' sym \%<-xlrc\% value
+#' 
+#' sym \%<-cr\% value 
+#' 
+#' sym \%<-crr\% value
+#' 
+#' sym \%<-crc\% value
+#' 
+#' sym \%<-crrc\% value
 #' 
 #' @param sym character/active binding.
 #' @param str.range character Excel range.
@@ -35,10 +60,12 @@
 #'   \code{columns} - number of columns. All other functions don't return 
 #'   anything but create active binding to Excel range in the environment.
 #'   
+#' @aliases xl.bind.current.region %<-xl% %<-xlc% %<-xlr% %<-xlrc%  %<-cr% %<-crc% %<-crr% %<-crrc%
 #' @seealso \code{\link{xl}}, \code{\link{xlr}}, \code{\link{xlc}}, 
 #'   \code{\link{xlrc}}
 #'   
-#' @author Idea by Stefan Fritsch (\link{https://github.com/gdemin/excel.link/issues/1})
+#' @author Idea by Stefan Fritsch
+#'   (\link{https://github.com/gdemin/excel.link/issues/1})
 #'   
 #' @examples 
 #' \dontrun{
@@ -106,7 +133,6 @@ xl.bind.range = function(sym, str.range, drop = TRUE, na = "", row.names = FALSE
 }
 
 #' @export
-#' @rdname xl.bind.range
 xl.bind.current.region = function(sym, str.range, drop = TRUE, na = "", row.names = FALSE, col.names = FALSE, env = parent.frame())
 {
     
@@ -179,29 +205,21 @@ bind.generator = function(row.names, col.names, fun) {
 "%=xlrc%" = bind.generator(row.names = TRUE, col.names = TRUE, fun = xl.bind.range)
 
 #' @export
-#' @rdname xl.bind.range
 `%<-cr%` = `%=cr%`
 #' @export
-#' @rdname xl.bind.range
 `%<-crr%` = `%=crr%`
 #' @export
-#' @rdname xl.bind.range
 `%<-crc%` = `%=crc%`
 #' @export
-#' @rdname xl.bind.range
 `%<-crrc%` = `%=crrc%`
 
 #' @export
-#' @rdname xl.bind.range
 `%<-xl%` = `%=xl%`
 #' @export
-#' @rdname xl.bind.range
 `%<-xlr%` = `%=xlr%`
 #' @export
-#' @rdname xl.bind.range
 `%<-xlc%` = `%=xlc%`
 #' @export
-#' @rdname xl.bind.range
 `%<-xlrc%` = `%=xlrc%`
 
 #' @export

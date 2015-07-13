@@ -22,11 +22,27 @@
 \alias{xl.binding.address}
 \title{Active bindings to Excel ranges}
 \usage{
-xl.bind.range(sym, str.range, drop = TRUE, na = "", row.names = FALSE,
-  col.names = FALSE, env = parent.frame())
+xl.bind.range(sym, str.range, drop = TRUE, na = "",
+     row.names = FALSE, col.names = FALSE, env = parent.frame())
 
 xl.bind.current.region(sym, str.range, drop = TRUE, na = "",
-  row.names = FALSE, col.names = FALSE, env = parent.frame())
+     row.names = FALSE, col.names = FALSE, env = parent.frame())
+
+sym \%<-xl\% value
+
+sym \%<-xlr\% value
+
+sym \%<-xlc\% value
+
+sym \%<-xlrc\% value
+
+sym \%<-cr\% value
+
+sym \%<-crr\% value
+
+sym \%<-crc\% value
+
+sym \%<-crrc\% value
 
 sym \%=cr\% value
 
@@ -43,22 +59,6 @@ sym \%=xlr\% value
 sym \%=xlc\% value
 
 sym \%=xlrc\% value
-
-\%cr\%(sym) <- value
-
-\%crr\%(sym) <- value
-
-\%crc\%(sym) <- value
-
-\%crrc\%(sym) <- value
-
-\%xl\%(sym) <- value
-
-\%xlr\%(sym) <- value
-
-\%xlc\%(sym) <- value
-
-\%xlrc\%(sym) <- value
 
 xl.binding.address(sym)
 }
@@ -95,13 +95,15 @@ Excel range, and assigning to \code{sym} will write the value to be assigned
 to Excel range. In case of \code{xl.bind.range}  range will be updated after
 each assignment accordingly to the size of the assigned value.
 \code{xl.bind.current.region} always returns data from current region
-(Ctrl+Shift+* in Excel) of bound range. \code{\%<-xl\%} etc are shortcuts for
-\code{xl.bind.range} and \code{xl.bind.current.region}. "r" means with
-row names, "c" means with column names. Range in most cases can be provided
-without quotes: \code{a1 \%<-xl\% a1:b100}. Functions with '='  and with '<-'
-in the names do the same things - they are just for those who prefer '='
-assignment and for those who prefer '<-' assignment. Assignment and reading
-may be slow because these functions always read/write entire dataset.
+(Ctrl+Shift+* in Excel) of bound range.
+\code{\%<-xl\%} etc are shortcuts for \code{xl.bind.range} and
+\code{xl.bind.current.region}. "r" means with row names, "c" means with
+column names. Range in most cases can be provided without quotes: \code{a1
+\%<-xl\% a1:b100}. Functions with '='  and with '<-' in the names do the same
+things - they are just for those who prefer '=' assignment and for those who
+prefer '<-' assignment.
+Assignment and reading may be slow because these functions always read/write
+entire dataset.
 }
 \examples{
 \dontrun{
@@ -131,7 +133,8 @@ may be slow because these functions always read/write entire dataset.
 }
 }
 \author{
-Idea by Stefan Fritsch (\link{https://github.com/gdemin/excel.link/issues/1})
+Idea by Stefan Fritsch
+  (\link{https://github.com/gdemin/excel.link/issues/1})
 }
 \seealso{
 \code{\link{xl}}, \code{\link{xlr}}, \code{\link{xlc}},
