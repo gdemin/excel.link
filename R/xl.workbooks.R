@@ -63,7 +63,11 @@ xl.workbook.add = function(filename = NULL)
 {
     ex = xl.get.excel()
     if (!is.null(filename)) {
-        path = normalizePath(filename,mustWork = TRUE)
+        if (isTRUE(grepl("^(http|ftp)s?://", filename))){
+            path = filename
+        } else {
+            path = normalizePath(filename,mustWork = TRUE)  
+        }
         xl.wb = ex[['Workbooks']]$Add(path) 
     } else xl.wb = ex[['Workbooks']]$Add()
     invisible(xl.wb[["Name"]])
