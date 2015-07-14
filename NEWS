@@ -1,10 +1,10 @@
-0.9.0 (14.07.2015)
+0.9.1 (14.07.2015)
 ===============
 * Fix converstion of #NUM! and other Excel errors. Now they are converted to NaN.
 * Add basic datetime supports
 * Add abitility to name pictures in Excel - so it can be updated from R
 * xl.workbook.open/xl.read.file now can read files from URL
-* add active binding to Excel ranges
+* Add active bindings to Excel ranges
 
 0.8.1 (06.05.2015)
 ===============
