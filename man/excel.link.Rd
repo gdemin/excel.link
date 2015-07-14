@@ -30,7 +30,10 @@ is for transferring data/graphics to running instance of Excel, another part
   xl_iris \%=crc\% a1 # bind variable to current region around cell A1 on Excel active sheet
   xl_iris = iris # put iris data set
   identical(xl_iris$Sepal.Width, iris$Sepal.Width)
-  xl_iris$new_col = xl_iris$Sepal.Width * xl_iris$Sepal.Length # add new column on Excel sheet
+  xl_iris$test = "Hello, world!" # add new column on Excel sheet
+  xl_iris = within(xl_iris, {
+     new_col = Sepal.Width * Sepal.Length # add new column on Excel sheet
+     })
   }
 }
 
@@ -46,6 +49,8 @@ is for transferring data/graphics to running instance of Excel, another part
   \item{sort this range: }{
   \code{sort(xl_iris,column = "Sepal.Length")}}
   \item{and more...} }
+  Live connection is faster than active binding to range but is less universal
+  (for example, you can't use \code{within} statement with it).
 }
 \seealso{
 \code{\link{xl}}, \code{\link{current.graphics}},
