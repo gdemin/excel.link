@@ -1,3 +1,7 @@
+0.9.2 (06.12.2015)
+===============
+* Make Excel examples compatible with 64-bit Excel version.
+
 0.9.1 (14.07.2015)
 ===============
 * Fix converstion of #NUM! and other Excel errors. Now they are converted to NaN.
