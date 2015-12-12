@@ -73,7 +73,7 @@ xl[a1]=list("Cosine plotting",cos.plot,"End of cosine plotting")
 setwd("c:/temp")
 
  ######
- 
+ filename = "ttt.xlsx"
 dists <- dist(iris[,1:4])
 clusters <- hclust(dists,method="ward.D")
 iris$clusters <- cutree(clusters,3)

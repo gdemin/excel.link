@@ -49,13 +49,12 @@
 #' }
 #' 
 #' @export
-current.graphics = function(type = c("png","emf","jpeg","bmp","tiff"),filename = NULL,picname = NULL, ...){
+current.graphics = function(type = c("png","jpeg","bmp","tiff"),filename = NULL,picname = NULL, ...){
     if (is.null(filename)){
         type = match.arg(type)
         res = paste(tempfile(),".",type,sep = "")
         switch(type,
                png = dev.copy(png,res,...),
-               emf = dev.copy(win.metafile,res,...),
                jpeg = dev.copy(jpeg,res,...),
                bmp = dev.copy(bmp,res,...),
                tiff = dev.copy(tiff,res,...)

@@ -1,27 +1,30 @@
 Package: excel.link
 Type: Package
 Title: Convenient Data Exchange with Microsoft Excel
-Version: 0.9.2
+Version: 0.9.3
 Date: 2015-12-06
-Author: Gregory Demin <excel.link.feedback@gmail.com>. To comply CRAN policy includes source code from 'RDCOMClient' (http://www.omegahat.org/RDCOMClient) by Duncan Temple Lang <duncan@wald.ucdavis.edu>.
+Author: Gregory Demin <excel.link.feedback@gmail.com>. To comply CRAN policy
+    includes source code from 'RDCOMClient' (http://www.omegahat.org/RDCOMClient) by
+    Duncan Temple Lang <duncan@wald.ucdavis.edu>.
 Maintainer: Gregory Demin <excel.link.feedback@gmail.com>
 Depends:
-    methods, grDevices, utils
+    methods,
+    grDevices,
+    utils
 Suggests:
     knitr
-VignetteBuilder: knitr    
+VignetteBuilder: knitr
 OS_type: windows
 Description: Allows access to data in running instance of Microsoft Excel
-    (e. g. 'xl[a1] = xl[b2]*3' and so on). Graphics can be transferred with 
-    'xl[a1] = current.graphics()'. There is an Excel workbook with examples of 
-    calling R from Excel in the 'doc' folder. It tries to keep things as 
-    simple as possible - there are no needs in any additional 
-    installations besides R, only 'VBA' code in the Excel workbook. 
+    (e. g. 'xl[a1] = xl[b2]*3' and so on). Graphics can be transferred with
+    'xl[a1] = current.graphics()'. There is an Excel workbook with examples of
+    calling R from Excel in the 'doc' folder. It tries to keep things as
+    simple as possible - there are no needs in any additional
+    installations besides R, only 'VBA' code in the Excel workbook.
     Microsoft Excel is required for this package.
 License: GPL (>= 2)
 URL: https://github.com/gdemin/excel.link
 LazyLoad: yes
 ByteCompile: TRUE
 NeedsCompilation: yes
-
-
+RoxygenNote: 5.0.0
