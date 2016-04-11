@@ -1,3 +1,8 @@
+0.9.4 (12.04.2016)
+===============
+* Fixes a GCC warning and linking error from gcc v4.9.3
+
+
 0.9.3 (06.12.2015)
 ===============
 * Make Excel examples compatible with 64-bit Excel version.
