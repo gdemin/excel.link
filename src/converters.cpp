@@ -53,12 +53,11 @@ char *
 FromBstr(BSTR str)
 {
   char *ptr = NULL;
-  DWORD len;
 
   if(!str)
     return(NULL);
 
-  len = wcslen(str);
+  int len = WideCharToMultiByte(CP_ACP, 0, str, -1, NULL, 0, NULL, NULL);
 
   if(len < 1)
     len = 0;
@@ -66,9 +65,7 @@ FromBstr(BSTR str)
   ptr = (char *) S_alloc(len+1, sizeof(char));
   ptr[len] = '\0';
   if(len > 0) {
-    DWORD ok = WideCharToMultiByte(CP_ACP, 0, str, len, ptr, len, NULL, NULL);
-    if(ok == 0) 
-      ptr = NULL;
+    WideCharToMultiByte(CP_ACP, 0, str, -1, ptr, len, NULL, NULL);
   }
 
   return(ptr);
