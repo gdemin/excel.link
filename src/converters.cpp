@@ -379,17 +379,13 @@ R_convertDCOMObjectToR(VARIANT *var)
 
 
   if(V_ISARRAY(var)) {
-#if defined(RDCOM_VERBOSE) && RDCOM_VERBOSE
-  errorLog("Finishing convertDCOMObjectToR - convert array\n");
-#endif
+
     return(convertArrayToR(var));
   } else if(V_VT(var) == VT_DISPATCH || (V_ISBYREF(var) && ((V_VT(var) & (~ VT_BYREF)) == VT_DISPATCH)) ) {
     IDispatch *ptr;
     if(V_ISBYREF(var)) {
 
-#if defined(RDCOM_VERBOSE) && RDCOM_VERBOSE
-      errorLog("BYREF and DISPATCH in convertDCOMObjectToR\n");
-#endif
+
 
       IDispatch **tmp = V_DISPATCHREF(var);
       if(!tmp)
@@ -401,9 +397,7 @@ R_convertDCOMObjectToR(VARIANT *var)
     if(ptr) 
       ptr->AddRef();
     ans = R_createRCOMUnknownObject((void*) ptr, "COMIDispatch");
-#if defined(RDCOM_VERBOSE) && RDCOM_VERBOSE
-    errorLog("Finished convertDCOMObjectToR  COMIDispatch\n");
-#endif
+
     return(ans);
   }
 
@@ -419,9 +413,7 @@ R_convertDCOMObjectToR(VARIANT *var)
     if(rtype == VT_BSTR) {
         BSTR *tmp;
         const char *ptr = "";
-#if defined(RDCOM_VERBOSE) && RDCOM_VERBOSE
-	errorLog("BYREF and BSTR convertDCOMObjectToR  (scalar string)\n");
-#endif
+
         tmp = V_BSTRREF(var);
         if(tmp)
   	  ptr = FromBstr(*tmp);
@@ -521,9 +513,7 @@ R_convertDCOMObjectToR(VARIANT *var)
     ans = createRVariantObject(var, V_VT(var));
   }
 
-#if defined(RDCOM_VERBOSE) && RDCOM_VERBOSE
-  errorLog("Finished convertDCOMObjectToR\n");
-#endif
+
 
   return(ans);
 }
