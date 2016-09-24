@@ -13,7 +13,14 @@ expect_identical(xl.workbooks(), c("iris.xlsx","cars.xlsx"))
 xl.workbook.activate("iris")
 xl.workbook.close("cars")
 xl.workbook.close()
+
+xls = xl.get.excel()
+xls$quit()
+
 xl.workbook.open("cars.xlsx")
+
+books = xl.workbooks()
+expect_equal(length(books), 1)
 rownames(cars) = as.character(rownames(cars))
 expect_identical(cars,xl.current.region("a1",row.names=TRUE,col.names=TRUE))
 xl.workbook.open("iris.xlsx")
@@ -23,3 +30,14 @@ expect_identical(all(iris==xl.current.region("a1",row.names=TRUE,col.names=TRUE)
 for (wb in xl.workbooks()) xl.workbook.close(wb)
 unlink("iris.xlsx")
 unlink("cars.xlsx")
+
+
+####
+
+xls = xl.get.excel()
+xls$quit()
+xl.workbook.add()
+books = xl.workbooks()
+expect_equal(length(books), 1)
+xls = xl.get.excel()
+xls$quit()

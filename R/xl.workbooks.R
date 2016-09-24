@@ -61,7 +61,7 @@ xl.workbook.add = function(filename = NULL)
     ### add new workbook and invisibily return it's name
     ### if filename is give, its used as template 
 {
-    ex = xl.get.excel()
+    ex = xl.get.excel_no_add_workbook()
     if (!is.null(filename)) {
         if (isTRUE(grepl("^(http|ftp)s?://", filename))){
             path = filename
@@ -79,7 +79,7 @@ xl.workbook.add = function(filename = NULL)
 xl.workbook.open = function(filename,password = NULL)
     ## open workbook
 {
-    ex = xl.get.excel()
+    ex = xl.get.excel_no_add_workbook()
     if (isTRUE(grepl("^(http|ftp)s?://", filename))){
         path = filename
     } else {

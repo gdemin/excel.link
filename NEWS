@@ -1,6 +1,7 @@
-0.9.5 (20.09.2016)
+0.9.5 (24.09.2016)
 ===============
-* Fixes a problem with multibyte character encoding (fix from soeque1 https://github.com/soeque1)
+* Fixes an issue with multibyte character encoding (fix from soeque1 https://github.com/soeque1)
+* Fixes an issue with two workbooks after xl.workbooks.add/xl.workbooks.open
 
 
 0.9.4 (12.04.2016)
