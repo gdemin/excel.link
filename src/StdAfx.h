@@ -6,8 +6,8 @@
 // #     Description: Provides dynamic client-side access to (D)COM applications from within R.
 // # License: GPL-2
 // # Collate: classes.R COMLists.S COMError.R com.R debug.S zzz.R runTime.S
-// # URL: http://www.omegahat.org/RDCOMClient, http://www.omegahat.org
-// # http://www.omegahat.org/bugs
+// # URL: http://www.omegahat.net/RDCOMClient, http://www.omegahat.net
+// # http://www.omegahat.net/bugs
 
 // stdafx.h : include file for standard system include files,
 //  or project specific include files that are used frequently, but

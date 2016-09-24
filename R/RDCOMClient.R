@@ -2,7 +2,7 @@
 #' 
 #' For details about these functions see help for RDCOMClient package by 
 #' Duncan Temple Lang \email{duncan@@wald.ucdavis.edu}: 
-#' \url{http://www.omegahat.org/RDCOMClient}, \url{http://www.omegahat.org}.
+#' \url{http://www.omegahat.net/RDCOMClient}, \url{http://www.omegahat.net}.
 #' 
 #' @author Duncan Temple Lang \email{duncan@@wald.ucdavis.edu}
 #' 
