@@ -3,6 +3,8 @@
 #' @param filename character. Excel workbook filename.
 #' @param password character. Password for password-protected workbook.
 #' @param xl.workbook.name character. Excel workbook name.
+#' @param full.name logical. Should we return full path to the workbook? FALSE,
+#'   by default.
 #'   
 #' @return \itemize{ 
 #' \item{\code{xl.workbook.add}/\code{xl.workbook.open}/\code{xl.workbook.activate}
@@ -115,12 +117,16 @@ xl.workbook.activate = function(xl.workbook.name)
 
 #' @export
 #' @rdname xl.workbook.add
-xl.workbooks = function()
+xl.workbooks = function(full.names = FALSE)
     ## names of all opened workbooks
 {
     ex = xl.get.excel()
     wb.count = ex[['Workbooks']][['Count']]
-    sapply(seq_len(wb.count), function(wb) ex[['Workbooks']][[wb]][['Name']])
+    if(full.names){
+        sapply(seq_len(wb.count), function(wb) ex[['Workbooks']][[wb]][['FullName']])
+    } else {
+        sapply(seq_len(wb.count), function(wb) ex[['Workbooks']][[wb]][['Name']])
+    }
 }
 
 #' @export
