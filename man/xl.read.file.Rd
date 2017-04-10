@@ -100,4 +100,3 @@ unlink("iris.xlsx")
 \code{\link{xl.write}}, \code{\link{xl.workbook.save}},
 \code{\link{xl.workbook.open}}, \code{\link{current.graphics}}
 }
-

@@ -3,10 +3,10 @@
 \name{xl.write}
 \alias{xl.write}
 \alias{xl.write.current.graphics}
-\alias{xl.write.data.frame}
-\alias{xl.write.default}
 \alias{xl.write.list}
 \alias{xl.write.matrix}
+\alias{xl.write.data.frame}
+\alias{xl.write.default}
 \title{Methods for writing data to Excel sheet}
 \usage{
 xl.write(r.obj, xl.rng, na = "", ...)
@@ -85,4 +85,3 @@ xl.write(data.sets,rng,row.names = TRUE,col.names = TRUE)
 \code{\link{xlr}}, \code{\link{xlc}}, \code{\link{xlrc}}, 
 \code{\link{current.graphics}}
 }
-

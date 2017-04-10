@@ -28,4 +28,4 @@ BugReports: https://github.com/gdemin/excel.link/issues
 LazyLoad: yes
 ByteCompile: TRUE
 NeedsCompilation: yes
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

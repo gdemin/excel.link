@@ -52,8 +52,8 @@ is for transferring data/graphics to running instance of Excel, another part
   Live connection is faster than active binding to range but is less universal 
   (for example, you can't use \code{within} statement with it).
 }
+
 \seealso{
 \code{\link{xl}}, \code{\link{current.graphics}},
   \code{\link{xl.connect.table}}
 }
-

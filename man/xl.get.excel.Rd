@@ -20,4 +20,3 @@ instance exists it will create a new instance.
 xls = xl.get.excel() 
 }
 }
-
