@@ -82,10 +82,19 @@ xl.workbook.open = function(filename,password = NULL)
     ## open workbook
 {
     ex = xl.get.excel_no_add_workbook()
+    wb.count = ex[['Workbooks']][['Count']]
+    if(wb.count>0){
+        wb.names = sapply(seq_len(wb.count), function(wb) ex[['Workbooks']][[wb]][['Name']])
+        wb.names = tolower(wb.names)
+        new_name = tolower(basename(filename))
+        if(new_name %in% wb.names){
+            return(invisible(xl.workbook.activate(new_name)))
+        }
+    }
     if (isTRUE(grepl("^(http|ftp)s?://", filename))){
         path = filename
     } else {
-        path = normalizePath(filename,mustWork = TRUE)  
+        path = normalizePath(filename, mustWork = TRUE)  
     }
     if(is.null(password)){
         xl.wb = ex[["Workbooks"]]$Open(path)

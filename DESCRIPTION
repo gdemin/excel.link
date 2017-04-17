@@ -1,8 +1,8 @@
 Package: excel.link
 Type: Package
 Title: Convenient Data Exchange with Microsoft Excel
-Version: 0.9.5
-Date: 2016-09-24
+Version: 0.9.6
+Date: 2017-04-22
 Author: Gregory Demin <excel.link.feedback@gmail.com>. To comply CRAN policy
     includes source code from 'RDCOMClient' (http://www.omegahat.net/RDCOMClient) by
     Duncan Temple Lang <duncan@wald.ucdavis.edu>.
