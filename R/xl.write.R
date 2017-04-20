@@ -1,3 +1,5 @@
+FIX_ENCODING = "excel.link.fix_encoding"
+
 #' Methods for writing data to Excel sheet
 #' 
 #' @param r.obj R object
@@ -136,27 +138,6 @@ xl.write.list = function(r.obj,xl.rng,na = "",...)
 }
 
 
-#' @export
-xl.write.ctable = function(r.obj,xl.rng,na = "",row.names = TRUE,col.names = TRUE,...){
-    xl.colnames = t(names_to_matrix(colnames(r.obj)))
-    xl.rownames = names_to_matrix(rownames(r.obj))
-    has.col = ifelse(!is.null(xl.colnames) && col.names,nrow(xl.colnames),0)
-    has.row = ifelse(!is.null(xl.rownames) && row.names,ncol(xl.rownames),0)
-    if ((row.names | col.names)){
-        # clear output area
-        out.rng = xl.rng[['Application']]$range(xl.rng$cells(1,1),xl.rng$cells(nrow(r.obj)+has.col,ncol(r.obj)+has.row))
-        out.rng$clear()
-    }
-    if (has.col) {
-        xl.raw.write(xl.colnames,xl.rng$offset(0,has.row),na)
-    }    
-    if (has.row) {
-        xl.raw.write(xl.rownames,xl.rng$offset(has.col,0),na)
-    }	
-    # for (i in seq_len(ncol(r.obj)))	xl.raw.write(r.obj[,i],xl.rng$offset(has.col,i+has.row-1),na)
-    xl.raw.write.matrix(r.obj,xl.rng$offset(has.col,has.row),na)
-    invisible(c(nrow(r.obj)+has.col,ncol(r.obj)+has.row))
-}
 
 
 #' @export
@@ -165,6 +146,10 @@ xl.write.matrix = function(r.obj,xl.rng,na = "",row.names = TRUE,col.names = TRU
     ## insert matrix into excel sheet including column and row names
 {
     if (!is.null(r.obj)){
+        if(isTRUE(getOption(FIX_ENCODING))) {
+            r.obj = fix_encoding(r.obj)
+            na  = fix_encoding(na)
+        }
         xl.colnames = colnames(r.obj)
         xl.rownames = rownames(r.obj)
         has.col = (!is.null(xl.colnames) && col.names)*1
@@ -208,6 +193,10 @@ xl.write.data.frame = function(r.obj,xl.rng,na = "",row.names = TRUE,col.names =
 {
     # stop("Multi-column (e. g. matrix) data.frame elements currently not supported.")
     if (!is.null(r.obj)){
+        if(isTRUE(getOption(FIX_ENCODING))) {
+            r.obj = fix_encoding(r.obj)
+            na  = fix_encoding(na)
+        }
         xl.colnames = colnames(r.obj)
         column.numbers = sapply(r.obj,NCOL)
         if (any(column.numbers>1)) {
@@ -241,6 +230,10 @@ xl.write.data.frame = function(r.obj,xl.rng,na = "",row.names = TRUE,col.names =
 #' @rdname xl.write
 xl.write.default = function(r.obj,xl.rng,na = "",row.names = TRUE,...){
     if (is.null(r.obj) || length(r.obj) == 0) r.obj = ""
+    if(isTRUE(getOption(FIX_ENCODING))) {
+        r.obj = fix_encoding(r.obj)
+        na  = fix_encoding(na)
+    }
     obj.names = names(r.obj)
     if (!is.null(obj.names) & row.names){
         res = xl.raw.write(obj.names,xl.rng,na)+xl.raw.write(r.obj,xl.rng$offset(0,1),na)
@@ -255,7 +248,7 @@ xl.write.default = function(r.obj,xl.rng,na = "",row.names = TRUE,...){
 #' @export
 xl.write.factor = function(r.obj,xl.rng,na = "",row.names = TRUE,...){
     r.obj = as.character(r.obj)
-    xl.write.default(r.obj,xl.rng = xl.rng,na = na,row.names = row.names,...)
+    xl.write(r.obj,xl.rng = xl.rng,na = na,row.names = row.names,...)
 }
 
 #' @export
@@ -412,4 +405,125 @@ xl.raw.write.matrix = function(r.obj,xl.rng,na = "")
     # Semicolon: = False, Comma: = False, Space: = False, Other: = False, FieldInfo _
     # : = Array(1, 1), TrailingMinusNumbers: = True
     invisible(c(nrow(r.obj),ncol(r.obj)))
+}
+
+
+split_labels = function(x, remove_repeated = TRUE, split = "|", fixed = TRUE, perl = FALSE){
+    if(length(x)==0){
+        return(matrix(NA, ncol=0, nrow = 0))
+    }
+    if(length(x)==1 && x[1]=="") x[1] = " "
+    x_split = strsplit(x, split = split, fixed = fixed, perl = perl)
+    max_length = max(lengths(x_split))
+    x_split = lapply(x_split, function(each) {
+        if(length(each)<max_length){
+            each = c(each, rep(NA, max_length - length(each)))
+        }
+        each
+    })
+    res = do.call(rbind, x_split)
+    res[is.na(res)] = ""
+    if (remove_repeated){
+        for(i in rev(seq_len(nrow(res))[-1])){
+            repeats = res[i-1, ] ==  res[i, ]
+            first_no_repeat = which(!repeats)[1]-1
+            if(is.na(first_no_repeat)) first_no_repeat = NCOL(res)
+            if(!is.na(first_no_repeat) && first_no_repeat>0){
+                res[i, 1:first_no_repeat] = ""
+            }
+            
+        }
+    }
+    res    
+}
+
+#' @export
+xl.write.etable  = function(r.obj, xl.rng, na = "",  row.names = FALSE, col.names = TRUE, remove_repeated = TRUE, ...){
+    class(r.obj) = setdiff(class(r.obj), "etable")
+    header = t(split_labels(colnames(r.obj), remove_repeated = remove_repeated))[,-1, drop = FALSE]
+    row_labels = split_labels(r.obj[[1]], remove_repeated = remove_repeated)
+    # drop completely empty rows
+    header = header[rowSums(!is.na(header) &(header!=""))>0, , drop = FALSE]
+    top_left_corner = matrix(NA, ncol= NCOL(row_labels), nrow = NROW(header))
+    if(!is.null(colnames(r.obj)) && !(colnames(r.obj)[1] %in% c(NA,"row_labels",""))){
+        top_left_corner[nrow(top_left_corner), 1] = colnames(r.obj)[1]    
+    }
+    r.obj = r.obj[, -1, drop = FALSE]
+    if(col.names){
+        nxt = xl.write(top_left_corner, xl.rng, na = na, row.names = FALSE, col.names = FALSE)
+        rng = xl.rng$Offset(0, nxt[2])
+        xl.write(header, rng, na = na, row.names = FALSE, col.names = FALSE)
+        rng = xl.rng$Offset(nxt[1], 0)
+        xl.write(row_labels, rng, na = na, row.names = FALSE, col.names = FALSE)
+        rng = xl.rng$Offset(nxt[1] ,nxt[2])
+        nxt2 = xl.write(r.obj, rng, na = na, row.names = FALSE, col.names = FALSE)
+        invisible(nxt + nxt2)
+    } else {
+        rng = xl.rng
+        nxt = xl.write(row_labels, rng, na = na, row.names = FALSE, col.names = FALSE)
+        rng = xl.rng$Offset(0 ,nxt[2])
+        nxt2 = xl.write(r.obj, rng, na = na, row.names = FALSE, col.names = FALSE)
+        invisible(c(nxt[1], nxt[2] + nxt2[2]))
+    }
+}
+
+
+
+#########################
+
+
+fix_encoding = function(x){
+    UseMethod("fix_encoding")
+}
+
+#' @export
+fix_encoding.data.frame = function(x){
+    for (each in seq_along(x)){
+        x[[each]] = fix_encoding(x[[each]])
+    }
+    colnames(x) = fix_encoding(colnames(x))
+    rownames(x) = fix_encoding(rownames(x))
+    x
+}
+
+
+#' @export
+fix_encoding.matrix = function(x){
+    if(is.character(x) || is.factor(x)){
+        
+        res = matrix(enc2native(x), nrow = nrow(x), ncol = ncol(x))
+        if(!is.null(colnames(x))) colnames(res) = fix_encoding(colnames(x))
+        if(!is.null(rownames(x))) rownames(res) = fix_encoding(rownames(x))
+        return(res)
+    } else {
+        if(!is.null(colnames(x))) colnames(x) = fix_encoding(colnames(x))
+        if(!is.null(rownames(x))) rownames(x) = fix_encoding(rownames(x))
+        return(x)
+    }
+}
+
+#' @export
+fix_encoding.default = function(x){
+    if(!is.null(names(x))){
+        names(x) = fix_encoding(names(x))
+    }
+    if(is.character(x)){
+        enc = Encoding(x)
+        if(any(enc %in% c("UTF-8", "UTF8"))){
+            Encoding(x) = "UTF-8"
+            x = enc2native(x)
+        }
+    }
+    x
+}
+
+#' @export
+fix_encoding.list = function(x){
+    for (each in seq_along(x)){
+            x[[each]] = fix_encoding(x[[each]])
+    }
+    if(!is.null(names(x))){
+        names(x) = fix_encoding(names(x))
+    }
+    x
 }
