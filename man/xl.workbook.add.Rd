@@ -28,7 +28,7 @@ xl.workbook.close(xl.workbook.name = NULL)
 
 \item{xl.workbook.name}{character. Excel workbook name.}
 
-\item{full.name}{logical. Should we return full path to the workbook? FALSE,
+\item{full.names}{logical. Should we return full path to the workbook? FALSE,
 by default.}
 }
 \value{

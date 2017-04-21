@@ -11,12 +11,12 @@
 \title{Read/write from/to Excel current region.}
 \usage{
 xl.current.region(str.rng, drop = TRUE, na = "", row.names = FALSE,
-  col.names = FALSE)
+  col.names = FALSE, ...)
 
 \method{[[}{cr}(x, str.rng, drop = !(has.rownames(x) | has.colnames(x)),
-  na = "")
+  na = "", ...)
 
-\method{[[}{cr}(x, str.rng, na = "") <- value
+\method{[[}{cr}(x, str.rng, na = "", ...) <- value
 }
 \arguments{
 \item{str.rng}{character Excel range. For single bracket operations it can be
@@ -34,6 +34,8 @@ the row names as its first column.}
 
 \item{col.names}{logical value indicating whether the Excel range contains 
 the column names as its first row.}
+
+\item{...}{additional parameters. Not yet used.}
 
 \item{x}{One of \code{cr}, \code{crc}, \code{crr}, \code{crrc} objects. 
 \code{cr} - read/write with/without column and row names, "r" - with 

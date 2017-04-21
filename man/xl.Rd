@@ -15,20 +15,21 @@
 \title{Data exchange with running Microsoft Excel instance.}
 \usage{
 \method{[}{xl}(x, str.rng, drop = !(has.rownames(x) | has.colnames(x)),
-  na = "")
+  na = "", ...)
 
 \method{[[}{xl}(x, str.rng, drop = !(has.rownames(x) | has.colnames(x)),
-  na = "")
+  na = "", ...)
 
 \method{$}{xl}(x, str.rng)
 
-\method{[[}{xl}(x, str.rng, na = "") <- value
+\method{[[}{xl}(x, str.rng, na = "", ...) <- value
 
 \method{$}{xl}(x, str.rng) <- value
 
-\method{[}{xl}(x, str.rng, na = "") <- value
+\method{[}{xl}(x, str.rng, na = "", ...) <- value
 
-xl.selection(drop = TRUE, na = "", row.names = FALSE, col.names = FALSE)
+xl.selection(drop = TRUE, na = "", row.names = FALSE, col.names = FALSE,
+  ...)
 }
 \arguments{
 \item{x}{One of \code{xl}, \code{xlc}, \code{xlr}, \code{xlrc} objects. 
@@ -44,6 +45,8 @@ and rows names.}
 
 \item{na}{character. NA representation in Excel. By default it is empty 
 string.}
+
+\item{...}{additional parameters. Not yet used.}
 
 \item{value}{suitable replacement value. It will be recycled to fill excel 
 range only if it is object of length 1. In other cases size of excel range 

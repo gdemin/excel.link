@@ -24,7 +24,8 @@
 #' @param value suitable replacement value. All data will be placed in Excel
 #'   sheet starting from top-left cell of current region. Current region will be
 #'   cleared before writing.
-#'   
+#' @param ... additional parameters. Not yet used. 
+#' 
 #' @details \code{cr} object represents Microsoft Excel application. For 
 #'   convenient interactive usage arguments can be given without quotes in most 
 #'   cases (e. g. \code{cr[a1] = 5} or \code{cr[u2:u85] = "Hi"} or 
@@ -61,7 +62,7 @@
 #' 
 #' }
 #' @export
-xl.current.region = function(str.rng,drop = TRUE,na = "",row.names = FALSE,col.names = FALSE)
+xl.current.region = function(str.rng,drop = TRUE,na = "",row.names = FALSE,col.names = FALSE, ...)
     # return current region from Microsoft Excel (region selected when pressing Ctrl+Shift+*)
 {
     ex = xl.get.excel()
@@ -108,14 +109,14 @@ has.colnames(crrc) = TRUE
 
 #' @export
 #' @rdname xl.current.region
-'[[.cr' = function(x,str.rng,drop = !(has.rownames(x) | has.colnames(x)),na = "")
+'[[.cr' = function(x,str.rng,drop = !(has.rownames(x) | has.colnames(x)),na = "", ...)
     ### return current region from Microsoft Excel. range.name is character string in form of standard
     ### Excel reference, e. g. ['A1:B5'], ['Sheet1!F8'], ['[Book3]Sheet7!B1'] or range name 
     ### The difference with '[' is that value should be quoted string. It's intended to use in user define functions
     ### or in cases where value is string variable with Excel range 
 {
     xl.rng = x()$Range(str.rng)$CurrentRegion()
-    xl.read.range(xl.rng,drop = drop,row.names = has.rownames(x),col.names = has.colnames(x),na = na)
+    xl.read.range(xl.rng,drop = drop,row.names = has.rownames(x),col.names = has.colnames(x),na = na, ...)
 }
 
 
@@ -123,7 +124,7 @@ has.colnames(crrc) = TRUE
 
 #' @export
 #' @rdname xl.current.region
-'[[<-.cr' = function(x,str.rng,na = "",value)
+'[[<-.cr' = function(x,str.rng,na = "", ... , value)
 {
     xl.rng = x()$Range(str.rng)$CurrentRegion()
     xl.rng$Clear()

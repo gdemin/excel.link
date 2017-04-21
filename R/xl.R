@@ -26,6 +26,7 @@
 #'   range only if it is object of length 1. In other cases size of excel range 
 #'   is ignored - all data will be placed in Excel sheet starting from top-left 
 #'   cell of submitted range.
+#' @param ... additional parameters. Not yet used.  
 #'   
 #' @details \code{xl} object represents Microsoft Excel application. For 
 #'   convenient interactive usage arguments can be given without quotes in most 
@@ -43,7 +44,7 @@
 #'   All these functions never coerce characters to factors
 #'   
 #' @return Returns appropriate dataset from Excel. 
-#' @aliases xl xlrc xlc xlr
+#' @aliases xl xlrc xlc xlr xln xlrcn xlcn xlrn
 #' @seealso
 #' \code{\link{cr}}, \code{\link{xl.current.region}}, 
 #'   
@@ -64,14 +65,14 @@
 #' 
 #' }
 #' @export
-'[.xl' = function(x,str.rng,drop = !(has.rownames(x) | has.colnames(x)),na = "")
+'[.xl' = function(x,str.rng,drop = !(has.rownames(x) | has.colnames(x)),na = "", ...)
     ### return range from Microsoft Excel. range.name is character string in form of standard
     ### Excel reference, quotes can be omitted, e. g. [A1:B5], [Sheet1!F8], [[Book3]Sheet7!B1] or range name 
     ### Function is intended to use in interactive environement 
 {
     # str.rng = as.character(sys.call())[3]
     str.rng = as.character(as.expression(substitute(str.rng)))
-    x[[str.rng,drop = drop,na = na]]
+    x[[str.rng,drop = drop,na = na, ...]]
 }
 
 
@@ -96,6 +97,11 @@ xlc = xl
 #' @export
 xlr = xl
 
+#' @export
+xln = xl
+
+class(xln) = c('xln',class(xl))
+
 
 has.rownames(xl) = FALSE 
 has.colnames(xl) = FALSE 
@@ -109,17 +115,30 @@ has.colnames(xlr) = FALSE
 has.rownames(xlrc) = TRUE 
 has.colnames(xlrc) = TRUE 
 
+#######
+has.rownames(xln) = FALSE 
+has.colnames(xln) = FALSE 
+
+has.rownames(xlcn) = FALSE 
+has.colnames(xlcn) = TRUE 
+
+has.rownames(xlrn) = TRUE 
+has.colnames(xlrn) = FALSE 
+
+has.rownames(xlrcn) = TRUE 
+has.colnames(xlrcn) = TRUE 
+
 
 #' @export
 #' @rdname xl
-'[[.xl' = function(x,str.rng,drop = !(has.rownames(x) | has.colnames(x)),na = "")
+'[[.xl' = function(x,str.rng,drop = !(has.rownames(x) | has.colnames(x)),na = "", ...)
     ### return range from Microsoft Excel. range.name is character string in form of standard
     ### Excel reference, e. g. ['A1:B5'], ['Sheet1!F8'], ['[Book3]Sheet7!B1'] or range name 
     ### The difference with '[' is that value should be quoted string. It's intended to use in user define functions
     ### or in cases where value is string variable with Excel range 
 {
     xl.rng = x()$Range(str.rng)
-    xl.read.range(xl.rng,drop = drop,row.names = has.rownames(x),col.names = has.colnames(x),na = na)
+    xl.read.range(xl.rng,drop = drop,row.names = has.rownames(x),col.names = has.colnames(x),na = na, ...)
 }
 
 #' @export
@@ -136,10 +155,10 @@ has.colnames(xlrc) = TRUE
 
 #' @export
 #' @rdname xl
-'[[<-.xl' = function(x,str.rng,na = "",value)
+'[[<-.xl' = function(x,str.rng,na = "", ..., value)
 {
     xl.rng = x()$Range(str.rng)
-    xl.write(value,xl.rng,row.names = has.rownames(x),col.names = has.colnames(x),na = na)
+    xl.write(value,xl.rng,row.names = has.rownames(x),col.names = has.colnames(x),na = na, ...)
     x
 }
 
@@ -154,25 +173,25 @@ has.colnames(xlrc) = TRUE
 
 #' @export
 #' @rdname xl
-'[<-.xl' = function(x,str.rng,na = "",value)
+'[<-.xl' = function(x,str.rng,na = "", ..., value)
 {
     str.rng = as.character(as.expression(substitute(str.rng)))
-    x[[str.rng,na = na]] = value
+    x[[str.rng,na = na, ...]] = value
     x
 }
 
 #' @export
 #' @rdname xl
-xl.selection = function(drop = TRUE,na = "",row.names = FALSE,col.names = FALSE)
+xl.selection = function(drop = TRUE,na = "", row.names = FALSE, col.names = FALSE, ...)
     # return current selection from Microsoft Excel
 {
     ex = xl.get.excel()
     xl.rng = ex[['Selection']]
-    xl.read.range(xl.rng,drop = drop,na = na,row.names = row.names,col.names = col.names)
+    xl.read.range(xl.rng,drop = drop,na = na,row.names = row.names,col.names = col.names, ...)
 }
 
 
-xl.read.range = function(xl.rng,drop = TRUE,row.names = FALSE,col.names = FALSE,na = "")
+xl.read.range = function(xl.rng,drop = TRUE,row.names = FALSE,col.names = FALSE,na = "", ...)
     # return matrix/data.frame/vector from excel from given range
 {
     if (col.names && (xl.rng[["rows"]][["count"]]<2)) col.names = FALSE

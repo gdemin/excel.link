@@ -3,7 +3,7 @@
 #' @param filename character. Excel workbook filename.
 #' @param password character. Password for password-protected workbook.
 #' @param xl.workbook.name character. Excel workbook name.
-#' @param full.name logical. Should we return full path to the workbook? FALSE,
+#' @param full.names logical. Should we return full path to the workbook? FALSE,
 #'   by default.
 #'   
 #' @return \itemize{ 

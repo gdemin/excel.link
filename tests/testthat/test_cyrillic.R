@@ -23,6 +23,11 @@ expect_equal_to_reference(new_tab, "rds/cyrillic_2.rds")
 xl.workbook.close()
 xl.write(tab, xl()$Range("a1"), remove_repeated = FALSE)
 new_tab = cr[a3]
+expect_equal_to_reference(new_tab, "rds/cyrillic_3.rds")
+
+xl.workbook.close()
+xlrc[a1, remove_repeated = FALSE] = tab
+new_tab = cr[a3]
 
 expect_equal_to_reference(new_tab, "rds/cyrillic_3.rds")
 
