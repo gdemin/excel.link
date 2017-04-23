@@ -56,3 +56,37 @@ expect_equal(all(test2==xlrc[a1:f4]),TRUE)
 expect_identical(colnames(test2),colnames(xlrc[a1:f4]))
 
 xl.workbook.close()
+
+context("r.obj size")
+
+xl.workbook.add()
+xl[a1] <- (1:1048576)
+expect_error(xl[a1] <- (1:(1048576 + 1)))
+expect_error(xl[a2] <- (1:1048576))
+xl[a1] <- t(1:16384)
+expect_error(xl[a1] <- t(1:(16384+1)))
+expect_error(xl[b1] <- t(1:16384))
+
+xl.workbook.close()
+
+context("xln")
+
+xln[a1] = mtcars
+new_mtcars = cr[a2]
+expect_equal_to_reference(new_mtcars, "rds/xln1.rds")
+
+
+xlcn[a1, xl.sheet.name = "new sheet"] = mtcars
+xl.sheet.activate("new sheet")
+new_mtcars = cr[a2]
+expect_equal_to_reference(new_mtcars, "rds/xln2.rds")
+
+xlrcn[a1, xl.sheet.name = "previous sheet", before = "new sheet"] = mtcars
+xl.sheet.activate("previous sheet")
+new_mtcars = cr[a2]
+expect_equal_to_reference(new_mtcars, "rds/xln3.rds")
+
+xlrn[a1, before = "previous sheet"] = mtcars
+new_mtcars = cr[a2]
+expect_equal_to_reference(new_mtcars, "rds/xln4.rds")
+xl.workbook.close()

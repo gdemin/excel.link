@@ -6,11 +6,18 @@
 \alias{xlrc}
 \alias{xlc}
 \alias{xlr}
+\alias{xln}
+\alias{xlrcn}
+\alias{xlcn}
+\alias{xlrn}
 \alias{[[.xl}
 \alias{$.xl}
 \alias{[[<-.xl}
 \alias{$<-.xl}
 \alias{[<-.xl}
+\alias{[[<-.xln}
+\alias{$<-.xln}
+\alias{[<-.xln}
 \alias{xl.selection}
 \title{Data exchange with running Microsoft Excel instance.}
 \usage{
@@ -27,6 +34,14 @@
 \method{$}{xl}(x, str.rng) <- value
 
 \method{[}{xl}(x, str.rng, na = "", ...) <- value
+
+\method{[[}{xln}(x, str.rng, na = "", xl.sheet.name = NULL, before = NULL,
+  ...) <- value
+
+\method{$}{xln}(x, str.rng) <- value
+
+\method{[}{xln}(x, str.rng, na = "", xl.sheet.name = NULL, before = NULL,
+  ...) <- value
 
 xl.selection(drop = TRUE, na = "", row.names = FALSE, col.names = FALSE,
   ...)
@@ -53,6 +68,11 @@ range only if it is object of length 1. In other cases size of excel range
 is ignored - all data will be placed in Excel sheet starting from top-left 
 cell of submitted range.}
 
+\item{xl.sheet.name}{character. sheet name in active workbook (for \code{xl(*)n}).}
+
+\item{before}{character/numeric. sheet name or sheet number in active
+workbook before which new sheet will be added (for \code{xl(*)n}).}
+
 \item{row.names}{logical value indicating whether the Excel range contains 
 the row names as its first column.}
 
@@ -63,11 +83,13 @@ the column names as its first row.}
 Returns appropriate dataset from Excel.
 }
 \description{
-\code{xl}, \code{xlc}, \code{xlr}, \code{xlrc} objects are
-already defined in the package. It doesn't need to create or init them. Just
-after attaching package one can write something like this: \code{xl[a1] =
-"Hello, world!"} and this text should appears in \code{A1} cell on active
-sheet of active Excel workbook.
+\code{xl}, \code{xlc}, \code{xlr}, \code{xlrc} objects are already defined in
+the package. It doesn't need to create or init them. Just after attaching
+package one can write something like this: \code{xl[a1] = "Hello, world!"}
+and this text should appears in \code{A1} cell on active sheet of active
+Excel workbook. \code{xl(*)n} family of functions creates new worksheet for
+output. You can provide sheet name and position via
+\code{xl.sheet.name}/\code{before}.
 }
 \details{
 \code{xl} object represents Microsoft Excel application. For 

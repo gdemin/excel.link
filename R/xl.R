@@ -2,11 +2,13 @@
 #' @title Data exchange with running Microsoft Excel instance.
 #'   
 #' @description 
-#' \code{xl}, \code{xlc}, \code{xlr}, \code{xlrc} objects are
-#' already defined in the package. It doesn't need to create or init them. Just
-#' after attaching package one can write something like this: \code{xl[a1] =
-#' "Hello, world!"} and this text should appears in \code{A1} cell on active
-#' sheet of active Excel workbook.
+#' \code{xl}, \code{xlc}, \code{xlr}, \code{xlrc} objects are already defined in
+#' the package. It doesn't need to create or init them. Just after attaching
+#' package one can write something like this: \code{xl[a1] = "Hello, world!"}
+#' and this text should appears in \code{A1} cell on active sheet of active
+#' Excel workbook. \code{xl(*)n} family of functions creates new worksheet for
+#' output. You can provide sheet name and position via
+#' \code{xl.sheet.name}/\code{before}.
 #' 
 #' @param x One of \code{xl}, \code{xlc}, \code{xlr}, \code{xlrc} objects. 
 #'   \code{xl} - read/write with/without column and row names, "r" - with 
@@ -26,8 +28,11 @@
 #'   range only if it is object of length 1. In other cases size of excel range 
 #'   is ignored - all data will be placed in Excel sheet starting from top-left 
 #'   cell of submitted range.
+#' @param xl.sheet.name character. sheet name in active workbook (for \code{xl(*)n}).
+#' @param before character/numeric. sheet name or sheet number in active
+#'   workbook before which new sheet will be added (for \code{xl(*)n}).
 #' @param ... additional parameters. Not yet used.  
-#'   
+#'
 #' @details \code{xl} object represents Microsoft Excel application. For 
 #'   convenient interactive usage arguments can be given without quotes in most 
 #'   cases (e. g. \code{xl[a1] = 5} or \code{xl[u2:u85] = "Hi"} or 
@@ -97,12 +102,6 @@ xlc = xl
 #' @export
 xlr = xl
 
-#' @export
-xln = xl
-
-class(xln) = c('xln',class(xl))
-
-
 has.rownames(xl) = FALSE 
 has.colnames(xl) = FALSE 
 
@@ -116,6 +115,23 @@ has.rownames(xlrc) = TRUE
 has.colnames(xlrc) = TRUE 
 
 #######
+
+#### with new sheet ###########
+
+#' @export
+xln = xl
+
+class(xln) = c('xln',class(xl))
+
+#' @export
+xlrcn = xln
+
+#' @export
+xlcn = xln
+
+#' @export
+xlrn = xln
+
 has.rownames(xln) = FALSE 
 has.colnames(xln) = FALSE 
 
@@ -179,6 +195,40 @@ has.colnames(xlrcn) = TRUE
     x[[str.rng,na = na, ...]] = value
     x
 }
+
+#### with new worksheet ###############
+
+#' @export
+#' @rdname xl
+'[[<-.xln' = function(x,str.rng,na = "", xl.sheet.name = NULL, before = NULL, ..., value)
+{
+    xl.sheet.add(xl.sheet.name = xl.sheet.name, before = before)
+    xl.rng = x()$Range(str.rng)
+    xl.write(value,xl.rng,row.names = has.rownames(x),col.names = has.colnames(x),na = na, ...)
+    x
+}
+
+
+#' @export
+#' @rdname xl
+'$<-.xln' = function(x,str.rng,value)
+{
+    xl.sheet.add()
+    x[[str.rng]] = value
+    x
+}
+
+#' @export
+#' @rdname xl
+'[<-.xln' = function(x,str.rng,na = "", xl.sheet.name = NULL, before = NULL, ..., value)
+{
+    str.rng = as.character(as.expression(substitute(str.rng)))
+    x[[str.rng,na = na, xl.sheet.name = xl.sheet.name, before = before,  ...]] = value
+    x
+}
+
+
+#################################
 
 #' @export
 #' @rdname xl
