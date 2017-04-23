@@ -2,7 +2,7 @@ context("cyrillic encoding")
 
 
 options(excel.link.fix_encoding = TRUE)
-
+xl.workbook.close()
 xl[a1] = "привет" 
 
 expect_identical(xl[a1], "привет")

@@ -1,4 +1,5 @@
 make.me.quick = function(app){
+    app[["Statusbar"]] = "Data exchange with R..."
     app[["Screenupdating"]] = FALSE
     app[["Calculation"]] = -4135 # xlCalculationManual = -4135
     invisible(NULL)
@@ -6,6 +7,7 @@ make.me.quick = function(app){
 
 
 make.me.slow = function(app){
+    app[["Statusbar"]] = ""
     app[["Screenupdating"]] = TRUE
     app[["Calculation"]] = -4105 # xlCalculationAutomatic = -4105
     invisible(NULL)
@@ -37,4 +39,10 @@ names_to_matrix = function(name,splitter = "|")
 }
 
 
-
+## stop if condition with message
+stopif = function(cond,...){
+    if (cond) {
+        stop(do.call(paste0,c(list(...))),call. = FALSE)
+    }
+    invisible()
+}

@@ -1,4 +1,6 @@
 FIX_ENCODING = "excel.link.fix_encoding"
+EXCEL_MAX_ROWS = 1048576
+EXCEL_MAX_COLS = 16384
 
 #' Methods for writing data to Excel sheet
 #' 
@@ -146,6 +148,7 @@ xl.write.matrix = function(r.obj,xl.rng,na = "",row.names = TRUE,col.names = TRU
     ## insert matrix into excel sheet including column and row names
 {
     if (!is.null(r.obj)){
+        check_size(r.obj = r.obj, xl.rng = xl.rng, row.names = row.names, col.names = col.names)
         if(isTRUE(getOption(FIX_ENCODING))) {
             r.obj = fix_encoding(r.obj)
             na  = fix_encoding(na)
@@ -197,6 +200,7 @@ xl.write.data.frame = function(r.obj,xl.rng,na = "",row.names = TRUE,col.names =
             r.obj = fix_encoding(r.obj)
             na  = fix_encoding(na)
         }
+        check_size(r.obj = r.obj, xl.rng = xl.rng, row.names = row.names, col.names = col.names)
         xl.colnames = colnames(r.obj)
         column.numbers = sapply(r.obj,NCOL)
         if (any(column.numbers>1)) {
@@ -234,6 +238,7 @@ xl.write.default = function(r.obj,xl.rng,na = "",row.names = TRUE,...){
         r.obj = fix_encoding(r.obj)
         na  = fix_encoding(na)
     }
+    check_size(r.obj = r.obj, xl.rng = xl.rng, row.names = row.names)
     obj.names = names(r.obj)
     if (!is.null(obj.names) & row.names){
         res = xl.raw.write(obj.names,xl.rng,na)+xl.raw.write(r.obj,xl.rng$offset(0,1),na)
@@ -281,7 +286,50 @@ xl.write.table = function(r.obj,xl.rng,na = "",row.names = TRUE,col.names = TRUE
 # invisible(xl.write(format(r.obj,nsmall = 20,quote = FALSE),xl.rng,na))
 # }
 
+#' @export
+xl.write.etable  = function(r.obj, xl.rng, na = "",  row.names = FALSE, col.names = TRUE, remove_repeated = TRUE, ...){
+    class(r.obj) = setdiff(class(r.obj), "etable")
+    header = t(split_labels(colnames(r.obj), remove_repeated = remove_repeated))[,-1, drop = FALSE]
+    row_labels = split_labels(r.obj[[1]], remove_repeated = remove_repeated)
+    # drop completely empty rows
+    header = header[rowSums(!is.na(header) &(header!=""))>0, , drop = FALSE]
+    top_left_corner = matrix(NA, ncol= NCOL(row_labels), nrow = NROW(header))
+    if(!is.null(colnames(r.obj)) && !(colnames(r.obj)[1] %in% c(NA,"row_labels",""))){
+        top_left_corner[nrow(top_left_corner), 1] = colnames(r.obj)[1]    
+    }
+    r.obj = r.obj[, -1, drop = FALSE]
+    if(col.names){
+        nxt = xl.write(top_left_corner, xl.rng, na = na, row.names = FALSE, col.names = FALSE)
+        rng = xl.rng$Offset(0, nxt[2])
+        xl.write(header, rng, na = na, row.names = FALSE, col.names = FALSE)
+        rng = xl.rng$Offset(nxt[1], 0)
+        xl.write(row_labels, rng, na = na, row.names = FALSE, col.names = FALSE)
+        rng = xl.rng$Offset(nxt[1] ,nxt[2])
+        nxt2 = xl.write(r.obj, rng, na = na, row.names = FALSE, col.names = FALSE)
+        invisible(nxt + nxt2)
+    } else {
+        rng = xl.rng
+        nxt = xl.write(row_labels, rng, na = na, row.names = FALSE, col.names = FALSE)
+        rng = xl.rng$Offset(0 ,nxt[2])
+        nxt2 = xl.write(r.obj, rng, na = na, row.names = FALSE, col.names = FALSE)
+        invisible(c(nxt[1], nxt[2] + nxt2[2]))
+    }
+}
 
+#####################
+
+check_size = function(r.obj, xl.rng, row.names = FALSE, col.names  = FALSE){
+    row_offset = xl.rng[["row"]] - 1
+    col_offset = xl.rng[["column"]] - 1
+    stopif((NROW(r.obj) + col.names + row_offset) > EXCEL_MAX_ROWS, 
+           sprintf("'r.obj' (nrows = %s) doesn't fitted in Excel worksheet (max. rows = %s)",
+                   NROW(r.obj), EXCEL_MAX_ROWS))
+    stopif((NCOL(r.obj) + row.names + col_offset) > EXCEL_MAX_COLS, 
+           sprintf("'r.obj' (ncols = %s) doesn't fitted in Excel worksheet (max. columns = %s)",
+                   NCOL(r.obj), EXCEL_MAX_COLS))
+}
+
+##############################
 
 xl.writerow = function(r.obj,xl.rng,na = "")
     ## special function for writing single row on excel sheet
@@ -298,6 +346,7 @@ xl.writerow = function(r.obj,xl.rng,na = "")
 }
 
 
+##########################
 
 xl.raw.write = function(r.obj,xl.rng,na = ""){
     UseMethod('xl.raw.write')
@@ -435,36 +484,6 @@ split_labels = function(x, remove_repeated = TRUE, split = "|", fixed = TRUE, pe
         }
     }
     res    
-}
-
-#' @export
-xl.write.etable  = function(r.obj, xl.rng, na = "",  row.names = FALSE, col.names = TRUE, remove_repeated = TRUE, ...){
-    class(r.obj) = setdiff(class(r.obj), "etable")
-    header = t(split_labels(colnames(r.obj), remove_repeated = remove_repeated))[,-1, drop = FALSE]
-    row_labels = split_labels(r.obj[[1]], remove_repeated = remove_repeated)
-    # drop completely empty rows
-    header = header[rowSums(!is.na(header) &(header!=""))>0, , drop = FALSE]
-    top_left_corner = matrix(NA, ncol= NCOL(row_labels), nrow = NROW(header))
-    if(!is.null(colnames(r.obj)) && !(colnames(r.obj)[1] %in% c(NA,"row_labels",""))){
-        top_left_corner[nrow(top_left_corner), 1] = colnames(r.obj)[1]    
-    }
-    r.obj = r.obj[, -1, drop = FALSE]
-    if(col.names){
-        nxt = xl.write(top_left_corner, xl.rng, na = na, row.names = FALSE, col.names = FALSE)
-        rng = xl.rng$Offset(0, nxt[2])
-        xl.write(header, rng, na = na, row.names = FALSE, col.names = FALSE)
-        rng = xl.rng$Offset(nxt[1], 0)
-        xl.write(row_labels, rng, na = na, row.names = FALSE, col.names = FALSE)
-        rng = xl.rng$Offset(nxt[1] ,nxt[2])
-        nxt2 = xl.write(r.obj, rng, na = na, row.names = FALSE, col.names = FALSE)
-        invisible(nxt + nxt2)
-    } else {
-        rng = xl.rng
-        nxt = xl.write(row_labels, rng, na = na, row.names = FALSE, col.names = FALSE)
-        rng = xl.rng$Offset(0 ,nxt[2])
-        nxt2 = xl.write(r.obj, rng, na = na, row.names = FALSE, col.names = FALSE)
-        invisible(c(nxt[1], nxt[2] + nxt2[2]))
-    }
 }
 
 
