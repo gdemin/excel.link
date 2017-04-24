@@ -124,11 +124,15 @@ has.colnames(crrc) = TRUE
 
 #' @export
 #' @rdname xl.current.region
-'[[<-.cr' = function(x,str.rng,na = "", ... , value)
+'[[<-.cr' = function(x, str.rng, na = "", ... , value)
 {
     xl.rng = x()$Range(str.rng)$CurrentRegion()
-    xl.rng$Clear()
-    xl.write(value,xl.rng$Cells(1,1),row.names = has.rownames(x),col.names = has.colnames(x),na = na)
+    if(inherits(value, "xl.property")) {
+        xl.write(value, xl.rng)
+    } else {
+        xl.rng$Clear()
+        xl.write(value,xl.rng$Cells(1,1),row.names = has.rownames(x),col.names = has.colnames(x),na = na)
+    }
     x
 }
 

@@ -1,6 +1,37 @@
+#' Excel constants and helper function for setting Excel range properties. 
+#'
+#' \code{xl.constants} is a list with (surprise!) Excel named constants. 
+#' 
+#' @param ... names of arguments are properties as in Excel VBA, values are properties values.
+#'
+#' @return list of class \code{xl.property}.
+#' 
+#' @examples
+#' \dontrun{
+#' # create random matrix
+#' rand_mat = matrix(runif(16), ncol = 4)
+#' 
+#' # put it on the new worksheet
+#' xln[a1] = rand_mat 
+#' 
+#' # set bold font, format numbers as percent and align it
+#' cr[a1] = xl.property(Font.Bold = TRUE, 
+#'                      NumberFormat = "0.00%", 
+#'                      HorizontalAlignment = xl.constants$xlCenter
+#'                      )
+#' }
 #' @export
-xl.constants = 
-    list(
+xl.property = function(...){
+    curr_names = names(list(...))
+    stopif(is.null(curr_names) || any(curr_names==""), "There are no names for some properties.")
+    res = list(...)
+    class(res) = union("xl.property", class(res))
+    res
+}
+
+#' @export
+#' @rdname xl.property
+xl.constants = list(
         xlAll = -4104,
         xlAutomatic = -4105,
         xlBoth = 1,

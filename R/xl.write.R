@@ -63,6 +63,23 @@ xl.write = function(r.obj,xl.rng,na = "",...)
     UseMethod("xl.write")
 }
 
+#' @export
+xl.write.xl.property = function(r.obj, xl.rng, ...){
+    for(each_item in seq_along(r.obj)){
+        each_name = names(r.obj)[each_item]
+        properties = unlist(strsplit(each_name, split = ".", fixed = TRUE))
+        curr_obj = xl.rng
+        num_of_properties = length(properties)
+        if(num_of_properties>1){
+            for(each in properties[-num_of_properties]){
+                curr_obj = curr_obj[[each]]    
+            }
+        }
+        curr_obj[[properties[num_of_properties]]] = r.obj[[each_item]]
+    } 
+    invisible(c(xl.rng[["rows"]][["count"]], xl.rng[["columns"]][["count"]]))
+}
+
 
 #' @export
 #' @rdname xl.write

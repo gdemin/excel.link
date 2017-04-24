@@ -85,18 +85,22 @@ xl.bind.range = function(sym, str.range, drop = TRUE, na = "", row.names = FALSE
         } else {
             if(is.null(value)){
                 cat(paste0(xl.rng$address(External = TRUE),
-                    "\n", xl.rng$rows()$count(),
-                    "\n", xl.rng$columns()$count()))        
+                           "\n", xl.rng$rows()$count(),
+                           "\n", xl.rng$columns()$count()))        
             } else {
-                xl.rng$clear()
-                if(is.atomic(value) && length(value)<2 && is.null(attributes(value))){
-                    res = xl.write(value,xl.rng$cells(1,1), na = na, row.names = row.names, col.names = col.names)
+                if(inherits(value, "xl.property")) {
+                    res = xl.write(value, xl.rng)
                 } else {
-                    res = xl.write(value,xl.rng, na = na, row.names = row.names, col.names = col.names)
-                } 
-                if (res[1]>0) res[1] = res[1] - 1
-                if (res[2]>0) res[2] = res[2] - 1
-                xl.rng <<- xl$range(xl.rng$cells(1,1),xl.rng$cells(1,1)$offset(res[1],res[2]))
+                    xl.rng$clear()
+                    if(is.atomic(value) && length(value)<2 && is.null(attributes(value))){
+                        res = xl.write(value,xl.rng$cells(1,1), na = na, row.names = row.names, col.names = col.names)
+                    } else {
+                        res = xl.write(value,xl.rng, na = na, row.names = row.names, col.names = col.names)
+                    } 
+                    if (res[1]>0) res[1] = res[1] - 1
+                    if (res[2]>0) res[2] = res[2] - 1
+                    xl.rng <<- xl$range(xl.rng$cells(1,1),xl.rng$cells(1,1)$offset(res[1],res[2]))
+                }
             }
         }
     }
@@ -126,12 +130,15 @@ xl.bind.current.region = function(sym, str.range, drop = TRUE, na = "", row.name
             if(is.null(value)){
                 
                 cat(paste0(xl.rng$currentregion()$address(External = TRUE),
-                    "\n",xl.rng$currentregion()$rows()$count(),
-                    "\n",xl.rng$currentregion()$columns()$count()))
+                           "\n",xl.rng$currentregion()$rows()$count(),
+                           "\n",xl.rng$currentregion()$columns()$count()))
             } else {
-                curr.rng$clear()
-                xl.write(value,curr.rng$cells(1,1), na = na, row.names = row.names, col.names = col.names)
-                
+                if(inherits(value, "xl.property")) {
+                    res = xl.write(value, curr.rng)
+                } else {
+                    curr.rng$clear()
+                    xl.write(value,curr.rng$cells(1,1), na = na, row.names = row.names, col.names = col.names)
+                }
             }
         }
     }
