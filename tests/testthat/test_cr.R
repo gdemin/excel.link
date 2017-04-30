@@ -20,7 +20,7 @@ cr[a1] = bbb
 expect_equal(all(bbb==cr$a1),TRUE)
 new_bbb = data.frame(rbind(bbb,NA),NA)
 colnames(new_bbb) = letters[1:4]
-rownames(new_bbb) = as.character(1:4)
+rownames(new_bbb) = NULL
 expect_equal(xl[a1:d4],new_bbb)
 xl.workbook.close()
 
