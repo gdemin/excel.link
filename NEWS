@@ -1,4 +1,4 @@
-0.9.6 (24.04.2017)
+0.9.7 (30.04.2017)
 ===============
 * Add option to get full path to workbooks (https://github.com/gdemin/excel.link/issues/7)
 * Now xl.workbook.open doesn't try to open already open workbook (https://github.com/gdemin/excel.link/issues/6)
