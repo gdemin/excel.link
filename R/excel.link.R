@@ -49,7 +49,7 @@
 NULL
 
 
-#' @useDynLib excel.link,.registration = TRUE
+#' @useDynLib "excel.link",.registration = TRUE
 #' @import methods grDevices utils
 
 

@@ -28,7 +28,7 @@ storage.mode(DispatchMethods) <- "integer"
 .COMInit <-
 function(status = TRUE)
 {
- .Call("R_initCOM", as.logical(status), PACKAGE = "excel.link")
+ .Call(R_initCOM, as.logical(status))
 }
 
 
@@ -46,7 +46,7 @@ function(name, ..., existing = TRUE)
      return(ans)
  }
 
- ans <- .Call("R_create", name, PACKAGE = "excel.link")
+ ans <- .Call(R_create, name)
  if(is.character(ans))
      stop(ans)
 
@@ -89,7 +89,7 @@ function(guid, force = TRUE, silent = FALSE)
      guid = paste("{", guid, "}", sep = "")
    }
 
-  ans = .Call("R_connect", guid, TRUE, PACKAGE = "excel.link")
+  ans = .Call(R_connect, guid, TRUE)
 
   if(is.character(ans)) {
     if(!force) {
@@ -121,7 +121,7 @@ getCOMInstance_hWnd =
             guid = paste("{", guid, "}", sep = "")
         }
         
-        ans = .Call("R_connect_hWnd", guid, as.integer(hWnd), FALSE, PACKAGE = "excel.link")
+        ans = .Call(R_connect_hWnd, guid, as.integer(hWnd), FALSE)
         
 #         if(is.character(ans)) {
 #             if(!force) {
@@ -151,7 +151,7 @@ getCLSID =
 #XXX Should be a UUID.
 function(appName)
 {
-  .Call("R_getCLSIDFromName", as.character(appName), PACKAGE = "excel.link")
+  .Call(R_getCLSIDFromName, as.character(appName))
 }
 
 
@@ -192,7 +192,7 @@ setMethod("[[", c("COMIDispatch", "numeric"),
 setMethod("[[", "COMIDispatch",
 	      function(x, i, j, ...) {
 # if i is numeric, can check if there is an Item() method.
-	       .Call("R_getProperty", x, as.character(i), NULL, integer(0), PACKAGE = "excel.link")
+	       .Call(R_getProperty, x, as.character(i), NULL, integer(0))
 	      })
 
 # @export
@@ -212,9 +212,9 @@ if(length(i) > 1) {
   tmp = x
   for(id in i[-length(i)])
      tmp = tmp[[ id ]]
-  .Call("R_setProperty", tmp, as.character(i[length(i)]), list(value), integer(0), PACKAGE = "excel.link")
+  .Call(R_setProperty, tmp, as.character(i[length(i)]), list(value), integer(0))
 } else
-              .Call("R_setProperty", x, as.character(i), list(value), integer(0), PACKAGE = "excel.link")
+              .Call(R_setProperty, x, as.character(i), list(value), integer(0))
 	      x
   	    })
 
@@ -238,8 +238,8 @@ function(obj, name,  ..., .dispatch = as.integer(3), .return = TRUE, .ids=numeri
  .args = list(...)
  if(!missing(.suppliedArgs))
       .args =  .args[!is.na(.suppliedArgs)]
- val = .Call("R_Invoke", obj, as.character(name), .args,
-	  	as.integer(.dispatch), as.logical(.return), as.numeric(.ids), PACKAGE = "excel.link")
+ val = .Call(R_Invoke, obj, as.character(name), .args,
+	  	as.integer(.dispatch), as.logical(.return), as.numeric(.ids))
 
  val
 }
@@ -250,7 +250,7 @@ asCOMArray <-
 function(obj)
 {
  obj <- as.matrix(obj)
- .Call("R_create2DArray", obj, PACKAGE = "excel.link")
+ .Call(R_create2DArray, obj)
 }
 
 
@@ -263,7 +263,7 @@ function(obj)
   if(!is(obj, "COMIDispatch"))
     return(FALSE)
 
-  if(!.Call("R_isValidCOMObject", obj, PACKAGE = "excel.link"))
+  if(!.Call(R_isValidCOMObject, obj))
     return(FALSE)
 
    # Now run the .COM(obj, "isValidObject")
