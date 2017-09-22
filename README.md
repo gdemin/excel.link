@@ -1,5 +1,9 @@
 excel.link
 ==========
+
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/excel.link)](https://cran.r-project.org/package=excel.link)
+[![](http://cranlogs.r-pkg.org/badges/excel.link)](http://cran.rstudio.com/web/packages/excel.link/index.html)
+
 ### Convenient Data Exchange with Microsoft Excel
 Allows access to data in running instance of Microsoft Excel
  (e. g. `xl[a1] = xl[b2]*3` and so on). Graphics can be transferred with 
