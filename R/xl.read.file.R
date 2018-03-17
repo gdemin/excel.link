@@ -18,6 +18,7 @@
 #' @param na character. NA representation in Excel. By default it is empty
 #'   string.
 #' @param password character. Password for password-protected workbook.
+#' @param write.res.password character. Second password for editing workbook.
 #' @param excel.visible a logical value indicating will Excel visible during
 #'   this operations. FALSE by default.
 #'   
@@ -73,7 +74,7 @@
 #' @export
 xl.read.file = function(filename, header = TRUE, row.names = NULL, col.names = NULL, 
                         xl.sheet = NULL,top.left.cell = "A1", na = "",
-                        password = NULL,
+                        password = NULL, write.res.password = NULL,
                         excel.visible = FALSE)
     # read data from excel file filename - name of the file header if TRUE First
     # row treated as colnames and if top.left.cell is empty then first column
@@ -94,13 +95,20 @@ xl.read.file = function(filename, header = TRUE, row.names = NULL, col.names = N
     } else {
         path = normalizePath(filename,mustWork = TRUE)  
     }
-        
-    if(is.null(password)){
-        xl_wb = xl_temp[["Workbooks"]]$Open(path)
-    } else {
-        xl_wb = xl_temp[["Workbooks"]]$Open(path, 
-                                            password = password)   
-    }
+    passwords =paste(!is.null(password), !is.null(write.res.password), sep = "_") 
+    xl_wb = switch(passwords, 
+                   FALSE_FALSE = xl_temp[["Workbooks"]]$Open(path),
+                   TRUE_FALSE = xl_temp[["Workbooks"]]$Open(path, 
+                                                       password = password
+                   ),
+                   FALSE_TRUE = xl_temp[["Workbooks"]]$Open(path, 
+                                                       writerespassword = write.res.password
+                   ),
+                   TRUE_TRUE = xl_temp[["Workbooks"]]$Open(path, 
+                                                      password = password, 
+                                                      writerespassword = write.res.password
+                   )
+    )    
     # on.exit(xl_wb$close())
     # on.exit(xl_temp$quit(),add = TRUE)
     if (!is.null(xl.sheet)){
@@ -146,7 +154,8 @@ xl.read.file = function(filename, header = TRUE, row.names = NULL, col.names = N
 #' @rdname xl.read.file
 xl.save.file = function(r.obj,filename, row.names = TRUE, col.names = TRUE, 
                         xl.sheet = NULL, top.left.cell = "A1", na = "",
-                        password = NULL,
+                        password = NULL, 
+                        write.res.password = NULL,
                         excel.visible = FALSE)
 {
     xl_temp = COMCreate("Excel.Application",existing = FALSE)
@@ -164,10 +173,19 @@ xl.save.file = function(r.obj,filename, row.names = TRUE, col.names = TRUE,
     top_left_corner = xl_temp$range(top.left.cell)
     xl.write(r.obj,xl.rng = top_left_corner,row.names = row.names,col.names = col.names,na = na)
     path = normalizePath(filename,mustWork = FALSE)
-    if(is.null(password)){
-        xl_temp[["ActiveWorkbook"]]$SaveAs(path)
-    } else {
-        xl_temp[["ActiveWorkbook"]]$SaveAs(path, password = password)
-    }
+    passwords =paste(!is.null(password), !is.null(write.res.password), sep = "_") 
+    switch(passwords, 
+           FALSE_FALSE = xl_temp[["ActiveWorkbook"]]$SaveAs(path),
+           TRUE_FALSE = xl_temp[["ActiveWorkbook"]]$SaveAs(path, 
+                                                           password = password
+           ),
+           FALSE_TRUE = xl_temp[["ActiveWorkbook"]]$SaveAs(path, 
+                                                           writerespassword = write.res.password
+           ),
+           TRUE_TRUE = xl_temp[["ActiveWorkbook"]]$SaveAs(path, 
+                                                          password = password, 
+                                                          writerespassword = write.res.password
+           )
+    ) 
     invisible(NULL)
 }

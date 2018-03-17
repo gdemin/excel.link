@@ -1,8 +1,9 @@
 0.9.8 (30.04.2018)
 ===============
+* Add argument 'write.res.password' for xl.workbook.open/xl.workbook.save/xl.read.file/xl.save.file for reading/writing Excel files with second password (issue #11)
 * Add new function: xl.sheet.name - for getting/setting active sheet name 
-* Add new function: xl.sheet.duplicate
-* Now in R_Connection_Examples.xlsm we use default version of R, not 32-bit version
+* Add new function: xl.sheet.duplicate (issue #14)
+* Now in R_Connection_Examples.xlsm we use default version of R, not 32-bit version (issue #13)
 
 0.9.7 (30.04.2017)
 ===============

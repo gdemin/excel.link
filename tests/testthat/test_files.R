@@ -50,3 +50,25 @@ xl.save.file(list(t(seq_along(iris)),iris),filename,xl.sheet="iris",top.left.cel
 xl.iris=xl.read.file(filename,header=FALSE,xl.sheet="iris",top.left.cell="e26")
 expect_equal(all(iris==xl.iris),TRUE) 
 unlink(filename)
+
+######################
+context("xl.read.file/xl.save.file with passwords")
+filename = "iris.xlsx"
+data(iris)
+test_iris = iris
+test_iris$Species = as.character(test_iris$Species)
+rownames(test_iris) = as.character(1:150)
+
+xl.save.file(test_iris,filename, password = "read_password")
+new_iris = xl.read.file(filename, password = "read_password")
+expect_identical(test_iris, new_iris)
+
+xl.save.file(test_iris,filename, password = "read_password", write.res.password = "edit_password")
+new_iris = xl.read.file(filename, password = "read_password", write.res.password = "edit_password")
+expect_identical(test_iris, new_iris)
+
+xl.save.file(test_iris,filename, write.res.password = "edit_password")
+new_iris = xl.read.file(filename, write.res.password = "edit_password")
+expect_identical(test_iris, new_iris)
+
+unlink("iris.xlsx")

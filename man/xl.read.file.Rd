@@ -7,11 +7,11 @@
 \usage{
 xl.read.file(filename, header = TRUE, row.names = NULL, col.names = NULL,
   xl.sheet = NULL, top.left.cell = "A1", na = "", password = NULL,
-  excel.visible = FALSE)
+  write.res.password = NULL, excel.visible = FALSE)
 
 xl.save.file(r.obj, filename, row.names = TRUE, col.names = TRUE,
   xl.sheet = NULL, top.left.cell = "A1", na = "", password = NULL,
-  excel.visible = FALSE)
+  write.res.password = NULL, excel.visible = FALSE)
 }
 \arguments{
 \item{filename}{a character}
@@ -38,6 +38,8 @@ default is 'A1'.}
 string.}
 
 \item{password}{character. Password for password-protected workbook.}
+
+\item{write.res.password}{character. Second password for editing workbook.}
 
 \item{excel.visible}{a logical value indicating will Excel visible during
 this operations. FALSE by default.}
