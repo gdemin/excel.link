@@ -2,12 +2,15 @@
 % Please edit documentation in R/xl.sheet.add.R
 \name{xl.sheet.add}
 \alias{xl.sheet.add}
+\alias{xl.sheet.duplicate}
 \alias{xl.sheets}
 \alias{xl.sheet.activate}
 \alias{xl.sheet.delete}
 \title{Basic operations with worksheets.}
 \usage{
 xl.sheet.add(xl.sheet.name = NULL, before = NULL)
+
+xl.sheet.duplicate(before = NULL)
 
 xl.sheets()
 
@@ -26,8 +29,8 @@ workbook}
 }
 \value{
 \itemize{
-\item{\code{xl.sheet.add}/\code{xl.sheet.activate}}{ invisibly return name of 
-created/activated sheet.}
+\item{\code{xl.sheet.add}/\code{xl.sheet.activate}/\code{xl.sheet.duplicate}}{
+invisibly return name of created/activated/duplicated sheet.}
 \item{\code{xl.sheets}}{ returns vector of sheet names in active workbook.}
 \item{\code{xl.sheet.delete}}{ invisibly returns NULL.}
 }
@@ -44,8 +47,9 @@ argument is missing, sheet will be added at the last position. If sheet with
 given name already exists error will be generated.}
 \item{\code{xl.sheet.activate}}{ activates sheet with given name/number. If 
 sheet with this name doesn't exist error will be generated.}
+\item{\code{xl.sheet.duplicate}}{ duplicates active sheet.} 
 \item{\code{xl.sheet.delete}}{ deletes sheet with given
-name/number. If name doesn't submitted it delete active sheet.} 
+name/number. If name doesn't submitted it delete active sheet.}
 }
 }
 \examples{
@@ -57,6 +61,7 @@ xl.sheet.add("Second")
 xl.sheet.add("First", before="Second")
 for (sheet in sheets) xl.sheet.delete(sheet) # only 'First' and 'Second' exist in workbook now
 xl.sheet.activate("Second") #last sheet activated 
+xl.sheet.duplicate() # duplicate second sheet
 
 }
 }

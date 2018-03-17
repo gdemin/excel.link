@@ -14,14 +14,15 @@
 #' given name already exists error will be generated.}
 #' \item{\code{xl.sheet.activate}}{ activates sheet with given name/number. If 
 #' sheet with this name doesn't exist error will be generated.}
+#' \item{\code{xl.sheet.duplicate}}{ duplicates active sheet.} 
 #' \item{\code{xl.sheet.delete}}{ deletes sheet with given
-#' name/number. If name doesn't submitted it delete active sheet.} 
+#' name/number. If name doesn't submitted it delete active sheet.}
 #' }
 #' 
 #' @return
 #' \itemize{
-#' \item{\code{xl.sheet.add}/\code{xl.sheet.activate}}{ invisibly return name of 
-#' created/activated sheet.}
+#' \item{\code{xl.sheet.add}/\code{xl.sheet.activate}/\code{xl.sheet.duplicate}}{
+#' invisibly return name of created/activated/duplicated sheet.}
 #' \item{\code{xl.sheets}}{ returns vector of sheet names in active workbook.}
 #' \item{\code{xl.sheet.delete}}{ invisibly returns NULL.}
 #' }
@@ -38,6 +39,7 @@
 #' xl.sheet.add("First", before="Second")
 #' for (sheet in sheets) xl.sheet.delete(sheet) # only 'First' and 'Second' exist in workbook now
 #' xl.sheet.activate("Second") #last sheet activated 
+#' xl.sheet.duplicate() # duplicate second sheet
 #' 
 #' }
 #' @export
@@ -59,6 +61,26 @@ xl.sheet.add = function(xl.sheet.name = NULL,before = NULL)
     }   
     invisible(res[['Name']])
 }
+
+
+#' @export
+#' @rdname xl.sheet.add
+xl.sheet.duplicate = function(before = NULL)
+{
+    ex = xl.get.excel()
+    sheets = tolower(xl.sheets())
+    if (is.null(before)) {
+        sh.count = ex[['ActiveWorkbook']][['Sheets']][['Count']]
+        ex[['ActiveWorkbook']][['Activesheet']]$copy(after = ex[['ActiveWorkbook']][['Sheets']][[sh.count]])
+    } else {
+        before = xl.sheet.exists(before,sheets)
+        before = ex[['ActiveWorkbook']][['Sheets']][[before]]
+        ex[['ActiveWorkbook']][['Activesheet']]$copy(before = before)
+    } 
+    invisible(ex[['ActiveWorkbook']][['Activesheet']][['Name']])
+}
+
+
 
 #' @export
 #' @rdname xl.sheet.add
@@ -91,7 +113,7 @@ xl.sheet.exists = function(xl.sheet,all.sheets = xl.sheets())
 }
 
 
-
+#' @export
 xl.sheet.exists.numeric = function(xl.sheet,all.sheets = xl.sheets())
 {
     if (xl.sheet>length(all.sheets)) stop ("too large sheet number. In workbook only ",length(all.sheets)," sheet(s)." )
@@ -99,13 +121,14 @@ xl.sheet.exists.numeric = function(xl.sheet,all.sheets = xl.sheets())
 }
 
 
-
+#' @export
 xl.sheet.exists.character = function(xl.sheet,all.sheets = xl.sheets())
 {
     xl.sheet = which(tolower(xl.sheet) == tolower(all.sheets)) 
     if (length(xl.sheet) == 0) stop ("sheet ",xl.sheet," doesn't exist." )
     xl.sheet
 }
+
 
 
 #' @export
@@ -125,4 +148,3 @@ xl.sheet.delete = function(xl.sheet = NULL)
     xl.sh$Delete()
     invisible(NULL)
 }
-
