@@ -20,7 +20,7 @@ expect_identical(gsub("^(.+?)!","",xl.binding.address(cra1)$address,perl=TRUE), 
 
 a1 = iris
 expect_identical(a1, cra1)
-xl.sheet.activate(2)
+xl.sheet.add()
 expect_equal_to_reference(cra1, "rds/cra2.rds")
 expect_identical(gsub("^(.+?)!","",xl.binding.address(a1)$address,perl=TRUE), "$A$1:$E$150")
 expect_identical(gsub("^(.+?)!","",xl.binding.address(cra1)$address,perl=TRUE), "$A$1:$E$150")

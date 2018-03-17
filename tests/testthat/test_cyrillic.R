@@ -3,9 +3,9 @@ context("cyrillic encoding")
 
 options(excel.link.fix_encoding = TRUE)
 xl.workbook.close()
-xl[a1] = "привет" 
+xl[a1] = "РїСЂРёРІРµС‚" 
 
-expect_identical(xl[a1], "привет")
+expect_identical(xl[a1], "РїСЂРёРІРµС‚")
 xl[a1] = NA
 
 tab  = readRDS("rds/cro_real1.rds")
@@ -39,7 +39,7 @@ new_tab = cr[a3]
 expect_equal_to_reference(new_tab, "rds/cyrillic_4.rds")
 
 xl.workbook.close()
-colnames(tab)[1] = "Мое новое имя"
+colnames(tab)[1] = "РњРѕРµ РЅРѕРІРѕРµ РёРјСЏ"
 xlrc[a1] = tab
 new_tab = cr[a3]
 

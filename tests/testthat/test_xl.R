@@ -21,7 +21,7 @@ if (FALSE){
     dimnames(test)=NULL
     expect_equal(aaa,test)
     aaa=matrix(sample(c(TRUE,FALSE,NA),100000,replace=TRUE),ncol=100)
-    xl[a1]=aaa  #### долго 
+    xl[a1]=aaa  #### РґРѕР»РіРѕ 
     test=as.matrix(xl[a1:cv1000])
     dimnames(test)=NULL
     expect_equal(aaa,test)
