@@ -45,3 +45,35 @@ books = xl.workbooks()
 expect_equal(length(books), 1)
 xls = xl.get.excel()
 xls$quit()
+
+#################
+context("xl.workbook.open with passwords")
+
+data(iris)
+test_iris = iris
+test_iris$Species = as.character(test_iris$Species)
+rownames(test_iris) = as.character(1:150)
+xl.workbook.add()
+xlrc[a1] = test_iris
+xl.workbook.save("iris.xlsx", password = "read_password")
+xl.workbook.close()
+xl.workbook.open("iris.xlsx", password = "read_password")
+new_iris = crrc[a1]
+expect_identical(test_iris, new_iris)
+xl.workbook.save("iris.xlsx", password = "read_password", write.res.password = "edit_password")
+xl.workbook.close()
+xl.workbook.open("iris.xlsx", password = "read_password", write.res.password = "edit_password")
+new_iris = crrc[a1]
+expect_identical(test_iris, new_iris)
+xl.workbook.save("iris.xlsx", password = "", write.res.password = "edit_password")
+xl.workbook.close()
+xl.workbook.open("iris.xlsx", write.res.password = "edit_password")
+new_iris = crrc[a1]
+expect_identical(test_iris, new_iris)
+xl.workbook.save("iris.xlsx", write.res.password = "")
+xl.workbook.close()
+xl.workbook.open("iris.xlsx")
+new_iris = crrc[a1]
+expect_identical(test_iris, new_iris)
+xl.workbook.close()
+unlink("iris.xlsx")

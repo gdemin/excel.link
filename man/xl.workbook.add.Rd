@@ -11,13 +11,13 @@
 \usage{
 xl.workbook.add(filename = NULL)
 
-xl.workbook.open(filename, password = NULL)
+xl.workbook.open(filename, password = NULL, write.res.password = NULL)
 
 xl.workbook.activate(xl.workbook.name)
 
 xl.workbooks(full.names = FALSE)
 
-xl.workbook.save(filename, password = NULL)
+xl.workbook.save(filename, password = NULL, write.res.password = NULL)
 
 xl.workbook.close(xl.workbook.name = NULL)
 }
@@ -25,6 +25,8 @@ xl.workbook.close(xl.workbook.name = NULL)
 \item{filename}{character. Excel workbook filename.}
 
 \item{password}{character. Password for password-protected workbook.}
+
+\item{write.res.password}{character. Second password for editing workbook.}
 
 \item{xl.workbook.name}{character. Excel workbook name.}
 
