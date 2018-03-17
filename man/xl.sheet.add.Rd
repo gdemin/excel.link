@@ -3,6 +3,7 @@
 \name{xl.sheet.add}
 \alias{xl.sheet.add}
 \alias{xl.sheet.duplicate}
+\alias{xl.sheet.name}
 \alias{xl.sheets}
 \alias{xl.sheet.activate}
 \alias{xl.sheet.delete}
@@ -12,6 +13,8 @@ xl.sheet.add(xl.sheet.name = NULL, before = NULL)
 
 xl.sheet.duplicate(before = NULL)
 
+xl.sheet.name(xl.sheet.name = NULL)
+
 xl.sheets()
 
 xl.sheet.activate(xl.sheet)
@@ -19,7 +22,7 @@ xl.sheet.activate(xl.sheet)
 xl.sheet.delete(xl.sheet = NULL)
 }
 \arguments{
-\item{xl.sheet.name}{character. sheet name in active workbook}
+\item{xl.sheet.name}{character. sheet name/new sheet name}
 
 \item{before}{character/numeric. sheet name or sheet number in active
 workbook before which new sheet will be added}
@@ -45,9 +48,10 @@ returns name of this newly added sheet. Added sheet become active. If
 \code{xl.sheet.name} is missing default name will be used. If \code{before}
 argument is missing, sheet will be added at the last position. If sheet with
 given name already exists error will be generated.}
+\item{\code{xl.sheet.name}}{ rename active sheet. If its argument is missing
+then it just return active sheet name.}
 \item{\code{xl.sheet.activate}}{ activates sheet with given name/number. If 
 sheet with this name doesn't exist error will be generated.}
-\item{\code{xl.sheet.duplicate}}{ duplicates active sheet.} 
 \item{\code{xl.sheet.delete}}{ deletes sheet with given
 name/number. If name doesn't submitted it delete active sheet.}
 }
@@ -62,6 +66,8 @@ xl.sheet.add("First", before="Second")
 for (sheet in sheets) xl.sheet.delete(sheet) # only 'First' and 'Second' exist in workbook now
 xl.sheet.activate("Second") #last sheet activated 
 xl.sheet.duplicate() # duplicate second sheet
+xl.sheet.name() # "Second (2)"
+xl.sheet.name("Third") # "Third"
 
 }
 }

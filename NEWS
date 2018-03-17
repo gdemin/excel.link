@@ -1,3 +1,9 @@
+0.9.8 (30.04.2018)
+===============
+* Add new function: xl.sheet.name - for getting/setting active sheet name 
+* Add new function: xl.sheet.duplicate
+* Now in R_Connection_Examples.xlsm we use default version of R, not 32-bit version
+
 0.9.7 (30.04.2017)
 ===============
 * Add option to get full path to workbooks (https://github.com/gdemin/excel.link/issues/7)

@@ -1,6 +1,6 @@
 #' Basic operations with worksheets.
 #' 
-#' @param xl.sheet.name character. sheet name in active workbook
+#' @param xl.sheet.name character. sheet name/new sheet name
 #' @param before character/numeric. sheet name or sheet number in active
 #'   workbook before which new sheet will be added
 #' @param xl.sheet character/numeric. sheet name or sheet number in active
@@ -12,9 +12,10 @@
 #' \code{xl.sheet.name} is missing default name will be used. If \code{before}
 #' argument is missing, sheet will be added at the last position. If sheet with
 #' given name already exists error will be generated.}
+#' \item{\code{xl.sheet.name}}{ rename active sheet. If its argument is missing
+#' then it just return active sheet name.}
 #' \item{\code{xl.sheet.activate}}{ activates sheet with given name/number. If 
 #' sheet with this name doesn't exist error will be generated.}
-#' \item{\code{xl.sheet.duplicate}}{ duplicates active sheet.} 
 #' \item{\code{xl.sheet.delete}}{ deletes sheet with given
 #' name/number. If name doesn't submitted it delete active sheet.}
 #' }
@@ -40,6 +41,8 @@
 #' for (sheet in sheets) xl.sheet.delete(sheet) # only 'First' and 'Second' exist in workbook now
 #' xl.sheet.activate("Second") #last sheet activated 
 #' xl.sheet.duplicate() # duplicate second sheet
+#' xl.sheet.name() # "Second (2)"
+#' xl.sheet.name("Third") # "Third"
 #' 
 #' }
 #' @export
@@ -80,7 +83,18 @@ xl.sheet.duplicate = function(before = NULL)
     invisible(ex[['ActiveWorkbook']][['Activesheet']][['Name']])
 }
 
-
+#' @export
+#' @rdname xl.sheet.add
+xl.sheet.name = function(xl.sheet.name = NULL){
+    ex = xl.get.excel()
+    sheets = tolower(xl.sheets())
+    res = ex[['ActiveWorkbook']][['Activesheet']]
+    if (!is.null(xl.sheet.name)){
+        if(tolower(xl.sheet.name) %in% sheets) stop ('sheet with name "',xl.sheet.name,'" already exists.')
+        res[['Name']] = substr(xl.sheet.name,1,63)
+    }
+    res[['Name']]
+}
 
 #' @export
 #' @rdname xl.sheet.add
