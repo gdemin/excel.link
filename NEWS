@@ -1,5 +1,6 @@
 0.9.8 (30.04.2018)
 ===============
+* Add functions 'xl.sheet.show'/'xl.sheet.hide'/'xl.sheet.visible' to manage sheets visibility (very hidden sheet is not supported)
 * Add argument 'write.res.password' for xl.workbook.open/xl.workbook.save/xl.read.file/xl.save.file for reading/writing Excel files with second password (issue #11)
 * Add new function: xl.sheet.name - for getting/setting active sheet name 
 * Add new function: xl.sheet.duplicate (issue #14)

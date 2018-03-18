@@ -14,6 +14,9 @@
 #' given name already exists error will be generated.}
 #' \item{\code{xl.sheet.name}}{ rename active sheet. If its argument is missing
 #' then it just return active sheet name.}
+#' \item{\code{xl.sheet.hide}/\code{xl.sheet.show}}{ hide and show sheet by its
+#' name. \code{xl.sheet.visible} returns current visibility status of the
+#' sheet.}
 #' \item{\code{xl.sheet.activate}}{ activates sheet with given name/number. If 
 #' sheet with this name doesn't exist error will be generated.}
 #' \item{\code{xl.sheet.delete}}{ deletes sheet with given
@@ -94,6 +97,45 @@ xl.sheet.name = function(xl.sheet.name = NULL){
         res[['Name']] = substr(xl.sheet.name,1,63)
     }
     res[['Name']]
+}
+
+#' @export
+#' @rdname xl.sheet.add
+xl.sheet.visible = function(xl.sheet.name){
+    ex = xl.get.excel()
+    xl.sheet.exists(xl.sheet.name)
+    curr_sheet = ex[['ActiveWorkbook']]$Sheets(xl.sheet.name)
+    res = curr_sheet[["Visible"]]
+    if(res == xl.constants$xlSheetVisible) TRUE else FALSE
+    
+}
+
+#' @export
+#' @rdname xl.sheet.add
+xl.sheet.hide = function(xl.sheet.name = NULL)
+    ### add new sheet to active workbook after the last sheet with given name and invisibily return reference to it 
+{
+    ex = xl.get.excel()
+    if (is.null(xl.sheet.name)) {
+        curr_sheet = ex[['ActiveWorkbook']][['ActiveSheet']]
+    } else {
+        xl.sheet.exists(xl.sheet.name)
+        curr_sheet = ex[['ActiveWorkbook']]$Sheets(xl.sheet.name)
+    } 
+    curr_sheet[["Visible"]] = xl.constants$xlSheetHidden
+    invisible(curr_sheet)
+}
+
+#' @export
+#' @rdname xl.sheet.add
+xl.sheet.show = function(xl.sheet.name)
+    ### add new sheet to active workbook after the last sheet with given name and invisibily return reference to it 
+{
+    ex = xl.get.excel()
+    xl.sheet.exists(xl.sheet.name)
+    curr_sheet = ex[['ActiveWorkbook']]$Sheets(xl.sheet.name)
+    curr_sheet[["Visible"]] = xl.constants$xlSheetVisible
+    invisible(curr_sheet)
 }
 
 #' @export

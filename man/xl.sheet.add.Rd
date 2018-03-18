@@ -4,6 +4,9 @@
 \alias{xl.sheet.add}
 \alias{xl.sheet.duplicate}
 \alias{xl.sheet.name}
+\alias{xl.sheet.visible}
+\alias{xl.sheet.hide}
+\alias{xl.sheet.show}
 \alias{xl.sheets}
 \alias{xl.sheet.activate}
 \alias{xl.sheet.delete}
@@ -14,6 +17,12 @@ xl.sheet.add(xl.sheet.name = NULL, before = NULL)
 xl.sheet.duplicate(before = NULL)
 
 xl.sheet.name(xl.sheet.name = NULL)
+
+xl.sheet.visible(xl.sheet.name)
+
+xl.sheet.hide(xl.sheet.name = NULL)
+
+xl.sheet.show(xl.sheet.name)
 
 xl.sheets()
 
@@ -50,6 +59,9 @@ argument is missing, sheet will be added at the last position. If sheet with
 given name already exists error will be generated.}
 \item{\code{xl.sheet.name}}{ rename active sheet. If its argument is missing
 then it just return active sheet name.}
+\item{\code{xl.sheet.hide}/\code{xl.sheet.show}}{ hide and show sheet by its
+name. \code{xl.sheet.visible} returns current visibility status of the
+sheet.}
 \item{\code{xl.sheet.activate}}{ activates sheet with given name/number. If 
 sheet with this name doesn't exist error will be generated.}
 \item{\code{xl.sheet.delete}}{ deletes sheet with given
