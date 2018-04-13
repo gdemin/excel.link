@@ -112,24 +112,14 @@ xl.read.file = function(filename, header = TRUE, row.names = NULL, col.names = N
     # on.exit(xl_wb$close())
     # on.exit(xl_temp$quit(),add = TRUE)
     if (!is.null(xl.sheet)){
-        if (!is.character(xl.sheet) & !is.numeric(xl.sheet)) 
-            stop('Argument "xl.sheet" should be character or numeric.')
-        sh.count = xl_wb[['Sheets']][['Count']]
-        sheets = sapply(seq_len(sh.count), function(sh) xl_wb[['Sheets']][[sh]][['Name']])
-        if (is.numeric(xl.sheet)){
-            if (xl.sheet>length(sheets)) 
-                stop ("too large sheet number. In workbook only ",length(sheets)," sheet(s)." )
-            xl_wb[["Sheets"]][[xl.sheet]]$Activate()
-        } else {
-            sheet_num = which(tolower(xl.sheet) == tolower(sheets)) 
-            if (length(sheet_num) == 0) stop ("sheet ",xl.sheet," doesn't exist." )
-            xl_wb[["Sheets"]][[sheet_num]]$Activate()
-        }
+        data_sheet = get_sheet(xl_wb, xl.sheet)
+    } else {
+        data_sheet = xl_wb[["activesheet"]]
     }
     if(is.null(row.names) && is.null(col.names)){
         if(header){
             col.names = TRUE
-            temp = xl.read.range(xl_temp[["ActiveSheet"]]$range(top.left.cell),na = "")
+            temp = xl.read.range(data_sheet$range(top.left.cell),na = "")
             row.names = is.na(temp) || all(grepl("^([\\s\\t]+)$",temp,perl = TRUE))
         } else {
             row.names = FALSE
@@ -139,12 +129,12 @@ xl.read.file = function(filename, header = TRUE, row.names = NULL, col.names = N
         if (is.null(row.names)) row.names = FALSE
         if (is.null(col.names)) col.names = FALSE
     }
-    top_left_corner = xl_temp$range(top.left.cell)
+    top_left_corner = data_sheet$range(top.left.cell)
     xl.rng = top_left_corner[["CurrentRegion"]]
     if (tolower(top.left.cell) !=  "a1") {
         bottom_row = xl.rng[["row"]]+xl.rng[["rows"]][["count"]]-1
         right_column = xl.rng[["column"]]+xl.rng[["columns"]][["count"]]-1
-        xl.rng = xl_temp$range(top_left_corner,xl_temp$cells(bottom_row,right_column))
+        xl.rng = data_sheet$range(top_left_corner, data_sheet$cells(bottom_row,right_column))
     } 
     xl.read.range(xl.rng,drop = FALSE,na = na,row.names = row.names,col.names = col.names)
 }

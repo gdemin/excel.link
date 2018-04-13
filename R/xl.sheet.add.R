@@ -101,10 +101,9 @@ xl.sheet.name = function(xl.sheet.name = NULL){
 
 #' @export
 #' @rdname xl.sheet.add
-xl.sheet.visible = function(xl.sheet.name){
+xl.sheet.visible = function(xl.sheet){
     ex = xl.get.excel()
-    xl.sheet.exists(xl.sheet.name)
-    curr_sheet = ex[['ActiveWorkbook']]$Sheets(xl.sheet.name)
+    curr_sheet = get_sheet(ex[['ActiveWorkbook']], xl.sheet)
     res = curr_sheet[["Visible"]]
     if(res == xl.constants$xlSheetVisible) TRUE else FALSE
     
@@ -112,15 +111,14 @@ xl.sheet.visible = function(xl.sheet.name){
 
 #' @export
 #' @rdname xl.sheet.add
-xl.sheet.hide = function(xl.sheet.name = NULL)
+xl.sheet.hide = function(xl.sheet = NULL)
     ### add new sheet to active workbook after the last sheet with given name and invisibily return reference to it 
 {
     ex = xl.get.excel()
-    if (is.null(xl.sheet.name)) {
+    if (is.null(xl.sheet)) {
         curr_sheet = ex[['ActiveWorkbook']][['ActiveSheet']]
     } else {
-        xl.sheet.exists(xl.sheet.name)
-        curr_sheet = ex[['ActiveWorkbook']]$Sheets(xl.sheet.name)
+        curr_sheet = get_sheet(ex[['ActiveWorkbook']], xl.sheet)
     } 
     curr_sheet[["Visible"]] = xl.constants$xlSheetHidden
     invisible(curr_sheet)
@@ -128,12 +126,11 @@ xl.sheet.hide = function(xl.sheet.name = NULL)
 
 #' @export
 #' @rdname xl.sheet.add
-xl.sheet.show = function(xl.sheet.name)
+xl.sheet.show = function(xl.sheet)
     ### add new sheet to active workbook after the last sheet with given name and invisibily return reference to it 
 {
     ex = xl.get.excel()
-    xl.sheet.exists(xl.sheet.name)
-    curr_sheet = ex[['ActiveWorkbook']]$Sheets(xl.sheet.name)
+    curr_sheet = get_sheet(ex[['ActiveWorkbook']], xl.sheet)
     curr_sheet[["Visible"]] = xl.constants$xlSheetVisible
     invisible(curr_sheet)
 }
@@ -155,8 +152,11 @@ xl.sheet.activate = function(xl.sheet)
 {
     ex = xl.get.excel()
     #on.exit(ex[["DisplayAlerts"]] = TRUE)
-    xl.sheet = xl.sheet.exists(xl.sheet)
-    xl.sh = ex[['ActiveWorkbook']][['Sheets']][[xl.sheet]]
+    xl.sh = get_sheet(ex[['ActiveWorkbook']], xl.sheet)
+    visibility = xl.sheet.visible(xl.sheet)
+    if(identical(visibility, FALSE)){
+        stop("You are trying to activate hidden sheet.")
+    }
     #ex[["DisplayAlerts"]] = FALSE
     xl.sh$activate()
     invisible(xl.sh[['Name']])
@@ -197,8 +197,7 @@ xl.sheet.delete = function(xl.sheet = NULL)
     if (is.null(xl.sheet)) {
         xl.sh = ex[['ActiveWorkbook']][["ActiveSheet"]]
     } else {
-        xl.sheet = xl.sheet.exists(xl.sheet)
-        xl.sh = ex[['ActiveWorkbook']][['Sheets']][[xl.sheet]]
+        xl.sh = get_sheet(ex[['ActiveWorkbook']], xl.sheet)
     }	
     ex[["DisplayAlerts"]] = FALSE
     xl.sh$Delete()

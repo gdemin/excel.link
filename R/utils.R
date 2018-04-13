@@ -14,6 +14,22 @@ make.me.slow = function(app){
 }
 
 
+get_sheet = function(wb, sheet){
+    if (!is.character(sheet) & !is.numeric(sheet)) 
+        stop('Argument "xl.sheet" should be character or numeric.')
+    sh.count = wb[['Sheets']][['Count']]
+    sheets = sapply(seq_len(sh.count), function(sh) wb[['Sheets']][[sh]][['Name']])
+    if (is.numeric(sheet)){
+        if (sheet>length(sheets)) 
+            stop ("too large sheet number. In workbook only ",length(sheets)," sheet(s)." )
+        wb[["Sheets"]][[sheet]]
+    } else {
+        sheet_num = which(tolower(sheet) == tolower(sheets)) 
+        if (length(sheet_num) == 0) stop ("sheet ",sheet," doesn't exist." )
+        wb[["Sheets"]][[sheet_num]]
+    }
+}
+
 names_to_matrix = function(name,splitter = "|")
     # Convert rownames/colnames with items delimited by symbol 'splitted'
     # to matrix with each label in it's own cell and remove sequentally repeated

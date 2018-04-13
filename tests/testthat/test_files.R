@@ -72,3 +72,34 @@ new_iris = xl.read.file(filename, write.res.password = "edit_password")
 expect_identical(test_iris, new_iris)
 
 unlink("iris.xlsx")
+
+###################################
+context("xl.read.file with hidden sheet")
+
+data(iris)
+data(cars)
+workbooks = xl.workbooks()
+xl.workbook.add()
+xl.sheet.add("iris")
+xlrc[a1] = iris
+xl.sheet.add("cars")
+xlrc[a1] = cars
+xl.sheet.hide("iris")
+expect_false(xl.sheet.visible("iris"))
+expect_error(xl.sheet.activate("iris"))
+xl.workbook.save("hidden.xlsx")
+xl.workbook.close()
+
+new_cars = xl.read.file("hidden.xlsx", row.names = TRUE, col.names = TRUE, xl.sheet = "cars")
+new_iris = xl.read.file("hidden.xlsx", row.names = TRUE, col.names = TRUE, xl.sheet = "iris")
+
+
+rownames(cars) = as.character(rownames(cars))
+rownames(iris) = as.character(rownames(iris))
+iris$Species = as.character(iris$Species)
+
+expect_identical(cars, new_cars)
+expect_identical(iris, new_iris)
+
+unlink("hidden.xlsx")
+

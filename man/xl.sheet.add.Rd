@@ -18,11 +18,11 @@ xl.sheet.duplicate(before = NULL)
 
 xl.sheet.name(xl.sheet.name = NULL)
 
-xl.sheet.visible(xl.sheet.name)
+xl.sheet.visible(xl.sheet)
 
-xl.sheet.hide(xl.sheet.name = NULL)
+xl.sheet.hide(xl.sheet = NULL)
 
-xl.sheet.show(xl.sheet.name)
+xl.sheet.show(xl.sheet)
 
 xl.sheets()
 
