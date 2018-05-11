@@ -3,6 +3,10 @@
 #' @param filename character. Excel workbook filename.
 #' @param password character. Password for password-protected workbook.
 #' @param write.res.password character. Second password for editing workbook.
+#' @param file.format integer. Excel file format. By default it is
+#'   \code{xl.constants$xlOpenXMLWorkbook}. You can use
+#'   \code{xl.constants$xlOpenXMLWorkbookMacroEnabled} for workbooks with macros
+#'   (*.xlsm) or \code{xl.constants$xlExcel12} for binary workbook (.xlsb).
 #' @param xl.workbook.name character. Excel workbook name.
 #' @param full.names logical. Should we return full path to the workbook? FALSE,
 #'   by default.
@@ -150,7 +154,7 @@ xl.workbooks = function(full.names = FALSE)
 
 #' @export
 #' @rdname xl.workbook.add
-xl.workbook.save = function(filename, password = NULL, write.res.password = NULL)
+xl.workbook.save = function(filename, password = NULL, write.res.password = NULL, file.format = xl.constants$xlOpenXMLWorkbook)
     ### save active workbook under the different name. If path is missing it saves in working directory
     ### doesn't alert if it owerwrite other file
 {
@@ -160,16 +164,19 @@ xl.workbook.save = function(filename, password = NULL, write.res.password = NULL
     ex[["DisplayAlerts"]] = FALSE
     passwords =paste(!is.null(password), !is.null(write.res.password), sep = "_") 
     switch(passwords, 
-                   FALSE_FALSE = ex[["ActiveWorkbook"]]$SaveAs(path),
+                   FALSE_FALSE = ex[["ActiveWorkbook"]]$SaveAs(path, FileFormat = file.format),
                    TRUE_FALSE = ex[["ActiveWorkbook"]]$SaveAs(path, 
-                                                       password = password
+                                                       password = password,
+                                                       FileFormat = file.format
                    ),
                    FALSE_TRUE = ex[["ActiveWorkbook"]]$SaveAs(path, 
-                                                       writerespassword = write.res.password
+                                                       writerespassword = write.res.password,
+                                                       FileFormat = file.format
                    ),
                    TRUE_TRUE = ex[["ActiveWorkbook"]]$SaveAs(path, 
                                                       password = password, 
-                                                      writerespassword = write.res.password
+                                                      writerespassword = write.res.password,
+                                                      FileFormat = file.format
                    )
     )
     invisible(path)

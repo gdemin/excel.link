@@ -19,6 +19,10 @@
 #'   string.
 #' @param password character. Password for password-protected workbook.
 #' @param write.res.password character. Second password for editing workbook.
+#' @param file.format integer. Excel file format. By default it is
+#'   \code{xl.constants$xlOpenXMLWorkbook}. You can use
+#'   \code{xl.constants$xlOpenXMLWorkbookMacroEnabled} for workbooks with macros
+#'   (*.xlsm) or \code{xl.constants$xlExcel12} for binary workbook (.xlsb).
 #' @param excel.visible a logical value indicating will Excel visible during
 #'   this operations. FALSE by default.
 #'   
@@ -146,7 +150,8 @@ xl.save.file = function(r.obj,filename, row.names = TRUE, col.names = TRUE,
                         xl.sheet = NULL, top.left.cell = "A1", na = "",
                         password = NULL, 
                         write.res.password = NULL,
-                        excel.visible = FALSE)
+                        excel.visible = FALSE,
+                        file.format = xl.constants$xlOpenXMLWorkbook)
 {
     xl_temp = COMCreate("Excel.Application",existing = FALSE)
     on.exit(xl_temp$quit()) 
@@ -165,16 +170,19 @@ xl.save.file = function(r.obj,filename, row.names = TRUE, col.names = TRUE,
     path = normalizePath(filename,mustWork = FALSE)
     passwords =paste(!is.null(password), !is.null(write.res.password), sep = "_") 
     switch(passwords, 
-           FALSE_FALSE = xl_temp[["ActiveWorkbook"]]$SaveAs(path),
+           FALSE_FALSE = xl_temp[["ActiveWorkbook"]]$SaveAs(path, FileFormat = file.format),
            TRUE_FALSE = xl_temp[["ActiveWorkbook"]]$SaveAs(path, 
-                                                           password = password
+                                                           password = password,
+                                                           FileFormat = file.format
            ),
            FALSE_TRUE = xl_temp[["ActiveWorkbook"]]$SaveAs(path, 
-                                                           writerespassword = write.res.password
+                                                           writerespassword = write.res.password,
+                                                           FileFormat = file.format
            ),
            TRUE_TRUE = xl_temp[["ActiveWorkbook"]]$SaveAs(path, 
                                                           password = password, 
-                                                          writerespassword = write.res.password
+                                                          writerespassword = write.res.password,
+                                                          FileFormat = file.format
            )
     ) 
     invisible(NULL)

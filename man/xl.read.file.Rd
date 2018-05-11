@@ -11,7 +11,8 @@ xl.read.file(filename, header = TRUE, row.names = NULL, col.names = NULL,
 
 xl.save.file(r.obj, filename, row.names = TRUE, col.names = TRUE,
   xl.sheet = NULL, top.left.cell = "A1", na = "", password = NULL,
-  write.res.password = NULL, excel.visible = FALSE)
+  write.res.password = NULL, excel.visible = FALSE,
+  file.format = xl.constants$xlOpenXMLWorkbook)
 }
 \arguments{
 \item{filename}{a character}
@@ -45,6 +46,11 @@ string.}
 this operations. FALSE by default.}
 
 \item{r.obj}{R object.}
+
+\item{file.format}{integer. Excel file format. By default it is
+\code{xl.constants$xlOpenXMLWorkbook}. You can use
+\code{xl.constants$xlOpenXMLWorkbookMacroEnabled} for workbooks with macros
+(*.xlsm) or \code{xl.constants$xlExcel12} for binary workbook (.xlsb).}
 }
 \value{
 \code{xl.read.file} always returns data.frame. \code{xl.save.file}

@@ -13,6 +13,15 @@ xl.iris=xl.read.file(filename)
 expect_identical(iris,xl.iris) 
 unlink(filename)
 ####
+filename_xlsb=paste0(tempfile(),".xlsb")
+xl.save.file(iris,filename_xlsb, file.format = xl.constants$xlExcel12)
+
+#####
+xl.iris=xl.read.file(filename_xlsb)
+expect_identical(iris,xl.iris) 
+unlink(filename_xlsb)
+####
+
 
 xl.save.file(iris,"iris.xlsx")
 xl.iris=xl.read.file("iris.xlsx")
@@ -72,6 +81,28 @@ new_iris = xl.read.file(filename, write.res.password = "edit_password")
 expect_identical(test_iris, new_iris)
 
 unlink("iris.xlsx")
+
+######################
+context("xl.read.file/xl.save.file with passwords xlsb")
+filename = "iris.xlsb"
+data(iris)
+test_iris = iris
+test_iris$Species = as.character(test_iris$Species)
+rownames(test_iris) = as.character(1:150)
+
+xl.save.file(test_iris,filename, password = "read_password", file.format = xl.constants$xlExcel12)
+new_iris = xl.read.file(filename, password = "read_password")
+expect_identical(test_iris, new_iris)
+
+xl.save.file(test_iris,filename, password = "read_password", write.res.password = "edit_password", file.format = xl.constants$xlExcel12)
+new_iris = xl.read.file(filename, password = "read_password", write.res.password = "edit_password")
+expect_identical(test_iris, new_iris)
+
+xl.save.file(test_iris,filename, write.res.password = "edit_password", file.format = xl.constants$xlExcel12)
+new_iris = xl.read.file(filename, write.res.password = "edit_password")
+expect_identical(test_iris, new_iris)
+
+unlink("iris.xlsb")
 
 ###################################
 context("xl.read.file with hidden sheet")

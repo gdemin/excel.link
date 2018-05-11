@@ -6,7 +6,6 @@ endif
 
 
 PKG_CPPFLAGS=-D_GNU_ -DNO_PYCOM_IPROVIDECLASSINFO -I$(RDCOMSERVER_SRC)
-PKG_CXXFLAGS=-Wno-deprecated 
 PKG_LIBS= -lole32 -loleaut32 -luuid -loleacc
 
 #OBJS=connect.o $(RDCOMSERVER_SRC)/RUtils.o $(RDCOMSERVER_SRC)/converters.o $(RDCOMSERVER_SRC)/COMError.o $(RDCOMSERVER_SRC)/init.o

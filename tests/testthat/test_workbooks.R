@@ -77,3 +77,34 @@ new_iris = crrc[a1]
 expect_identical(test_iris, new_iris)
 xl.workbook.close()
 unlink("iris.xlsx")
+#######################
+context("xl.workbook.open with passwords xlsb")
+
+data(iris)
+test_iris = iris
+test_iris$Species = as.character(test_iris$Species)
+rownames(test_iris) = as.character(1:150)
+xl.workbook.add()
+xlrc[a1] = test_iris
+xl.workbook.save("iris.xlsb", password = "read_password", file.format = xl.constants$xlExcel12)
+xl.workbook.close()
+xl.workbook.open("iris.xlsb", password = "read_password")
+new_iris = crrc[a1]
+expect_identical(test_iris, new_iris)
+xl.workbook.save("iris.xlsb", password = "read_password", write.res.password = "edit_password", file.format = xl.constants$xlExcel12)
+xl.workbook.close()
+xl.workbook.open("iris.xlsb", password = "read_password", write.res.password = "edit_password")
+new_iris = crrc[a1]
+expect_identical(test_iris, new_iris)
+xl.workbook.save("iris.xlsb", password = "", write.res.password = "edit_password", file.format = xl.constants$xlExcel12)
+xl.workbook.close()
+xl.workbook.open("iris.xlsb", write.res.password = "edit_password")
+new_iris = crrc[a1]
+expect_identical(test_iris, new_iris)
+xl.workbook.save("iris.xlsb", write.res.password = "", file.format = xl.constants$xlExcel12)
+xl.workbook.close()
+xl.workbook.open("iris.xlsb")
+new_iris = crrc[a1]
+expect_identical(test_iris, new_iris)
+xl.workbook.close()
+unlink("iris.xlsb")
