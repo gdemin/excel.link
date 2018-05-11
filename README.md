@@ -5,13 +5,16 @@ excel.link
 [![](http://cranlogs.r-pkg.org/badges/excel.link)](http://cran.rstudio.com/web/packages/excel.link/index.html)
 
 ### Convenient Data Exchange with Microsoft Excel
-Allows access to data in running instance of Microsoft Excel
- (e. g. `xl[a1] = xl[b2]*3` and so on). Graphics can be transferred with 
- `xl[a1] = current.graphics()`. There is an Excel workbook with examples of 
- calling R from Excel in the 'doc' folder. It tries to keep things as 
- simple as possible - there are no needs in any additional 
- installations besides R, only 'VBA' code in the Excel workbook. 
- Microsoft Excel is required for this package.
+Allows access to data in running instance of Microsoft Excel (e. g. `xl[a1] =
+xl[b2]*3` and so on). Graphics can be transferred with `xl[a1] =
+current.graphics()`. so on). Graphics can be transferred with 'xl[a1] =
+current.graphics()'. Additionally there are function for reading/writing 'Excel'
+files - 'xl.read.file'/'xl.save.file'. They are not fast but able to read/write
+'*.xlsb'-files and password-protected files. There is an Excel workbook with
+examples of calling R from Excel in the 'doc' folder. It tries to keep things as
+simple as possible - there are no needs in any additional installations besides
+R, only 'VBA' code in the Excel workbook. Microsoft Excel is required for this
+package.
 
 The excel.link package mainly consists of two rather independent parts: one
 is for transferring data/graphics to running instance of Excel, another part - work with data table in Excel in similar way as with usual data.frame.

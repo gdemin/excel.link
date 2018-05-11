@@ -2,7 +2,7 @@ Package: excel.link
 Type: Package
 Title: Convenient Data Exchange with Microsoft Excel
 Version: 0.9.8
-Date: 2018-04-30
+Date: 2018-05-10
 Author: Gregory Demin <excel.link.feedback@gmail.com>. To comply CRAN policy
     includes source code from 'RDCOMClient' (http://www.omegahat.net/RDCOMClient) by
     Duncan Temple Lang <duncan@wald.ucdavis.edu>.
@@ -12,14 +12,15 @@ Depends:
     grDevices,
     utils
 Suggests:
-    expss,
     knitr
 VignetteBuilder: knitr
 OS_type: windows
 Description: Allows access to data in running instance of Microsoft Excel
     (e. g. 'xl[a1] = xl[b2]*3' and so on). Graphics can be transferred with
-    'xl[a1] = current.graphics()'. There is an Excel workbook with examples of
-    calling R from Excel in the 'doc' folder. It tries to keep things as
+    'xl[a1] = current.graphics()'. Additionally there are function for reading/writing 
+    'Excel' files - 'xl.read.file'/'xl.save.file'. They are not fast but able to read/write 
+    '*.xlsb'-files and password-protected files. There is an Excel workbook with 
+    examples of calling R from Excel in the 'doc' folder. It tries to keep things as
     simple as possible - there are no needs in any additional
     installations besides R, only 'VBA' code in the Excel workbook.
     Microsoft Excel is required for this package.

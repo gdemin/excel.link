@@ -1,4 +1,4 @@
-0.9.8 (30.04.2018)
+0.9.8 (10.05.2018)
 ===============
 * Fix 'xl.read.file' - it reads hidden sheets incorrectly. Thanks for reporting to Katie McCarron.
 * Add functions 'xl.sheet.show'/'xl.sheet.hide'/'xl.sheet.visible' to manage sheets visibility (very hidden sheet is not supported)
