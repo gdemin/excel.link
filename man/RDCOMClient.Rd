@@ -35,8 +35,6 @@
 \alias{[[,COMList,numeric-method}
 \alias{[[<-,COMList,numeric,ANY-method}
 \alias{length,COMList-method}
-\alias{lapply}
-\alias{sapply}
 \alias{lapply,COMList-method}
 \alias{sapply,COMList-method}
 \alias{lapply,COMIDispatch-method}
@@ -128,10 +126,6 @@ COMList(obj, class = "COMList")
 \S4method{[[}{COMList,numeric,ANY}(x, i, j, ...) <- value
 
 \S4method{length}{COMList}(x)
-
-lapply(X, FUN, ...)
-
-sapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
 
 \S4method{lapply}{COMList}(X, FUN, ...)
 

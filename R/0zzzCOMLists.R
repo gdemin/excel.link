@@ -10,6 +10,8 @@
 # http://www.omegahat.net/bugs
 
 
+utils::globalVariables(c("lapply", "sapply", "getItemClassName", "EnumValue", "createTypeVarName"))
+
 
 #' @export
 #' @rdname RDCOMClient
@@ -61,15 +63,17 @@ setMethod("length", "COMList",
 	    function(x)  .COM(x, "Count"))
 
 
-#' @export
-#' @rdname RDCOMClient    
-setGeneric("lapply", function(X, FUN, ...) standardGeneric("lapply"))
 
-#' @export
-#' @rdname RDCOMClient
-setGeneric("sapply", 
-	      function(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE) 
-	         standardGeneric("sapply"))
+# @rdname RDCOMClient 
+# @export
+# setGeneric("lapply", function(X, FUN, ...) standardGeneric("lapply"))
+
+
+# @rdname RDCOMClient
+# @export
+# setGeneric("sapply", 
+#	      function(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE) 
+#	         standardGeneric("sapply"))
 
 	
 #' @export
@@ -129,8 +133,7 @@ setClass("COMTypedList", contains = "COMList")
 
 #' @export
 #' @rdname RDCOMClient
-setGeneric("getItemClassName", 
-             function(x)  standardGeneric("getItemClassName"))
+getItemClassName = function(x)  {}
 
 #' @export
 #' @rdname RDCOMClient

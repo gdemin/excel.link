@@ -373,8 +373,8 @@ setClass("EnumValue", representation("integer"),
                      }
 )
 
-#' @export
 #' @rdname RDCOMClient
+#' @export
 setMethod("show", "EnumValue", function(object) {
                                  x = as.integer(object)
                                  names(x) = names(object)
@@ -382,13 +382,10 @@ setMethod("show", "EnumValue", function(object) {
                                })
 #' @export
 #' @rdname RDCOMClient
-setGeneric("EnumValue",
-            function(id, value, obj = new("EnumValue")) {
-               standardGeneric("EnumValue")
-           })
+EnumValue = function(id, value, obj = new("EnumValue")) {}
 
-#' @export
 #' @rdname RDCOMClient
+#' @export
 setMethod("EnumValue", c("character", "numeric", "EnumValue"),
 #
 # Constructor for EnumValue classes.
@@ -493,9 +490,8 @@ setAs("character", 'EnumValue',
 
 #' @export
 #' @rdname RDCOMClient
-setGeneric("createTypeVarName",
-            function(className, var, quote = TRUE)
-              standardGeneric("createTypeVarName"))
+createTypeVarName = function(className, var, quote = TRUE){}
+#               standardGeneric("createTypeVarName"))
 
 #' @export
 #' @rdname RDCOMClient

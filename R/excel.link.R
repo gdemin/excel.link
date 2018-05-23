@@ -51,6 +51,11 @@ NULL
 
 #' @useDynLib "excel.link",.registration = TRUE
 #' @import methods grDevices utils
+#' 
+
+
+
+
 
 
 .onAttach = function(...) {
