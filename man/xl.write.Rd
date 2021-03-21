@@ -11,16 +11,13 @@
 \usage{
 xl.write(r.obj, xl.rng, na = "", ...)
 
-\method{xl.write}{current.graphics}(r.obj, xl.rng, na = "",
-  delete.file = FALSE, ...)
+\method{xl.write}{current.graphics}(r.obj, xl.rng, na = "", delete.file = FALSE, ...)
 
 \method{xl.write}{list}(r.obj, xl.rng, na = "", ...)
 
-\method{xl.write}{matrix}(r.obj, xl.rng, na = "", row.names = TRUE,
-  col.names = TRUE, ...)
+\method{xl.write}{matrix}(r.obj, xl.rng, na = "", row.names = TRUE, col.names = TRUE, ...)
 
-\method{xl.write}{data.frame}(r.obj, xl.rng, na = "", row.names = TRUE,
-  col.names = TRUE, ...)
+\method{xl.write}{data.frame}(r.obj, xl.rng, na = "", row.names = TRUE, col.names = TRUE, ...)
 
 \method{xl.write}{default}(r.obj, xl.rng, na = "", row.names = TRUE, ...)
 }

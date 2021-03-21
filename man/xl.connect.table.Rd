@@ -5,8 +5,7 @@
 \alias{sort.excel.range}
 \title{Live connection with data on Microsoft Excel sheet}
 \usage{
-xl.connect.table(str.rng = "A1", row.names = TRUE, col.names = TRUE,
-  na = "")
+xl.connect.table(str.rng = "A1", row.names = TRUE, col.names = TRUE, na = "")
 
 \method{sort}{excel.range}(x, decreasing = FALSE, column, ...)
 }

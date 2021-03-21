@@ -1,8 +1,7 @@
 #' Functions from RDCOMClient package
 #' 
 #' For details about these functions see help for RDCOMClient package by 
-#' Duncan Temple Lang \email{duncan@@wald.ucdavis.edu}: 
-#' \url{http://www.omegahat.net/RDCOMClient/}, \url{http://www.omegahat.net}.
+#' Duncan Temple Lang \email{duncan@@wald.ucdavis.edu}.
 #' 
 #' @author Duncan Temple Lang \email{duncan@@wald.ucdavis.edu}
 #' 

@@ -17,8 +17,12 @@ xl.workbook.activate(xl.workbook.name)
 
 xl.workbooks(full.names = FALSE)
 
-xl.workbook.save(filename, password = NULL, write.res.password = NULL,
-  file.format = xl.constants$xlOpenXMLWorkbook)
+xl.workbook.save(
+  filename,
+  password = NULL,
+  write.res.password = NULL,
+  file.format = xl.constants$xlOpenXMLWorkbook
+)
 
 xl.workbook.close(xl.workbook.name = NULL)
 }

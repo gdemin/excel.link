@@ -22,11 +22,25 @@
 \alias{xl.binding.address}
 \title{Active bindings to Excel ranges}
 \usage{
-xl.bind.range(sym, str.range, drop = TRUE, na = "", row.names = FALSE,
-  col.names = FALSE, env = parent.frame())
+xl.bind.range(
+  sym,
+  str.range,
+  drop = TRUE,
+  na = "",
+  row.names = FALSE,
+  col.names = FALSE,
+  env = parent.frame()
+)
 
-xl.bind.current.region(sym, str.range, drop = TRUE, na = "",
-  row.names = FALSE, col.names = FALSE, env = parent.frame())
+xl.bind.current.region(
+  sym,
+  str.range,
+  drop = TRUE,
+  na = "",
+  row.names = FALSE,
+  col.names = FALSE,
+  env = parent.frame()
+)
 
 sym \%=xl\% value
 

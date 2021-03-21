@@ -4,8 +4,12 @@
 \alias{current.graphics}
 \title{Auxiliary function for export graphics to Microsoft Excel}
 \usage{
-current.graphics(type = c("png", "jpeg", "bmp", "tiff"), filename = NULL,
-  picname = NULL, ...)
+current.graphics(
+  type = c("png", "jpeg", "bmp", "tiff"),
+  filename = NULL,
+  picname = NULL,
+  ...
+)
 }
 \arguments{
 \item{type}{file type. Ignored if argument 'filename' provided.}

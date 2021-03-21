@@ -5,14 +5,32 @@
 \alias{xl.save.file}
 \title{Functions for saving and reading data to/from Excel file.}
 \usage{
-xl.read.file(filename, header = TRUE, row.names = NULL, col.names = NULL,
-  xl.sheet = NULL, top.left.cell = "A1", na = "", password = NULL,
-  write.res.password = NULL, excel.visible = FALSE)
+xl.read.file(
+  filename,
+  header = TRUE,
+  row.names = NULL,
+  col.names = NULL,
+  xl.sheet = NULL,
+  top.left.cell = "A1",
+  na = "",
+  password = NULL,
+  write.res.password = NULL,
+  excel.visible = FALSE
+)
 
-xl.save.file(r.obj, filename, row.names = TRUE, col.names = TRUE,
-  xl.sheet = NULL, top.left.cell = "A1", na = "", password = NULL,
-  write.res.password = NULL, excel.visible = FALSE,
-  file.format = xl.constants$xlOpenXMLWorkbook)
+xl.save.file(
+  r.obj,
+  filename,
+  row.names = TRUE,
+  col.names = TRUE,
+  xl.sheet = NULL,
+  top.left.cell = "A1",
+  na = "",
+  password = NULL,
+  write.res.password = NULL,
+  excel.visible = FALSE,
+  file.format = xl.constants$xlOpenXMLWorkbook
+)
 }
 \arguments{
 \item{filename}{a character}

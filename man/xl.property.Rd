@@ -5,7 +5,9 @@
 \alias{xl.property}
 \alias{xl.constants}
 \title{Excel constants and helper function for setting Excel range properties.}
-\format{An object of class \code{list} of length 2024.}
+\format{
+An object of class \code{list} of length 2024.
+}
 \usage{
 xl.property(...)
 

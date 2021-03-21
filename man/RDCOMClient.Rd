@@ -34,7 +34,6 @@
 \alias{length,COMList-method}
 \alias{[[,COMList,numeric-method}
 \alias{[[<-,COMList,numeric,ANY-method}
-\alias{length,COMList-method}
 \alias{lapply,COMList-method}
 \alias{sapply,COMList-method}
 \alias{lapply,COMIDispatch-method}
@@ -82,7 +81,9 @@
 \alias{getCOMElements}
 \alias{RDCOMClient}
 \title{Functions from RDCOMClient package}
-\format{An object of class \code{integer} of length 3.}
+\format{
+An object of class \code{integer} of length 3.
+}
 \usage{
 COMStop(msg, status, class = "COMError")
 
@@ -110,8 +111,15 @@ getCLSID(appName)
 
 \S4method{[[}{COMIDispatch,numeric,ANY}(x, i, j, ...) <- value
 
-.COM(obj, name, ..., .dispatch = as.integer(3), .return = TRUE,
-  .ids = numeric(0), .suppliedArgs)
+.COM(
+  obj,
+  name,
+  ...,
+  .dispatch = as.integer(3),
+  .return = TRUE,
+  .ids = numeric(0),
+  .suppliedArgs
+)
 
 asCOMArray(obj)
 
@@ -133,8 +141,7 @@ COMList(obj, class = "COMList")
 
 \S4method{lapply}{COMIDispatch}(X, FUN, ...)
 
-\S4method{sapply}{COMIDispatch}(X, FUN, ..., simplify = TRUE,
-  USE.NAMES = TRUE)
+\S4method{sapply}{COMIDispatch}(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
 
 getItemClassName(x)
 
@@ -186,19 +193,15 @@ COMNames(x)
 
 EnumValue(id, value, obj = new("EnumValue"))
 
-\S4method{EnumValue}{character,numeric,EnumValue}(id, value,
-  obj = new("EnumValue"))
+\S4method{EnumValue}{character,numeric,EnumValue}(id, value, obj = new("EnumValue"))
 
-\S4method{EnumValue}{character,EnumValue,ANY}(id, value,
-  obj = new("EnumValue"))
+\S4method{EnumValue}{character,EnumValue,ANY}(id, value, obj = new("EnumValue"))
 
 \S4method{EnumValue}{numeric,EnumValue,ANY}(id, value, obj = new("EnumValue"))
 
-\S4method{EnumValue}{character,missing,EnumValue}(id, value,
-  obj = new("EnumValue"))
+\S4method{EnumValue}{character,missing,EnumValue}(id, value, obj = new("EnumValue"))
 
-\S4method{EnumValue}{numeric,missing,EnumValue}(id, value,
-  obj = new("EnumValue"))
+\S4method{EnumValue}{numeric,missing,EnumValue}(id, value, obj = new("EnumValue"))
 
 createTypeVarName(className, var, quote = TRUE)
 
@@ -281,8 +284,7 @@ getCOMElements(type, env = NA, namesOnly = FALSE)
 }
 \description{
 For details about these functions see help for RDCOMClient package by 
-Duncan Temple Lang \email{duncan@wald.ucdavis.edu}: 
-\url{http://www.omegahat.net/RDCOMClient}, \url{http://www.omegahat.net}.
+Duncan Temple Lang \email{duncan@wald.ucdavis.edu}.
 }
 \author{
 Duncan Temple Lang \email{duncan@wald.ucdavis.edu}

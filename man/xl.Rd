@@ -21,11 +21,9 @@
 \alias{xl.selection}
 \title{Data exchange with running Microsoft Excel instance.}
 \usage{
-\method{[}{xl}(x, str.rng, drop = !(has.rownames(x) | has.colnames(x)),
-  na = "", ...)
+\method{[}{xl}(x, str.rng, drop = !(has.rownames(x) | has.colnames(x)), na = "", ...)
 
-\method{[[}{xl}(x, str.rng, drop = !(has.rownames(x) | has.colnames(x)),
-  na = "", ...)
+\method{[[}{xl}(x, str.rng, drop = !(has.rownames(x) | has.colnames(x)), na = "", ...)
 
 \method{$}{xl}(x, str.rng)
 
@@ -35,16 +33,13 @@
 
 \method{[}{xl}(x, str.rng, na = "", ...) <- value
 
-\method{[[}{xln}(x, str.rng, na = "", xl.sheet.name = NULL, before = NULL,
-  ...) <- value
+\method{[[}{xln}(x, str.rng, na = "", xl.sheet.name = NULL, before = NULL, ...) <- value
 
 \method{$}{xln}(x, str.rng) <- value
 
-\method{[}{xln}(x, str.rng, na = "", xl.sheet.name = NULL, before = NULL,
-  ...) <- value
+\method{[}{xln}(x, str.rng, na = "", xl.sheet.name = NULL, before = NULL, ...) <- value
 
-xl.selection(drop = TRUE, na = "", row.names = FALSE, col.names = FALSE,
-  ...)
+xl.selection(drop = TRUE, na = "", row.names = FALSE, col.names = FALSE, ...)
 }
 \arguments{
 \item{x}{One of \code{xl}, \code{xlc}, \code{xlr}, \code{xlrc} objects. 

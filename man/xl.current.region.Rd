@@ -10,11 +10,16 @@
 \alias{[[<-.cr}
 \title{Read/write from/to Excel current region.}
 \usage{
-xl.current.region(str.rng, drop = TRUE, na = "", row.names = FALSE,
-  col.names = FALSE, ...)
+xl.current.region(
+  str.rng,
+  drop = TRUE,
+  na = "",
+  row.names = FALSE,
+  col.names = FALSE,
+  ...
+)
 
-\method{[[}{cr}(x, str.rng, drop = !(has.rownames(x) | has.colnames(x)),
-  na = "", ...)
+\method{[[}{cr}(x, str.rng, drop = !(has.rownames(x) | has.colnames(x)), na = "", ...)
 
 \method{[[}{cr}(x, str.rng, na = "", ...) <- value
 }

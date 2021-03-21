@@ -3,7 +3,6 @@
 \docType{package}
 \name{excel.link}
 \alias{excel.link}
-\alias{excel.link-package}
 \title{excel.link: convenient data exchange with Microsoft Excel}
 \description{
 The excel.link package mainly consists of two rather independent parts: one
