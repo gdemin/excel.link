@@ -1,3 +1,7 @@
+0.9.9 (15.03.2021)
+===============
+* bump version for rebuilding package (tested with R version 4.0.3)
+
 0.9.8-1 (23.05.2018)
 ===============
 * Fix 'xl.read.file' - it reads hidden sheets incorrectly. Thanks for reporting to Katie McCarron.

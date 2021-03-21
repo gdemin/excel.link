@@ -548,9 +548,11 @@ function(type, env = NA, namesOnly = FALSE)
  if(!isClass(type))
   stop(type, " is not the name of a class")
 
- if(!("CompiledCOMIDispatch" %in% names(getExtends(getClass(type)))))
-   stop(type, " is not the name of a COMIDispatch type class. This only workds for CompiledCOMIDispatch classes.\nIf you want to know about a DCOM type, use the SWinTypeLibs package or the Object Browser in the Visual Basic Editor in Word/Excel")
-
+ # if(!("CompiledCOMIDispatch" %in% names(getExtends(getClass(type)))))
+ #  stop(type, " is not the name of a COMIDispatch type class. This only workds for CompiledCOMIDispatch classes.\nIf you want to know about a DCOM type, use the SWinTypeLibs package or the Object Browser in the Visual Basic Editor in Word/Excel")
+ if(!is(type, "CompiledCOMIDispatch"))
+    stop(type, " is not the name of a COMIDispatch type class. This only workds for CompiledCOMIDispatch classes.\nIf you want to know about a DCOM type, use the SWinTypeLibs package or the Object Browser in the Visual Basic Editor in Word/Excel")
+ 
  ids = paste("COM", type, c("GetProperty", "SetProperty", "Methods"), sep = ".")
  ans = lapply(ids,
                function(x) {

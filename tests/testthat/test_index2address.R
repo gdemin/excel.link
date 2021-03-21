@@ -11,15 +11,15 @@ brute_force_test = function(){
             for(k in 1:26){
                 l1 = LETTERS[k]
                 res = paste0(l3,l2,l1)
-                if(res!=excel.link::column_address(counter)){
+                if(res!=excel.link:::column_address(counter)){
                     cat(counter,i,l3,j,l2,k,l1,"\n")
                     stop("Not good!")
                 }
-                if(counter!=excel.link::column_number(excel.link::column_address(counter))){
+                if(counter!=excel.link:::column_number(excel.link:::column_address(counter))){
                     cat(counter,i,l3,j,l2,k,l1,"\n")
                     stop("2 Not good!")
                 }
-                if(counter!=excel.link::column_number(res)){
+                if(counter!=excel.link:::column_number(res)){
                     cat(counter,i,l3,j,l2,k,l1,"\n")
                     stop("3 Not good!")
                 }
