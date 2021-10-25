@@ -8,6 +8,7 @@
 // # Collate: classes.R COMLists.S COMError.R com.R debug.S zzz.R runTime.S
 // # URL: http://www.omegahat.net/RDCOMClient, http://www.omegahat.net
 // # http://www.omegahat.net/bugs
+// additional fixes from https://github.com/jototland/RDCOMClient jototland@gmail.com
 
 #include "RCOMObject.h"
 #include <windows.h>
@@ -21,7 +22,7 @@ FILE *
 getErrorFILE()
 {
   static FILE *f = NULL;
-  if(!f) {
+  if(1==0) {
     f = fopen("C:\\RDCOM.err", "a");
     if(!f) {
       f = fopen("C:\\RDCOM_server.err", "a");
@@ -354,9 +355,9 @@ SEXP R_createCOMErrorCodes();
 	#undef MAKE_HRESULT_ENTRY
 
 
-// defined in stdlih.h
-#undef _countof
+#ifndef _countof
 #define _countof(array) (sizeof(array)/sizeof(array[0]))
+#endif
 void GetScodeString(HRESULT hr, LPTSTR buf, int bufSize)
 {
 	// first ask the OS to give it to us..
@@ -380,7 +381,7 @@ void GetScodeString(HRESULT hr, LPTSTR buf, int bufSize)
 		}
 	}
 	// not found - make one up
-	sprintf(buf, ("OLE error 0x%08x"), (unsigned int) hr);
+	sprintf(buf, ("OLE error 0x%08lx"), hr);
 }
 
 
@@ -418,7 +419,7 @@ checkErrorInfo(IUnknown *obj, HRESULT status, SEXP *serr)
   HRESULT hr;
   ISupportErrorInfo *info;
 
-  fprintf(stderr, "<checkErrorInfo> %X \n", (unsigned int) status);
+  fprintf(stderr, "<checkErrorInfo> %lX \n", status);
 
   if(serr) 
     *serr = NULL;
