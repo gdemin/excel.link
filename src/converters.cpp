@@ -1,3 +1,15 @@
+// # Package: RDCOMClient
+// # Version: 0.93-0.2
+// # Title: R-DCOM Client
+// # Author: Duncan Temple Lang <duncan@wald.ucdavis.edu>
+// #     Maintainer: Duncan Temple Lang <duncan@wald.ucdavis.edu>
+// #     Description: Provides dynamic client-side access to (D)COM applications from within R.
+// # License: GPL-2
+// # Collate: classes.R COMLists.S COMError.R com.R debug.S zzz.R runTime.S
+// # URL: http://www.omegahat.net/RDCOMClient, http://www.omegahat.net
+// # http://www.omegahat.net/bugs
+// Some parts of code by https://github.com/jototland/ jototland@gmail.com
+
 #include "RCOMObject.h"
 #include <oleauto.h>
 #include <oaidl.h>
@@ -42,12 +54,11 @@ char *
 FromBstr(BSTR str)
 {
   char *ptr = NULL;
-  DWORD len;
 
   if(!str)
     return(NULL);
 
-  len = wcslen(str);
+  int len = WideCharToMultiByte(CP_ACP, 0, str, -1, NULL, 0, NULL, NULL);
 
   if(len < 1)
     len = 0;
@@ -55,9 +66,7 @@ FromBstr(BSTR str)
   ptr = (char *) S_alloc(len+1, sizeof(char));
   ptr[len] = '\0';
   if(len > 0) {
-    DWORD ok = WideCharToMultiByte(CP_ACP, 0, str, len, ptr, len, NULL, NULL);
-    if(ok == 0) 
-      ptr = NULL;
+    WideCharToMultiByte(CP_ACP, 0, str, -1, ptr, len, NULL, NULL);
   }
 
   return(ptr);
@@ -480,11 +489,17 @@ R_convertDCOMObjectToR(VARIANT *var)
        ans = R_createRCOMUnknownObject((void**) ptr, "COMUnknown");
       }
        break;
+  case VT_ERROR:   // to get errors such as #NUM as NaN in R  
+      ans = R_scalarReal(R_NaN);
+      break;
+      
   case VT_EMPTY:
   case VT_NULL:
+   
   case VT_VOID:
     return(R_NilValue);
     break;
+
 
 
 /*XXX Need to fill these in */
@@ -497,7 +512,7 @@ R_convertDCOMObjectToR(VARIANT *var)
     /*  case LPSTR: */
   case VT_LPWSTR:
   case VT_PTR:
-  case VT_ERROR:
+
   case VT_VARIANT:
   case VT_CARRAY:
   case VT_USERDEFINED:
