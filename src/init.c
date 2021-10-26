@@ -21,6 +21,7 @@ extern SEXP R_setProperty(SEXP, SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"R_connect",          (DL_FUNC) &R_connect,          2},
+    {"R_connect_hWnd",     (DL_FUNC) &R_connect_hWnd,     3},
     {"R_create",           (DL_FUNC) &R_create,           1},
     {"R_create2DArray",    (DL_FUNC) &R_create2DArray,    1},
     {"R_getCLSIDFromName", (DL_FUNC) &R_getCLSIDFromName, 1},
