@@ -1,0 +1,53 @@
+---
+title: "Calling R from Excel"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Calling R from Excel}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+### Usage
+
+There is Excel workbook 'R_connection_examples.xlsm' with examples in the package 'doc' folder.
+First function intended for usage in macro. 
+
+*ExecInR(ByVal Lines As String, Optional ByRef Success As Variant, Optional NeedOutput As Boolean = True) As String*
+
+- *Lines* as string - R Code
+- *Success* as variant - if this argument is missing then exception will raised in case of error in R code. If argument is provided than it will be True in case of successful execution and False in opposite case.
+- *NeedOutput* as boolean - if True then R output will be returned as result of function call. If False empty string will be returned.
+
+This function calls R in stateless and synchronous manner.
+'Stateless' means that R executes code and terminate. It doesn't keep objects and data between calls. 'Synchronous' means that Excel waits while R executes code.
+
+Second function is user-defined worksheet function so it is intended for usage on worksheet with other Excel formulas and recalculated after changes on worksheets.
+
+*RExec(Code, Precedents)*
+
+- *Code* - range/text with R code.
+- *Precedents* - after changes in these cells *Code* should be recalculated.
+
+No data are shared between "RExec" calls. In this case R call is asynchronous - Excel doesn't wait completion of R code (sometimes it may cause problems). By now it is not possible for this function to capture R output or indicate errors in R code.
+
+*RExec* function works completely different from other Excel worksheet functions. It doesn't show any useful result in its own cell but it can change other cells (produce side-effects). So in argument *code* we provide R code that should care about getting data from Excel and putting results back to Excel. Other function arguments (*precedents*) aren't used in calculation but it can be used to trigger formula recalculation when needed. 
+
+Random number in function cell is needed to indicate that function is recalculated so we can execute such functions in deterministic sequence by referencing them to each other.
+
+In both cases in general it doesn't need to care about R location in the system - it will be detected from registry/environment variable. 
+But if you need to point to some specific location (e. g. network location) it is possible to set constant *PathToR*.
+
+Priority in search for R:
+
+1. *PathToR* - if R not found here we will go further
+2. If *RNearThisWorkbook = True* we search near workbook.
+3. Environment variable R_HOME.
+4. Registry.
+
+If R not found in all above mentioned places error will be raised with suggestion to install R and URL 'r-project.org'.
+
+Sometimes second hidden Excel instance is running in background. This may cause problems with connection - R try to read and write data from/to that hidden instance. This problem rather rare occurs with Excel 2013. 
+
+There are several other functions in the example workbook: for asynchronous stateless call in macro and for live connection with R. They are not stable and are not recommended for usage.
+
