@@ -1,14 +1,3 @@
-// # Package: RDCOMClient
-// # Version: 0.93-0.2
-// # Title: R-DCOM Client
-// # Author: Duncan Temple Lang <duncan@wald.ucdavis.edu>
-// #     Maintainer: Duncan Temple Lang <duncan@wald.ucdavis.edu>
-// #     Description: Provides dynamic client-side access to (D)COM applications from within R.
-// # License: GPL-2
-// # Collate: classes.R COMLists.S COMError.R com.R debug.S zzz.R runTime.S
-// # URL: http://www.omegahat.net/RDCOMClient, http://www.omegahat.net
-// # http://www.omegahat.net/bugs
-
 #include "RCOMObject.h"
 #include <oleauto.h>
 #include <oaidl.h>
@@ -18,7 +7,7 @@
 extern "C" {
 #include "RUtils.h"
 #include <Rdefines.h>
-#include <R_ext/Print.h>
+
   SEXP R_getDynamicVariantValue(SEXP ref);
   SEXP R_setDynamicVariantValue(SEXP ref, SEXP value);
 }
@@ -53,11 +42,12 @@ char *
 FromBstr(BSTR str)
 {
   char *ptr = NULL;
+  DWORD len;
 
   if(!str)
     return(NULL);
 
-  int len = WideCharToMultiByte(CP_ACP, 0, str, -1, NULL, 0, NULL, NULL);
+  len = wcslen(str);
 
   if(len < 1)
     len = 0;
@@ -65,7 +55,9 @@ FromBstr(BSTR str)
   ptr = (char *) S_alloc(len+1, sizeof(char));
   ptr[len] = '\0';
   if(len > 0) {
-    WideCharToMultiByte(CP_ACP, 0, str, -1, ptr, len, NULL, NULL);
+    DWORD ok = WideCharToMultiByte(CP_ACP, 0, str, len, ptr, len, NULL, NULL);
+    if(ok == 0) 
+      ptr = NULL;
   }
 
   return(ptr);
@@ -379,13 +371,17 @@ R_convertDCOMObjectToR(VARIANT *var)
 
 
   if(V_ISARRAY(var)) {
-
+#if defined(RDCOM_VERBOSE) && RDCOM_VERBOSE
+  errorLog("Finishing convertDCOMObjectToR - convert array\n");
+#endif
     return(convertArrayToR(var));
   } else if(V_VT(var) == VT_DISPATCH || (V_ISBYREF(var) && ((V_VT(var) & (~ VT_BYREF)) == VT_DISPATCH)) ) {
     IDispatch *ptr;
     if(V_ISBYREF(var)) {
 
-
+#if defined(RDCOM_VERBOSE) && RDCOM_VERBOSE
+      errorLog("BYREF and DISPATCH in convertDCOMObjectToR\n");
+#endif
 
       IDispatch **tmp = V_DISPATCHREF(var);
       if(!tmp)
@@ -397,7 +393,9 @@ R_convertDCOMObjectToR(VARIANT *var)
     if(ptr) 
       ptr->AddRef();
     ans = R_createRCOMUnknownObject((void*) ptr, "COMIDispatch");
-
+#if defined(RDCOM_VERBOSE) && RDCOM_VERBOSE
+    errorLog("Finished convertDCOMObjectToR  COMIDispatch\n");
+#endif
     return(ans);
   }
 
@@ -413,7 +411,9 @@ R_convertDCOMObjectToR(VARIANT *var)
     if(rtype == VT_BSTR) {
         BSTR *tmp;
         const char *ptr = "";
-
+#if defined(RDCOM_VERBOSE) && RDCOM_VERBOSE
+	errorLog("BYREF and BSTR convertDCOMObjectToR  (scalar string)\n");
+#endif
         tmp = V_BSTRREF(var);
         if(tmp)
   	  ptr = FromBstr(*tmp);
@@ -480,18 +480,12 @@ R_convertDCOMObjectToR(VARIANT *var)
        ans = R_createRCOMUnknownObject((void**) ptr, "COMUnknown");
       }
        break;
-  case VT_ERROR:   // to get errors such as #NUM as NaN in R  
-      ans = R_scalarReal(R_NaN);
-      break;
-      
   case VT_EMPTY:
   case VT_NULL:
-   
   case VT_VOID:
     return(R_NilValue);
     break;
- 
-	
+
 
 /*XXX Need to fill these in */
   case VT_RECORD:
@@ -503,7 +497,7 @@ R_convertDCOMObjectToR(VARIANT *var)
     /*  case LPSTR: */
   case VT_LPWSTR:
   case VT_PTR:
-
+  case VT_ERROR:
   case VT_VARIANT:
   case VT_CARRAY:
   case VT_USERDEFINED:
@@ -513,7 +507,9 @@ R_convertDCOMObjectToR(VARIANT *var)
     ans = createRVariantObject(var, V_VT(var));
   }
 
-
+#if defined(RDCOM_VERBOSE) && RDCOM_VERBOSE
+  errorLog("Finished convertDCOMObjectToR\n");
+#endif
 
   return(ans);
 }
@@ -564,8 +560,7 @@ createRDCOMArray(SEXP obj, VARIANT *var)
 
   HRESULT hr = SafeArrayAccessData(arr, (void**) &data);
   if(hr != S_OK) {
-    //std::cerr <<"Problems accessing data" << std::endl;
-    REprintf("Problems accessing data\n");
+    std::cerr <<"Problems accessing data" << std::endl;
     SafeArrayDestroy(arr);
     return(NULL);
   }
@@ -594,8 +589,7 @@ createRDCOMArray(SEXP obj, VARIANT *var)
       break;
 
     default:
-      //std::cerr <<"Array case not handled yet for R type " << TYPEOF(obj) << std::endl;
-      REprintf("Array case not handled yet for R type %d\n", TYPEOF(obj));
+      std::cerr <<"Array case not handled yet for R type " << TYPEOF(obj) << std::endl;
     break;
   }
 
@@ -860,6 +854,7 @@ R_create2DArray(SEXP obj)
   return(ans);
 }
 
+extern "C"
 SEXP
 R_createVariant(SEXP type)
 {

@@ -1,15 +1,3 @@
-// # Package: RDCOMClient
-// # Version: 0.93-0.2
-// # Title: R-DCOM Client
-// # Author: Duncan Temple Lang <duncan@wald.ucdavis.edu>
-// #     Maintainer: Duncan Temple Lang <duncan@wald.ucdavis.edu>
-// #     Description: Provides dynamic client-side access to (D)COM applications from within R.
-// # License: GPL-2
-// # Collate: classes.R COMLists.S COMError.R com.R debug.S zzz.R runTime.S
-// # URL: http://www.omegahat.net/RDCOMClient, http://www.omegahat.net
-// # http://www.omegahat.net/bugs
-// additional fixes from https://github.com/jototland/RDCOMClient jototland@gmail.com
-
 #include "RCOMObject.h"
 #include <windows.h>
 #include <oleauto.h>
@@ -17,17 +5,50 @@
 
 #include <tchar.h>
 
+extern "C" int RDCOM_WriteErrors;
+int RDCOM_WriteErrors = 1;
+
+extern "C"
+SEXP
+RDCOM_setWriteError(SEXP value)
+{
+    int tmp = RDCOM_WriteErrors;
+    RDCOM_WriteErrors = asLogical(value);
+    return(ScalarLogical(tmp));
+}
+
+extern "C"
+SEXP
+RDCOM_getWriteError(SEXP value)
+{
+    return(ScalarLogical(RDCOM_WriteErrors));
+}
+
+
 
 FILE *
 getErrorFILE()
 {
   static FILE *f = NULL;
-  if(1==0) {
-    f = fopen("C:\\RDCOM.err", "a");
-    if(!f) {
-      f = fopen("C:\\RDCOM_server.err", "a");
+
+  if (f)
+    return f;
+
+  TCHAR path[MAX_PATH];
+  DWORD result;
+
+  result = GetTempPath(MAX_PATH, path);
+
+  if (result > MAX_PATH-10 || result == 0) {
+    f = stderr;
+  } else {
+    lstrcat(path, _T("RDCOM.err"));
+    f = fopen(path, "a");
+    if (!f) {
+      f = stderr;
     }
   }
+
   return(f);
 }
 

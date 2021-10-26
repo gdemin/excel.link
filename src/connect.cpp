@@ -1,14 +1,3 @@
-// # Package: RDCOMClient
-// # Version: 0.93-0.2
-// # Title: R-DCOM Client
-// # Author: Duncan Temple Lang <duncan@wald.ucdavis.edu>
-// #     Maintainer: Duncan Temple Lang <duncan@wald.ucdavis.edu>
-// #     Description: Provides dynamic client-side access to (D)COM applications from within R.
-// # License: GPL-2
-// # Collate: classes.R COMLists.S COMError.R com.R debug.S zzz.R runTime.S
-// # URL: http://www.omegahat.net/RDCOMClient, http://www.omegahat.net
-// # http://www.omegahat.net/bugs
-
 #ifndef _GNU_
 #include "stdafx.h"
 #include <objbase.h>
@@ -16,8 +5,6 @@
 #include <windows.h>
 #include <oaidl.h>
 #include <oleauto.h>
-#include <oleacc.h>
-#include <winuser.h>
 #ifndef V_UI4
 # define V_UI4(X) V_UNION((X), uintVal)
 #endif
@@ -55,8 +42,6 @@ extern "C" {
   __declspec(dllexport) SEXP R_initCOM(SEXP);
 
   __declspec(dllexport) SEXP R_connect(SEXP className, SEXP raiseError);
-
-  __declspec(dllexport) SEXP R_connect_hWnd(SEXP className, SEXP excel_hWnd, SEXP raiseError);
 
   __declspec(dllexport) SEXP R_create(SEXP className);
 
@@ -170,44 +155,6 @@ R_connect(SEXP className, SEXP raiseError)
   if(R_getCLSIDFromString(className, &classId) == S_OK) {
     hr = GetActiveObject(classId, NULL, &unknown);
     if(SUCCEEDED(hr)) {
-      void *ptr;
-      hr = unknown->QueryInterface(IID_IDispatch, &ptr);
-      ans = R_createRCOMUnknownObject((void *) ptr, "COMIDispatch");
-    } else {
-      if(LOGICAL(raiseError)[0]) {
-	/* From COMError.cpp  - COMError */
-	TCHAR buf[512];
-	GetScodeString(hr, buf, sizeof(buf)/sizeof(buf[0]));
-	PROTECT(ans = mkString(buf));
-	SET_CLASS(ans, mkString("COMErrorString"));
-	UNPROTECT(1);
-        return(ans);
-      } else
-	return(R_NilValue);
-    }
-  } else {
-      PROBLEM "Couldn't get clsid from the string"
-	WARN;
-  }
-  return(ans);
-}
-
-
-__declspec(dllexport)
-SEXP
-R_connect_hWnd(SEXP className, SEXP excel_hWnd, SEXP raiseError)
-{
-  IUnknown *unknown = NULL;
-  HRESULT hr;
-  SEXP ans = R_NilValue;
-  CLSID classId;
-  LONG_PTR l_hwnd;
-  HWND temp_hwdn;
-  if(R_getCLSIDFromString(className, &classId) == S_OK) {
-	l_hwnd = (LONG_PTR)INTEGER(excel_hWnd)[0];
-	temp_hwdn = (HWND)l_hwnd;
-    hr = AccessibleObjectFromWindow(temp_hwdn, OBJID_NATIVEOM, classId, (void**)&unknown);
-    if(hr == S_OK) {
       void *ptr;
       hr = unknown->QueryInterface(IID_IDispatch, &ptr);
       ans = R_createRCOMUnknownObject((void *) ptr, "COMIDispatch");
