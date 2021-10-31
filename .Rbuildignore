@@ -7,3 +7,5 @@
 ^SupplementaryMaterials$
 cran-comments\.md
 README\.md
+^doc$
+^Meta$
