@@ -19,7 +19,7 @@
 extern "C" {
 #include "RUtils.h"
 #include <Rdefines.h>
-
+#include <R_ext/Print.h>
   SEXP R_getDynamicVariantValue(SEXP ref);
   SEXP R_setDynamicVariantValue(SEXP ref, SEXP value);
 }
@@ -575,7 +575,8 @@ createRDCOMArray(SEXP obj, VARIANT *var)
 
   HRESULT hr = SafeArrayAccessData(arr, (void**) &data);
   if(hr != S_OK) {
-    std::cerr <<"Problems accessing data" << std::endl;
+    //std::cerr <<"Problems accessing data" << std::endl;
+    REprintf("Problems accessing data\n");
     SafeArrayDestroy(arr);
     return(NULL);
   }
@@ -604,7 +605,8 @@ createRDCOMArray(SEXP obj, VARIANT *var)
       break;
 
     default:
-      std::cerr <<"Array case not handled yet for R type " << TYPEOF(obj) << std::endl;
+      //std::cerr <<"Array case not handled yet for R type " << TYPEOF(obj) << std::endl;
+      REprintf("Array case not handled yet for R type %d\n", TYPEOF(obj));
     break;
   }
 

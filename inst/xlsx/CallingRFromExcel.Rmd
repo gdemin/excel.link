@@ -10,7 +10,7 @@ vignette: >
 
 ### Usage
 
-There is Excel workbook 'R_connection_examples.xlsm' with examples in the package 'doc' folder.
+There is Excel workbook 'R_connection_examples.xlsm' with examples in the package 'xlsx' folder.
 First function intended for usage in macro. 
 
 *ExecInR(ByVal Lines As String, Optional ByRef Success As Variant, Optional NeedOutput As Boolean = True) As String*

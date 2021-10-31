@@ -4,6 +4,6 @@
 \.Rhistory
 \.gitignore
 \.git
-^SupplementaryMaterials
+^SupplementaryMaterials$
 cran-comments\.md
 README\.md
