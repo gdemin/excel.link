@@ -17,6 +17,54 @@
 
 #include <tchar.h>
 
+#include <R_ext/Error.h>	/* for Rf_error and Rf_warning */
+
+#ifdef R_PROBLEM_BUFSIZE
+#undef R_PROBLEM_BUFSIZE
+#endif
+#ifdef PROBLEM
+#undef PROBLEM
+#endif
+
+#ifdef MESSAGE
+#undef MESSAGE
+#endif
+#ifdef RECOVER
+#undef RECOVER
+#endif
+
+
+#ifdef WARNING
+#undef WARNING
+#endif
+#ifdef LOCAL_EVALUATOR
+#undef LOCAL_EVALUATOR
+#endif
+
+#ifdef NULL_ENTRY
+#undef NULL_ENTRY
+#endif
+
+
+#ifdef WARN
+#undef WARN
+#endif
+#ifdef ERROR
+#undef ERROR
+#endif
+
+
+#define R_PROBLEM_BUFSIZE	4096
+/* Parentheses added for FC4 with gcc4 and -D_FORTIFY_SOURCE=2 */
+#define PROBLEM			{char R_problem_buf[R_PROBLEM_BUFSIZE];(snprintf)(R_problem_buf, R_PROBLEM_BUFSIZE,
+#define MESSAGE                 {char R_problem_buf[R_PROBLEM_BUFSIZE];(snprintf)(R_problem_buf, R_PROBLEM_BUFSIZE,
+#define ERROR			),Rf_error(R_problem_buf);}
+#define RECOVER(x)		),Rf_error(R_problem_buf);}
+#define WARNING(x)		),Rf_warning(R_problem_buf);}
+#define LOCAL_EVALUATOR		/**/
+#define NULL_ENTRY		/**/
+#define WARN			WARNING(NULL)
+
 extern "C" int RDCOM_WriteErrors;
 int RDCOM_WriteErrors = 1;
 
