@@ -121,9 +121,6 @@ RCOMEnvironmentObject::GetIDsOfNames(REFIID refId, LPOLESTR *name, UINT cNames, 
   SEXP names;
   HRESULT hr;
 
-#ifdef RDCOM_VERBOSE
-  errorLog("[RCOMEnvironment::GetIDsOfNames] %p\n", this->obj);
-#endif
 
     /* Loop over the names of the elements in the function and find the index of the 
        one that matches the method. */

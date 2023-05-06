@@ -46,3 +46,4 @@ new_tab = cr[a3]
 expect_equal_to_reference(new_tab, "rds/cyrillic_5.rds")
 xl.workbook.close()
 options(excel.link.fix_encoding = FALSE)
+
