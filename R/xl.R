@@ -268,7 +268,7 @@ xl.read.range = function(xl.rng,drop = TRUE,row.names = FALSE,col.names = FALSE,
     
     types = lapply(data.list, function(each.col){
         unlist(lapply(each.col, function(each.cell){
-            ifelse(class(each.cell) == "COMDate", TRUE, ifelse(is.na(each.cell),NA,FALSE))
+            ifelse(inherits(each.cell, "COMDate"), TRUE, ifelse(is.na(each.cell),NA,FALSE))
 
         }))
         
@@ -284,7 +284,7 @@ xl.read.range = function(xl.rng,drop = TRUE,row.names = FALSE,col.names = FALSE,
     if (col.names)    {
         colNames = lapply(data.list,function(each) {
             res = each[[1]]
-            if (class(res) == "COMDate"){
+            if (inherits(res, "COMDate")){
                 gsub(" UTC","",excel_datetime2POSIXct(res),fixed = TRUE)
                 
             }   else res
@@ -295,7 +295,7 @@ xl.read.range = function(xl.rng,drop = TRUE,row.names = FALSE,col.names = FALSE,
     }
     if (row.names) {
         rowNames = unlist(lapply(data.list[[1]], function(each) {
-            if (class(each) == "COMDate"){
+            if (inherits(each, "COMDate")){
                 gsub(" UTC","",excel_datetime2POSIXct(each),fixed = TRUE)
                 
             }  else each                
