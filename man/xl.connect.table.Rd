@@ -32,12 +32,14 @@ it has it.}
 methods and objects without a class)}
 }
 \value{
-\itemize{ \item{\code{xl.connect.table}}{ returns object of 
+\itemize{ 
+\item \code{xl.connect.table} returns object of 
   \code{excel.range} class which represent data on Excel sheet. This object
   can be treated similar to data.frame. So you can assign values, delete 
-  columns/rows and so on. For more information see examples.} 
-  \item{\code{sort}}{ sorts Excel range by single column (multiple columns 
-  currently not supported) and invisibly return NULL. }}
+  columns/rows and so on. For more information see examples. 
+\item \code{sort} sorts Excel range by single column (multiple columns 
+  currently not supported) and invisibly return NULL. 
+  }
 }
 \description{
 \code{xl.connect.table} returns object that can be operated as 

@@ -16,7 +16,7 @@
 extern "C" {
 #endif
 
- extern FILE *getErrorFILE();
+FILE *getErrorFILE(void);
 
   SEXP R_createRCOMUnknownObject(void *ref, const char *tag);
   void* getRDCOMReference(SEXP);

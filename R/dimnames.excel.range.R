@@ -105,6 +105,7 @@ has.rownames = function(x){
     UseMethod("has.rownames")
 }
 
+#' @export
 has.colnames.default = function(x)
     # get attribute has.colnames
 {
@@ -113,6 +114,7 @@ has.colnames.default = function(x)
     res
 }
 
+#' @export
 has.rownames.default = function(x)
     # get attribute has.rownames
 {
@@ -135,6 +137,7 @@ has.rownames.default = function(x)
     x
 }
 
+#' @export
 has.colnames.excel.range = function(x)
     # get attribute has.colnames
 {
@@ -143,7 +146,7 @@ has.colnames.excel.range = function(x)
     res
 }
 
-
+#' @export
 has.rownames.excel.range = function(x)
     # get attribute has.rownames
 {

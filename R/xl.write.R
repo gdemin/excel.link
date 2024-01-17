@@ -370,7 +370,7 @@ xl.raw.write = function(r.obj,xl.rng,na = ""){
 }
 
 
-
+#' @export
 xl.raw.write.default = function(r.obj,xl.rng,na = "")
     ### writes vectors (one-dimensional objects)
 {
@@ -395,14 +395,17 @@ xl.raw.write.default = function(r.obj,xl.rng,na = "")
     invisible(c(length(r.obj),1))
 }
 
+#' @export
 xl.raw.write.POSIXct = function(r.obj,xl.rng,na = ""){
     xl.raw.write(format(r.obj, usetz = FALSE),xl.rng,na)
 }
 
+#' @export
 xl.raw.write.POSIXlt = function(r.obj,xl.rng,na = ""){
     xl.raw.write(format(r.obj, usetz = FALSE),xl.rng,na)
 }
 
+#' @export
 xl.raw.write.matrix = function(r.obj,xl.rng,na = "")
     ### insert matrix into excel sheet without column and row names
 {

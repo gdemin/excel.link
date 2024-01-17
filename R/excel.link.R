@@ -33,20 +33,17 @@
 #'   \code{xlc[a1] = iris}. After that we connect Excel range with R object:
 #'   \code{xl_iris = xl.connect.table("a1",row.names = FALSE, col.names =
 #'   TRUE)}. So we can: 
-#'   \itemize{ \item{get data from this Excel range:}{
-#'   \code{xl_iris$Species}} 
-#'   \item{add new data to this Excel range: }{
-#'   \code{xl_iris$new_column = 42}} 
-#'   \item{sort this range: }{
-#'   \code{sort(xl_iris,column = "Sepal.Length")}} 
-#'   \item{and more...} }
+#'   \itemize{ 
+#'   \item get data from this Excel range: \code{xl_iris$Species} 
+#'   \item add new data to this Excel range: \code{xl_iris$new_column = 42} 
+#'   \item sort this range: \code{sort(xl_iris,column = "Sepal.Length")} 
+#'   \item and more...
+#'   }
 #'   Live connection is faster than active binding to range but is less universal 
 #'   (for example, you can't use \code{within} statement with it).
 #' @seealso \code{\link{xl}}, \code{\link{current.graphics}},
 #'   \code{\link{xl.connect.table}}
-#' @docType package
-#' @name excel.link
-NULL
+"_PACKAGE"
 
 
 #' @useDynLib "excel.link",.registration = TRUE

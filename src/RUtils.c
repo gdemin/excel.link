@@ -141,7 +141,7 @@ SEXP RR_do_new_object(SEXP class_def)
 
 
 void
-callGC()
+callGC(void)
 {
   SEXP e;
   PROTECT(e = allocVector(LANGSXP, 1));

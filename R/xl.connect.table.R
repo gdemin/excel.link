@@ -32,12 +32,14 @@
 #'   the corresponding extent. Indices can also be negative integers, indicating
 #'   elements/slices to leave out of the selection.
 #'   
-#' @return \itemize{ \item{\code{xl.connect.table}}{ returns object of 
+#' @return \itemize{ 
+#' \item \code{xl.connect.table} returns object of 
 #'   \code{excel.range} class which represent data on Excel sheet. This object
 #'   can be treated similar to data.frame. So you can assign values, delete 
-#'   columns/rows and so on. For more information see examples.} 
-#'   \item{\code{sort}}{ sorts Excel range by single column (multiple columns 
-#'   currently not supported) and invisibly return NULL. }}
+#'   columns/rows and so on. For more information see examples. 
+#' \item \code{sort} sorts Excel range by single column (multiple columns 
+#'   currently not supported) and invisibly return NULL. 
+#'   }
 #' @examples
 #' 
 #' 

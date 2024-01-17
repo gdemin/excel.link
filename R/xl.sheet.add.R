@@ -7,28 +7,28 @@
 #'   workbook
 #'   
 #' @details \itemize{ 
-#' \item{\code{xl.sheet.add}}{ adds new sheet with given name and invisibly 
+#' \item \code{xl.sheet.add} adds new sheet with given name and invisibly 
 #' returns name of this newly added sheet. Added sheet become active. If 
 #' \code{xl.sheet.name} is missing default name will be used. If \code{before}
 #' argument is missing, sheet will be added at the last position. If sheet with
-#' given name already exists error will be generated.}
-#' \item{\code{xl.sheet.name}}{ rename active sheet. If its argument is missing
-#' then it just return active sheet name.}
-#' \item{\code{xl.sheet.hide}/\code{xl.sheet.show}}{ hide and show sheet by its
+#' given name already exists error will be generated.
+#' \item \code{xl.sheet.name} rename active sheet. If its argument is missing
+#' then it just return active sheet name.
+#' \item \code{xl.sheet.hide}/\code{xl.sheet.show} hide and show sheet by its
 #' name. \code{xl.sheet.visible} returns current visibility status of the
-#' sheet.}
-#' \item{\code{xl.sheet.activate}}{ activates sheet with given name/number. If 
-#' sheet with this name doesn't exist error will be generated.}
-#' \item{\code{xl.sheet.delete}}{ deletes sheet with given
-#' name/number. If name doesn't submitted it delete active sheet.}
+#' sheet.
+#' \item \code{xl.sheet.activate} activates sheet with given name/number. If 
+#' sheet with this name doesn't exist error will be generated.
+#' \item \code{xl.sheet.delete} deletes sheet with given
+#' name/number. If name doesn't submitted it delete active sheet.
 #' }
 #' 
 #' @return
 #' \itemize{
-#' \item{\code{xl.sheet.add}/\code{xl.sheet.activate}/\code{xl.sheet.duplicate}}{
-#' invisibly return name of created/activated/duplicated sheet.}
-#' \item{\code{xl.sheets}}{ returns vector of sheet names in active workbook.}
-#' \item{\code{xl.sheet.delete}}{ invisibly returns NULL.}
+#' \item \code{xl.sheet.add}/\code{xl.sheet.activate}/\code{xl.sheet.duplicate}
+#' invisibly return name of created/activated/duplicated sheet.
+#' \item \code{xl.sheets} returns vector of sheet names in active workbook.
+#' \item \code{xl.sheet.delete} invisibly returns NULL.
 #' }
 #' 
 #' @seealso
