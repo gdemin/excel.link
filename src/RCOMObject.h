@@ -43,13 +43,9 @@
 
 #undef ERROR
 
-extern "C" {
 #include <Rinternals.h>
-  //#include <Defn.h>
+//#include <Defn.h>
 #include <Rdefines.h>
-  extern void R_PreserveObject(SEXP);
-  extern void R_ReleaseObject(SEXP);
-}
 
 #ifdef length
 #undef length
