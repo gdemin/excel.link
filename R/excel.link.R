@@ -52,9 +52,3 @@
 
 
 
-
-
-
-.onAttach = function(...) {
-  packageStartupMessage("\nTo Daniela Khazova who constantly inspires me...")
-}
