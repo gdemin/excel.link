@@ -48,7 +48,7 @@
 
 #' @useDynLib "excel.link",.registration = TRUE
 #' @import methods grDevices utils
-#' 
+NULL
 
 
 
