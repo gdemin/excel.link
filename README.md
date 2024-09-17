@@ -1,3 +1,6 @@
+# ⚠️ Looking for a new maintainer ⚠️
+# I live under Linuxmint since 2018 and don't use Excel for a long time. I no longer have the possibility to maintain this package and would love for someone to take it over and continue development.
+
 excel.link
 ==========
 
